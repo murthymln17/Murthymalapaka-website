@@ -1,352 +1,117 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>About | Murthy Malapaka</title>
-  <meta name="description" content="Murthy Malapaka is an executive technology leader focused on AI-native operating models, digital labor, agentic AI, and moving enterprises beyond labor-centric operations.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --ink: #16222c;
-      --ink-soft: #45525e;
-      --ink-faint: #8b96a0;
-      --paper: #f5f7f8;
-      --card: #ffffff;
-      --line: #dde3e7;
-      --accent: #0e6b66;
-      --accent-deep: #0a4f4b;
-      --max: 46rem;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: "IBM Plex Sans", -apple-system, sans-serif;
-      font-size: 1.0625rem;
-      line-height: 1.75;
-      color: var(--ink);
-      background: var(--paper);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ---------- Nav ---------- */
-    header {
-      border-bottom: 1px solid var(--line);
-      background: var(--paper);
-    }
-
-    nav {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 1.1rem 1.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.25rem 1.4rem;
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.04em;
-    }
-
-    nav a {
-      color: var(--ink-soft);
-      text-decoration: none;
-      padding: 0.2rem 0;
-      border-bottom: 2px solid transparent;
-      transition: color 0.15s ease, border-color 0.15s ease;
-    }
-
-    nav a:hover { color: var(--accent); }
-
-    nav a[aria-current="page"] {
-      color: var(--ink);
-      border-bottom-color: var(--accent);
-    }
-
-    nav a:focus-visible,
-    a:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 3px;
-      border-radius: 2px;
-    }
-
-    /* ---------- Layout ---------- */
-    main {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 0 1.5rem 5rem;
-    }
-
-    /* ---------- Hero ---------- */
-    .hero {
-      padding: 4.5rem 0 3.5rem;
-      border-bottom: 1px solid var(--line);
-      animation: rise 0.7s ease both;
-    }
-
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: none; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .hero { animation: none; }
-      html { scroll-behavior: auto; }
-    }
-
-    .eyebrow {
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.1rem;
-    }
-
-    h1 {
-      font-family: "Fraunces", serif;
-      font-weight: 500;
-      font-size: clamp(2.1rem, 5.5vw, 3rem);
-      line-height: 1.12;
-      letter-spacing: -0.015em;
-      margin-bottom: 2.2rem;
-    }
-
-    /* Signature: the operating-model transition lockup */
-    .shift {
-      font-family: "Fraunces", serif;
-      font-size: clamp(1.35rem, 3.6vw, 1.9rem);
-      line-height: 1.35;
-    }
-
-    .shift .from {
-      color: var(--ink-faint);
-      text-decoration: line-through;
-      text-decoration-thickness: 1.5px;
-      text-decoration-color: var(--ink-faint);
-    }
-
-    .shift .arrow {
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 0.85em;
-      color: var(--accent);
-      padding: 0 0.15em;
-    }
-
-    .shift .to {
-      color: var(--accent-deep);
-      font-weight: 600;
-    }
-
-    .hero p.lede {
-      margin-top: 1.6rem;
-      font-size: 1.15rem;
-      color: var(--ink-soft);
-      max-width: 38rem;
-    }
-
-    /* ---------- Sections ---------- */
-    section { padding: 3rem 0 0; }
-
-    h2 {
-      font-family: "Fraunces", serif;
-      font-weight: 500;
-      font-size: 1.55rem;
-      line-height: 1.25;
-      margin: 0.4rem 0 1.2rem;
-    }
-
-    section p { margin-bottom: 1.15rem; }
-    section p:last-child { margin-bottom: 0; }
-
-    strong { font-weight: 600; }
-
-    /* ---------- Pull quote ---------- */
-    blockquote {
-      margin: 2rem 0;
-      padding: 1.6rem 1.8rem;
-      background: var(--card);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 6px 6px 0;
-      font-family: "Fraunces", serif;
-      font-size: 1.25rem;
-      line-height: 1.5;
-      color: var(--ink);
-    }
-
-    /* ---------- Results strip ---------- */
-    .results {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
-      gap: 1px;
-      background: var(--line);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      overflow: hidden;
-      margin: 2rem 0 0.5rem;
-    }
-
-    .results div {
-      background: var(--card);
-      padding: 1.2rem 1.1rem;
-    }
-
-    .results .num {
-      font-family: "Fraunces", serif;
-      font-weight: 600;
-      font-size: 1.7rem;
-      color: var(--accent-deep);
-      display: block;
-      line-height: 1.1;
-      white-space: nowrap;
-    }
-
-    .results .num--text {
-      font-size: 1.15rem;
-      padding-top: 0.4rem;
-    }
-
-    .results .label {
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--ink-soft);
-      display: block;
-      margin-top: 0.45rem;
-      line-height: 1.4;
-    }
-
-    /* ---------- Focus areas ---------- */
-    .focus {
-      list-style: none;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.7rem 1.4rem;
-      margin-top: 0.4rem;
-    }
-
-    .focus li {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      padding: 0.75rem 1rem;
-      font-size: 0.95rem;
-      line-height: 1.45;
-    }
-
-    .focus li::before {
-      content: "→ ";
-      font-family: "IBM Plex Mono", monospace;
-      color: var(--accent);
-    }
-
-    @media (max-width: 560px) {
-      .focus { grid-template-columns: 1fr; }
-      .hero { padding-top: 3rem; }
-    }
-
-    /* ---------- Links & footer ---------- */
-    main a {
-      color: var(--accent-deep);
-      text-decoration: underline;
-      text-decoration-color: rgba(14, 107, 102, 0.35);
-      text-underline-offset: 3px;
-      transition: text-decoration-color 0.15s ease;
-    }
-
-    main a:hover { text-decoration-color: var(--accent); }
-
-    footer {
-      border-top: 1px solid var(--line);
-      padding: 1.6rem 1.5rem 2.4rem;
-      max-width: var(--max);
-      margin: 0 auto;
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 0.75rem;
-      color: var(--ink-faint);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About | Murthy Malapaka</title>
+<meta name="description" content="Murthy Malapaka is an executive technology leader focused on AI-native operating models, digital labor, agentic AI, and moving enterprises beyond labor-centric operations.">
+<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="../">Home</a>
-      <a href="../about/" aria-current="page">About</a>
-      <a href="../insights/">Insights</a>
-      <a href="../frameworks/">Frameworks</a>
-      <a href="../speaking/">Speaking</a>
-      <a href="../contact/">Contact</a>
-    </nav>
-  </header>
 
-  <main>
-    <div class="hero">
-      <p class="eyebrow">About Murthy Malapaka</p>
+<header class="site-header">
+  <div class="container nav">
+    <a href="/" class="brand"><span class="brand-mark">MM</span> Murthy Malapaka</a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/" aria-current="page">About</a></li>
+      <li><a href="/insights/">Insights</a></li>
+      <li><a href="/frameworks/">Frameworks</a></li>
+      <li><a href="/speaking/">Speaking</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="page-header">
+    <div class="container">
+      <span class="eyebrow">About Murthy Malapaka</span>
       <h1>Moving enterprises beyond labor-centric operating models</h1>
       <p class="shift">
         <span class="from">labor-centric operations</span>
         <span class="arrow">→</span>
         <span class="to">AI-native operating models</span>
       </p>
-      <p class="lede">
-        The next era of enterprise transformation will not be defined by deploying more AI.
-        It will be defined by redesigning how work itself is produced.
-      </p>
+      <p>The next era of enterprise transformation will not be defined by deploying more AI. It will be defined by redesigning how work itself is produced.</p>
     </div>
+  </div>
 
-    <section>
-      <p class="eyebrow">The Work</p>
-      <p>
-        Over the past three decades, I have worked through every major enterprise technology wave —
-        client-server, internet, cloud, automation, and now AI. Each wave reinforced a consistent lesson:
-        <strong>technology creates its greatest value when it changes the operating model</strong>, not when
-        it merely improves existing processes.
-      </p>
-      <p>
-        AI represents a fundamentally different shift. It enables enterprises to rethink how work itself
-        is produced — moving beyond models where human labor remains the primary mechanism of delivery,
-        toward operating models powered by digital labor, intelligent agents, enterprise knowledge,
-        platform intelligence, and autonomous execution.
-      </p>
-      <p>
-        Most recently, I led the Research &amp; Development organization at SLK Software responsible for
-        defining and delivering PeakPerform™, an AI-native autonomous operations platform combining
-        agentic AI, digital labor, assisted AI, operational intelligence, observability, and
-        enterprise-scale augmentation techniques.
-      </p>
-      <p>My work has focused on one central question:</p>
-      <blockquote>
-        How do enterprises redesign operating models so that work is eliminated, simplified, or autonomously
-        executed — instead of continuously adding more labor to manage complexity?
-      </blockquote>
-    </section>
+  <section>
+    <div class="container" style="max-width: 760px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">The Work</span>
+        <h2>Three decades across every major technology wave</h2>
+        <p class="lede">Each wave reinforced the same lesson: technology creates its greatest value when it changes the operating model, not when it merely improves existing processes.</p>
+      </div>
+      <div class="timeline reveal">
+        <div class="timeline-item">
+          <span class="year">Client-Server</span>
+          <h4>Centralizing enterprise applications</h4>
+          <p>Moved computing out of silos and into shared systems — the first step toward a common operating model.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="year">Internet</span>
+          <h4>Connecting the enterprise to the world</h4>
+          <p>Opened the enterprise to customers, partners, and markets in real time, and made speed a competitive weapon.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="year">Cloud</span>
+          <h4>Elastic infrastructure, faster delivery</h4>
+          <p>Removed capacity as a constraint and made continuous delivery the default way of building.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="year">Automation</span>
+          <h4>Removing repetitive work at scale</h4>
+          <p>Proved that large categories of work could run without a person in the loop for every step.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="year">AI</span>
+          <h4>Redesigning how work itself is produced</h4>
+          <p>Moves beyond automating existing steps — toward eliminating work entirely and running it through digital labor and intelligent agents.</p>
+        </div>
+      </div>
+      <p class="reveal">Most recently, I led the Research &amp; Development organization at SLK Software responsible for defining and delivering PeakPerform™, an AI-native autonomous operations platform combining agentic AI, digital labor, assisted AI, operational intelligence, observability, and enterprise-scale augmentation techniques.</p>
+    </div>
+  </section>
 
-    <section>
-      <p class="eyebrow">The Principle</p>
-      <h2>Eliminate first. Automate second.</h2>
-      <p>
-        This is not simply an automation principle. It is a design principle for building AI-native
-        operating models. Before automating work, organizations should first ask whether the work should
-        exist at all, whether the platform already has the intelligence to resolve it, and whether human
-        intervention is truly necessary.
-      </p>
-      <p>This approach has helped organizations achieve significant operating model transformation:</p>
-      <div class="results">
+  <section class="section-alt">
+    <div class="container" style="max-width: 760px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">The Principle</span>
+        <h2>Eliminate first. Automate second.</h2>
+        <p class="lede">Before automating work, ask whether the work should exist at all, whether the platform already has the intelligence to resolve it, and whether human intervention is truly necessary.</p>
+      </div>
+      <div class="stats reveal">
         <div><span class="num">60–80%</span><span class="label">Work eliminated</span></div>
         <div><span class="num">35%+</span><span class="label">Cost takeout</span></div>
-        <div><span class="num">↓ MTTR</span><span class="label">Faster resolution</span></div>
-        <div><span class="num num--text">Autonomous</span><span class="label">From reactive to proactive</span></div>
+        <div><span class="num num--sm">↓ MTTR</span><span class="label">Faster resolution</span></div>
+        <div><span class="num num--sm">Autonomous</span><span class="label">Reactive to proactive</span></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section>
-      <p class="eyebrow">Areas of Focus</p>
-      <ul class="focus">
+  <section class="quote-section">
+    <div class="container quote-band reveal">
+      <blockquote>How do enterprises redesign operating models so that work is eliminated, simplified, or autonomously executed — instead of continuously adding more labor to manage complexity?</blockquote>
+      <cite>— Murthy Malapaka</cite>
+    </div>
+  </section>
+
+  <section>
+    <div class="container" style="max-width: 760px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">Areas of Focus</span>
+        <h2>Where I work with enterprises</h2>
+      </div>
+      <ul class="focus-grid reveal">
         <li>AI-native enterprise operating models</li>
         <li>Agentic AI and digital labor</li>
         <li>Autonomous IT and business operations</li>
@@ -354,25 +119,40 @@
         <li>Platform intelligence and operational intelligence</li>
         <li>Enterprise AI transformation strategy</li>
       </ul>
-    </section>
+    </div>
+  </section>
 
-    <section>
-      <p class="eyebrow">Thought Leadership</p>
-      <p>
-        I am an active Forbes Council member and have published extensively on enterprise technology,
-        automation, AI, and operating model transformation. My earlier work includes the DevOps.com
-        article “Killing the IT Ticket,” co-authored with the then CIO of Lexmark, focused on incident
-        avoidance and proactive operations.
-      </p>
-      <p>
-        Today, my focus is on helping enterprises understand what comes after labor-centric operations:
-        AI-native operating models designed around outcomes, intelligence, and autonomous execution.
-      </p>
-    </section>
-  </main>
+  <section class="section-alt">
+    <div class="container" style="max-width: 760px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">Thought Leadership</span>
+        <h2>Forbes Council &amp; published perspectives</h2>
+      </div>
+      <p class="reveal">I am an active Forbes Council member and have published extensively on enterprise technology, automation, AI, and operating model transformation. My earlier work includes the DevOps.com article "Killing the IT Ticket," co-authored with the then CIO of Lexmark, focused on incident avoidance and proactive operations.</p>
+      <p class="reveal">Today, my focus is on helping enterprises understand what comes after labor-centric operations: AI-native operating models designed around outcomes, intelligence, and autonomous execution.</p>
+    </div>
+  </section>
 
-  <footer>
-    <p>© Murthy Malapaka</p>
-  </footer>
+  <section class="cta-band">
+    <div class="container reveal">
+      <h2>Let's rethink your operating model</h2>
+      <p>If your organization is serious about AI transformation, the conversation starts with how decisions get made — not which tools you buy.</p>
+      <a href="/contact/" class="btn btn-primary">Get in Touch</a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <span class="copyright">&copy; <span data-year></span> Murthy Malapaka. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="mailto:murthymln17@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
 </body>
 </html>

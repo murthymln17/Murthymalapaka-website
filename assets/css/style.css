@@ -213,6 +213,106 @@ section { padding: 5rem 0; }
   .hero-portrait { max-width: 220px; margin: 0 auto; }
 }
 
+/* ---------- Stats / metrics band ---------- */
+.stats-strip { padding: 0 0 4.5rem; }
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.stats > div {
+  background: var(--surface);
+  padding: 1.6rem 1.3rem;
+  text-align: center;
+}
+.stats .num {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 2rem;
+  color: var(--accent-dark);
+  display: block;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+.stats .num--sm { font-size: 1.25rem; }
+.stats .label {
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  display: block;
+  margin-top: 0.6rem;
+  line-height: 1.4;
+}
+@media (max-width: 780px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ---------- Quote band ---------- */
+.quote-section {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.quote-band { text-align: center; }
+.quote-band blockquote {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  line-height: 1.45;
+  color: var(--text);
+  max-width: 760px;
+  margin: 0 auto;
+}
+.quote-band cite {
+  display: block;
+  margin-top: 1.3rem;
+  font-style: normal;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ---------- Shift lockup (from labor-centric to AI-native) ---------- */
+.shift {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+  margin: 1rem 0 1.6rem;
+}
+.shift .from {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--text-muted);
+}
+.shift .arrow { color: var(--accent); padding: 0 0.35em; }
+.shift .to { color: var(--accent-dark); font-weight: 600; }
+
+/* ---------- Focus grid ---------- */
+.focus-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.9rem;
+}
+.focus-grid li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  font-size: 0.96rem;
+  color: var(--text);
+}
+.focus-grid li::before {
+  content: "→ ";
+  color: var(--accent);
+  font-weight: 600;
+}
+@media (max-width: 700px) {
+  .focus-grid { grid-template-columns: 1fr; }
+}
+
 /* ---------- Pillars / Cards ---------- */
 .grid-3 {
   display: grid;
@@ -250,13 +350,21 @@ section { padding: 5rem 0; }
 
 /* ---------- Insight / list items ---------- */
 .insight-item {
-  border-bottom: 1px solid var(--border);
-  padding: 2.2rem 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 2rem;
   display: grid;
   grid-template-columns: 140px 1fr;
   gap: 2rem;
+  background: var(--surface);
+  margin-bottom: 1.5rem;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
-.insight-item:first-child { padding-top: 0; }
+.insight-item:last-child { margin-bottom: 0; }
+.insight-item:hover {
+  box-shadow: 0 10px 26px rgba(27, 31, 42, 0.07);
+  transform: translateY(-2px);
+}
 .insight-date {
   color: var(--text-muted);
   font-size: 0.88rem;
