@@ -181,7 +181,7 @@
     /* ---------- Results strip ---------- */
     .results {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
       gap: 1px;
       background: var(--line);
       border: 1px solid var(--line);
@@ -202,6 +202,12 @@
       color: var(--accent-deep);
       display: block;
       line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    .results .num--text {
+      font-size: 1.15rem;
+      padding-top: 0.4rem;
     }
 
     .results .label {
@@ -334,7 +340,7 @@
         <div><span class="num">60–80%</span><span class="label">Work eliminated</span></div>
         <div><span class="num">35%+</span><span class="label">Cost takeout</span></div>
         <div><span class="num">↓ MTTR</span><span class="label">Faster resolution</span></div>
-        <div><span class="num">Autonomous</span><span class="label">From reactive to proactive</span></div>
+        <div><span class="num num--text">Autonomous</span><span class="label">From reactive to proactive</span></div>
       </div>
     </section>
 
