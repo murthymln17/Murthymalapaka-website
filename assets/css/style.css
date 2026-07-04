@@ -485,15 +485,22 @@ section { padding: 5rem 0; }
   margin-bottom: 0.9rem;
 }
 .pub-list li {
-  padding: 0.85rem 0;
+  padding: 1rem 0;
   border-bottom: 1px solid var(--border);
-  color: var(--text);
-  font-size: 1rem;
 }
 .pub-list li:first-child { padding-top: 0; }
 .pub-list li:last-child { border-bottom: none; }
-.pub-list a { font-weight: 500; }
+.pub-list a {
+  font-weight: 600;
+  font-size: 1.02rem;
+  color: var(--text);
+}
 .pub-list a:hover { color: var(--accent); }
+.pub-list p {
+  margin: 0.4rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.94rem;
+}
 
 /* ---------- Contact ---------- */
 .contact-card {
