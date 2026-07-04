@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administrative vs Operational Demand | Murthy Malapaka</title>
+<meta name="description" content="Enterprises have gotten very good at eliminating administrative IT demand and very bad at eliminating operational demand. Why that's the next frontier for AI-native operations.">
+<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="/" class="brand"><span class="brand-mark">MM</span> Murthy Malapaka</a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/publications/">Publications</a></li>
+      <li><a href="/frameworks/">Frameworks</a></li>
+      <li><a href="/insights/" aria-current="page">Insights</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="article-hero">
+    <div class="container">
+      <a href="/insights/" class="back-link">← Insights</a>
+      <span class="tag">Operating Models</span>
+      <h1>Administrative vs Operational Demand</h1>
+      <p class="read-time">4 min read</p>
+    </div>
+  </div>
+
+  <article class="article-body">
+    <div class="container" style="max-width: 700px;">
+      <p class="lede">Enterprises have eliminated millions of administrative service desk requests over the past decade. They have made almost no comparable progress on operational demand. That gap is the next frontier for AI-native operations — and most transformation programs aren't even measuring it separately.</p>
+
+      <h2>Two different kinds of demand</h2>
+      <p>Not all work that lands on IT's desk is the same kind of work, even though it usually flows through the same ticketing system. Administrative demand is predictable and low-risk: password resets, access provisioning, software requests, routine changes. It follows known rules. It rarely requires judgment. Operational demand is different in kind: incidents, performance degradation, capacity constraints, service disruptions. It requires understanding cause, not just following a procedure.</p>
+      <p>Treating these as one undifferentiated queue is the first mistake most operating models make. They fail for different reasons, they get resolved by different mechanisms, and — this is the part that matters most — they get eliminated by completely different levers.</p>
+
+      <h2>Why administrative demand was the easy win</h2>
+      <p>Self-service portals, identity governance platforms, and workflow automation have quietly eliminated an enormous amount of administrative demand over the last several years. A password reset that used to require a phone call to a help desk now happens without a human in the loop at all. That's a genuine, measurable win, and most enterprises can point to the ticket-volume charts to prove it.</p>
+      <p>It was also, relative to what's left, the easier problem. Administrative demand is rule-based. The conditions for automatically resolving it can be fully specified in advance. Once the self-service capability exists, the demand simply doesn't generate a ticket anymore. That's a clean, bounded problem — which is exactly why it got solved first.</p>
+
+      <h2>Operational demand is where the real cost hides</h2>
+      <p>Operational demand doesn't yield to the same playbook, because it isn't rule-based in the same way. An incident doesn't announce its root cause. A capacity constraint doesn't always look like a capacity constraint until it's already affecting users. Resolving operational demand well requires the kind of platform-level context — correlated signals, historical pattern recognition, understanding of business impact — that most enterprises never built, because it was harder and less visible than a self-service portal.</p>
+      <p>The result is a strange asymmetry. Enterprises have gotten genuinely good at making administrative demand disappear, while operational demand — the category that actually drives cost, risk, and customer impact — has stayed largely untouched, absorbed by adding more people or more shifts rather than being redesigned out of existence.</p>
+
+      <h2>Treating operational demand as a design problem, not a staffing problem</h2>
+      <p>The instinct, when operational demand grows, is to staff up: more engineers, more on-call rotations, more tiers of escalation. That instinct treats operational demand as a fixed cost of doing business, to be absorbed rather than reduced. It rarely is fixed. Most operational demand traces back to a small number of root causes — a fragile deployment process, an under-instrumented dependency, a class of failure the platform can't yet detect on its own — that repeat because nothing about the design changed after the first occurrence.</p>
+      <p>Reducing operational demand requires the same discipline that worked for administrative demand, applied to a harder problem: build the platform intelligence needed to see operational patterns before they become incidents, and treat every recurring operational issue as a design defect rather than a volume to be staffed against. That's a fundamentally different investment than a self-service portal. It's also the one most enterprises haven't made yet.</p>
+
+      <h2>The next frontier</h2>
+      <p>This is why administrative-versus-operational demand is worth separating explicitly, not just analytically but in how organizations measure and fund transformation. A ticket-volume chart that blends both categories will always look like steady progress, because the administrative half keeps improving. The operational half is where AI-native operating models will actually be tested — and where most of the value still sits, mostly untouched.</p>
+
+      <div class="takeaways">
+        <h3>Key Takeaways</h3>
+        <ul>
+          <li>Administrative demand (rule-based, low-risk) and operational demand (cause-based, requires judgment) fail for different reasons and need different elimination strategies.</li>
+          <li>Self-service and identity automation solved administrative demand because it could be fully specified in advance — the easier problem.</li>
+          <li>Operational demand has largely been absorbed through staffing rather than redesigned out of existence.</li>
+          <li>Treat recurring operational issues as design defects, not fixed costs to staff against.</li>
+          <li>Measuring these two categories separately reveals where AI-native transformation still has the most value to unlock.</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <section class="section-alt">
+    <div class="container" style="max-width: 700px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">Related Publications</span>
+        <h2>Related reading</h2>
+      </div>
+      <ul class="pub-list reveal">
+        <li>
+          <a href="https://www.forbes.com/councils/forbestechcouncil/2022/06/30/preparing-for-artificial-intelligence-enabled-it-services-eliminate-noise/" target="_blank" rel="noopener">Eliminate Noise</a>
+          <p>Forbes Technology Council. Before AI can improve operations, organizations must first eliminate unnecessary operational demand.</p>
+        </li>
+        <li>
+          <a href="https://www.forbes.com/councils/forbestechcouncil/2023/01/03/preparing-for-artificial-intelligence-enabled-it-services-method-induced-noise/" target="_blank" rel="noopener">Method-Induced Noise</a>
+          <p>Forbes Technology Council. Many operational inefficiencies are created by methods and processes, not technology.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <span class="copyright">&copy; <span data-year></span> Murthy Malapaka. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="mailto:murthymln17@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+</body>
+</html>

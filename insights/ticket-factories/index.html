@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Are We Still Building Ticket Factories? | Murthy Malapaka</title>
+<meta name="description" content="Most IT organizations are optimized to process tickets faster, not to eliminate the work that creates them. Why eliminating demand has to come before automating it.">
+<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="/" class="brand"><span class="brand-mark">MM</span> Murthy Malapaka</a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/publications/">Publications</a></li>
+      <li><a href="/frameworks/">Frameworks</a></li>
+      <li><a href="/insights/" aria-current="page">Insights</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="article-hero">
+    <div class="container">
+      <a href="/insights/" class="back-link">← Insights</a>
+      <span class="tag">Operating Models</span>
+      <h1>Why Are We Still Building Ticket Factories?</h1>
+      <p class="read-time">4 min read</p>
+    </div>
+  </div>
+
+  <article class="article-body">
+    <div class="container" style="max-width: 700px;">
+      <p class="lede">Most IT organizations measure themselves by how fast they close tickets. Almost none measure themselves by how many tickets never needed to exist in the first place. That difference is the whole problem.</p>
+
+      <h2>The ticket factory problem</h2>
+      <p>Walk into almost any IT operations review and you'll hear the same metrics: average time to resolve, first-contact resolution rate, backlog size, SLA compliance. Every one of them describes how efficiently the organization processes tickets. None of them ask whether the ticket should have been created at all.</p>
+      <p>That's the ticket factory model. Demand arrives, gets triaged, gets routed, gets worked, gets closed. The factory is judged on throughput. Faster is better. More automation is better. A bigger, more efficient assembly line is the goal — even though the product coming off that line is, by definition, a failure that already happened somewhere in the business.</p>
+      <p>Nobody designed IT operations to work this way on purpose. It's what happens when an organization optimizes the step it can measure easily — resolution — instead of the step that actually matters: whether the underlying condition that generated the ticket gets removed.</p>
+
+      <h2>Speed is not the same as value</h2>
+      <p>AI is now being layered onto this model at scale. Copilots draft responses. Agents triage and route. Chatbots deflect simple requests. All of it makes the factory faster. Very little of it makes the factory smaller.</p>
+      <p>That distinction matters more than it sounds. A ticket factory that resolves issues in minutes instead of hours is still a ticket factory. It still assumes that a steady stream of tickets is the natural state of IT operations, and that the job of technology is to process that stream more efficiently. If anything, a faster factory can mask the problem for longer, because the pain of slow resolution — the thing that usually forces leadership to ask harder questions — disappears before anyone asks why the demand exists.</p>
+      <p>The enterprises that get real value from AI in operations are not the ones that automated their ticket queue. They're the ones that used AI to understand why the queue exists, and then made large parts of it disappear.</p>
+
+      <h2>Eliminate first. Automate second.</h2>
+      <p>This is the core discipline: before you automate a category of work, ask whether it should exist at all. Most operational tickets fall into one of three buckets. Some are avoidable — caused by a process gap, a bad default, a missing piece of self-service that forces a human request where none should be needed. Some are resolvable by the platform itself, if the platform is instrumented well enough to see the problem coming and act on it automatically. Only what's left after those two categories are addressed is a legitimate candidate for automation.</p>
+      <p>Run automation first, without asking that question, and you get a well-oiled machine for doing the wrong thing faster. Run elimination first, and automation becomes a much smaller — and much more valuable — problem to solve.</p>
+
+      <h2>What this looks like in practice</h2>
+      <p>In practice, eliminating ticket demand starts with treating tickets as data about the business, not just workload for IT. Every recurring ticket type is evidence of a gap somewhere: in the platform, in the process, or in what users are able to do for themselves. Categorize before you automate. Separate administrative demand — access requests, password resets, routine provisioning — from operational demand — incidents, degraded performance, capacity constraints. They fail for different reasons and they get eliminated in different ways.</p>
+      <p>For administrative demand, the fix is usually self-service and better defaults: if a request is predictable and low-risk, a human should never have had to file a ticket for it. For operational demand, the fix is platform intelligence: instrumenting systems well enough to catch the precursors to an incident before it becomes one, so the ticket is prevented rather than resolved. Only after both of those levers have been pulled does it make sense to ask what automation should handle for whatever demand remains.</p>
+      <p>Organizations that do this in order — eliminate, then resolve at the platform level, then automate — don't just get a faster ticket factory. They get a smaller one. Fewer tickets, not just faster tickets, is the actual measure of operational maturity.</p>
+
+      <h2>The real question</h2>
+      <p>The question worth asking in every operations review isn't "how fast are we closing tickets?" It's "why does this category of ticket exist, and what would it take to make it stop existing?" That's a harder question. It's also the only one that leads to an operating model built around outcomes instead of one built around throughput.</p>
+
+      <div class="takeaways">
+        <h3>Key Takeaways</h3>
+        <ul>
+          <li>Measuring resolution speed optimizes the wrong thing — it rewards processing tickets efficiently, not eliminating the demand that creates them.</li>
+          <li>AI applied on top of a ticket factory makes the factory faster, not smaller, and can mask the underlying problem for longer.</li>
+          <li>Separate administrative demand (fixable through self-service and better defaults) from operational demand (fixable through platform intelligence).</li>
+          <li>Apply automation only to what's left after elimination and platform-level resolution — not as the first move.</li>
+          <li>The real measure of operational maturity is fewer tickets, not faster ones.</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <section class="section-alt">
+    <div class="container" style="max-width: 700px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">Related Publications</span>
+        <h2>Related reading</h2>
+      </div>
+      <ul class="pub-list reveal">
+        <li>
+          <a href="https://www.forbes.com/councils/forbestechcouncil/2022/06/30/preparing-for-artificial-intelligence-enabled-it-services-eliminate-noise/" target="_blank" rel="noopener">Eliminate Noise</a>
+          <p>Forbes Technology Council. Before AI can improve operations, organizations must first eliminate unnecessary operational demand.</p>
+        </li>
+        <li>
+          <a href="https://devops.com/incidence-avoidance-in-action/" target="_blank" rel="noopener">Incidence Avoidance in Action</a>
+          <p>DevOps.com. How Lexmark's shift to proactive incident avoidance became the foundation for Eliminate First. Automate Second.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <span class="copyright">&copy; <span data-year></span> Murthy Malapaka. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="mailto:murthymln17@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Platform Intelligence Before AI Reasoning | Murthy Malapaka</title>
+<meta name="description" content="AI agents become far more effective when they first understand the operational platform they're interacting with. Why platform intelligence has to come before AI reasoning.">
+<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="/" class="brand"><span class="brand-mark">MM</span> Murthy Malapaka</a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/publications/">Publications</a></li>
+      <li><a href="/frameworks/">Frameworks</a></li>
+      <li><a href="/insights/" aria-current="page">Insights</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="article-hero">
+    <div class="container">
+      <a href="/insights/" class="back-link">← Insights</a>
+      <span class="tag">Platform Intelligence</span>
+      <h1>Platform Intelligence Before AI Reasoning</h1>
+      <p class="read-time">4 min read</p>
+    </div>
+  </div>
+
+  <article class="article-body">
+    <div class="container" style="max-width: 700px;">
+      <p class="lede">Before an AI agent can reason well about an operational problem, the platform it's reasoning over has to already understand itself. Skip that step, and you get a very articulate agent guessing at a problem it can't actually see.</p>
+
+      <h2>Reasoning is only as good as what it can see</h2>
+      <p>There's a lot of enthusiasm right now about AI agents that can reason through operational problems — diagnose an incident, propose a fix, even take action. Most of that enthusiasm skips a quiet assumption: that the agent has access to enough context about the environment to reason correctly in the first place.</p>
+      <p>An AI model is very good at pattern matching over whatever it's given. It is not good at inventing context that was never captured. If the only signal available is a threshold breach — CPU over 90%, latency over 200ms — that's all the agent has to reason with. It will produce a plausible-sounding explanation. Plausible is not the same as correct, and in operations, the gap between the two is expensive.</p>
+
+      <h2>From monitoring to observing to understanding</h2>
+      <p>This is really a maturity curve, and most enterprises are further back on it than they think. Monitoring tells you that something crossed a threshold. Observability adds the ability to ask why, by correlating signals across logs, traces, and metrics after the fact. Platform intelligence goes one step further: it means the platform maintains a standing, continuously updated understanding of its own normal behavior, its dependencies, and the business services it supports — so that context is already there before anyone, human or AI, asks a question.</p>
+      <p>The difference is not academic. An agent operating on raw monitoring data is reasoning from symptoms. An agent operating on a platform that already understands its own topology, its historical patterns, and which business outcomes depend on which components is reasoning from context. The second one is dramatically more useful, and it isn't a function of a better model — it's a function of a better-instrumented platform.</p>
+
+      <h2>What platform intelligence actually means</h2>
+      <p>In practice, platform intelligence is a handful of concrete capabilities layered on top of infrastructure and applications. It means every meaningful component knows what "normal" looks like for itself, not just a static threshold set by someone months ago. It means signals from unrelated-looking systems get correlated automatically, so a slow database and a spike in checkout failures are recognized as the same event rather than two separate tickets. It means the platform retains enough history to recognize a pattern it has seen before, rather than treating every incident as novel. And it means all of that is tied back to business context — this service matters because it supports this outcome — so priority is set by impact, not by which alert fired loudest.</p>
+      <p>None of this requires AI to build. It requires investment in instrumentation, in a shared data model across tools that were never designed to talk to each other, and in the discipline to treat operational data as a long-term asset rather than a byproduct that gets discarded after thirty days. That investment is unglamorous. It's also the actual prerequisite for everything that gets built on top of it.</p>
+
+      <h2>Why this matters more as AI agents take on operational work</h2>
+      <p>As more operational decisions get delegated to AI agents, the cost of missing context stops being a minor inefficiency and starts being a reliability problem. A human engineer with incomplete data usually has enough judgment to say "I'm not sure, let me check." An agent optimized to be helpful will often produce a confident answer anyway. That's a fine failure mode when the agent is drafting an email. It's a dangerous one when the agent is diagnosing a production incident or, increasingly, taking automated action on one.</p>
+      <p>Enterprises that invest in platform intelligence first get a compounding advantage: every AI capability layered on top — copilots, autonomous remediation, predictive alerting — gets meaningfully better, because it's reasoning over a platform that already understands itself. Enterprises that skip straight to the AI layer get a faster way to be confidently wrong.</p>
+
+      <h2>The sequencing that matters</h2>
+      <p>This is why platform intelligence has to come before AI reasoning, not alongside it. It's not a philosophical preference — it's a dependency. The organizations getting real value from AI in operations today are, almost without exception, the ones that had already done the unglamorous work of making their platforms observable and self-aware. Everyone else is going to have to do that work eventually. Doing it before the AI layer, instead of after, is the difference between an agent that reasons and one that guesses.</p>
+
+      <div class="takeaways">
+        <h3>Key Takeaways</h3>
+        <ul>
+          <li>AI reasoning is only as good as the context it's given — a model cannot invent context that was never captured by the platform.</li>
+          <li>Platform intelligence goes beyond observability: it means the platform maintains a standing understanding of its own normal behavior, dependencies, and business context.</li>
+          <li>Correlating signals across systems and retaining historical pattern data matters more than any single monitoring tool.</li>
+          <li>An AI agent without sufficient context will still produce a confident-sounding answer — plausible is not the same as correct.</li>
+          <li>Invest in platform intelligence before layering on AI reasoning; it's a dependency, not a parallel workstream.</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <section class="section-alt">
+    <div class="container" style="max-width: 700px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">Related Publications</span>
+        <h2>Related reading</h2>
+      </div>
+      <ul class="pub-list reveal">
+        <li>
+          <a href="https://www.forbes.com/councils/forbestechcouncil/2023/12/04/preparing-for-ai-enabled-it-services-from-monitoring-to-observing/" target="_blank" rel="noopener">Preparing for AI-Enabled IT Services: From Monitoring to Observing</a>
+          <p>Forbes Technology Council. Monitoring tells us when something happened. Observation explains why.</p>
+        </li>
+        <li>
+          <a href="https://www.forbes.com/councils/forbestechcouncil/2022/10/05/preparing-for-artificial-intelligence-enabled-it-services-machine-induced-noise/" target="_blank" rel="noopener">Machine-Induced Noise</a>
+          <p>Forbes Technology Council. Reducing signals that require no human action improves service quality and enables smarter automation.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <span class="copyright">&copy; <span data-year></span> Murthy Malapaka. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="mailto:murthymln17@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
