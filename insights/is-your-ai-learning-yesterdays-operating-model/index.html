@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Is Your AI Learning Yesterday's Operating Model? | Murthy Malapaka</title>
+<meta name="description" content="Historical incident data teaches AI more than solutions — it teaches the constraints of the operating model that produced it. Why platform context has to come before reasoning.">
+<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="/" class="brand"><span class="brand-mark">MM</span> Murthy Malapaka</a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/publications/">Publications</a></li>
+      <li><a href="/frameworks/">Frameworks</a></li>
+      <li><a href="/insights/" aria-current="page">Insights</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="article-hero">
+    <div class="container">
+      <a href="/insights/" class="back-link">← Insights</a>
+      <span class="tag">Platform Intelligence</span>
+      <h1>Is Your AI Learning Yesterday's Operating Model?</h1>
+      <p class="read-time">6 min read</p>
+    </div>
+  </div>
+
+  <article class="article-body">
+    <div class="container" style="max-width: 700px;">
+      <p class="lede">Organizations across every industry are investing heavily in AI agents for IT operations. The discussion often centers on selecting the right model, building better agents, improving prompts, or implementing retrieval-augmented generation. These are all important discussions. But I believe there is a more fundamental question that receives far less attention: what reasoning model are we teaching AI?</p>
+
+      <h2>Enterprise knowledge is a tremendous asset</h2>
+      <p>Every mature IT organization has accumulated years of operational knowledge: incident records, resolution notes, runbooks, knowledge articles, problem records, standard operating procedures. These repositories represent thousands of hours of engineering experience. They contain valuable operational knowledge and should absolutely play an important role in enterprise AI. Ignoring this knowledge would mean ignoring decades of enterprise learning.</p>
+      <p>However, these repositories contain more than knowledge. They also capture the operating model that produced that knowledge.</p>
+
+      <h2>Historical knowledge also reflects historical operating models</h2>
+      <p>Every incident tells two stories. The first is what caused the problem. The second is how the organization eventually found the answer. Those two stories are not always the same.</p>
+      <p>Historical incidents often reflect organizational boundaries, escalation paths, tool limitations, manual investigation steps, human workarounds, existing support models, and technology constraints that existed when the incident occurred.</p>
+      <p>As a result, an AI agent trained solely on historical operational knowledge may learn not only the solution, but also the lengthy investigative process humans historically followed to reach it.</p>
+      <p>The AI isn't making a mistake. It is faithfully learning the reasoning model it has been given.</p>
+
+      <h2>Context changes how AI reasons</h2>
+      <p>One of the most important observations from my experience building <a href="/insights/platform-intelligence/">AI for IT operations</a> was that AI agents initially reasoned exactly as experienced operations engineers did.</p>
+      <p>A resource became unavailable. The agent attempted to ping it. The ping failed. The conclusion was simple: "The server is down."</p>
+      <p>The problem wasn't the AI. The AI was following the same operational reasoning that had evolved over years of enterprise IT.</p>
+      <p>Everything changed when we introduced context before reasoning. Instead of asking "What do I do when a server is unreachable?" we first asked: what kind of resource is this? Is it a cloud workload, a software-defined networking device, a hyperconverged infrastructure platform, a Kubernetes workload, or a storage platform?</p>
+      <p>That single question fundamentally changed how the investigation began.</p>
+
+      <h2>Example 1 — Cloud infrastructure</h2>
+      <p>Consider a monitoring alert indicating that a virtual machine is unreachable. A traditional investigation might ping the virtual machine, check the operating system, verify the application, review monitoring alerts, escalate to another infrastructure team, engage the cloud provider, and eventually determine that the VPN tunnel connecting the enterprise network to the cloud environment had failed. The incident is resolved. The documentation is updated. Future AI systems learn from that history.</p>
+      <p>Now consider the same situation with platform awareness. The AI first recognizes that the workload is hosted in a cloud platform. Before following a traditional runbook, it consults the cloud control plane, which reports that the virtual machine is healthy, compute resources are available, and the operating system is running normally.</p>
+      <p>Immediately the reasoning changes. The workload was never the problem. The monitoring platform reported the symptom. The cloud platform already knew the operational state. The investigation shifts immediately toward network connectivity instead of spending valuable time investigating a healthy virtual machine.</p>
+
+      <h2>Example 2 — Software-defined networking</h2>
+      <p>The same pattern appears in software-defined networking. Imagine a network device reported as unreachable. Traditional operations often begin with connectivity tests, ping requests, escalation to network engineers, and manual troubleshooting.</p>
+      <p>But if the AI understands that the device is managed by a software-defined networking platform such as Cisco Meraki, the reasoning changes. Instead of assuming the device is unavailable, the AI first queries the platform's APIs and control plane, which can immediately provide device health, uplink status, connectivity, configuration state, and management status.</p>
+      <p>Rather than relying on generic troubleshooting steps, the AI reasons using the platform's own operational intelligence and determines the appropriate corrective action — or initiates it through the platform itself. Again, the monitoring platform reported the symptom. The control plane already understood the operational state.</p>
+
+      <h2>Example 3 — Hyperconverged infrastructure</h2>
+      <p>The same principle applies to hyperconverged infrastructure. Consider an alert indicating that storage utilization has crossed a predefined threshold. Traditional operations often execute a standard runbook: generate an alert, create an incident, assign an engineer, review storage utilization, add capacity or perform cleanup.</p>
+      <p>Many modern hyperconverged platforms already provide programmable interfaces capable of orchestrating storage expansion, capacity management, and policy-driven operations. When AI understands that the environment is a hyperconverged platform, the reasoning changes. Instead of executing a generic storage runbook, the AI evaluates platform health, available resources, quota policies, utilization trends, and automation capabilities before determining the appropriate action. It may recommend or execute capacity expansion, optimize quotas, or rebalance workloads.</p>
+      <p>More importantly, it can recommend preventive actions that reduce the likelihood of similar alerts occurring again. The objective shifts from reacting to incidents to continuously optimizing the environment.</p>
+
+      <h2>A better reasoning model for enterprise AI</h2>
+      <p>These examples reveal a consistent pattern. Traditional monitoring tells us that something appears to be wrong. Modern platforms often know what is actually happening. Historical incidents tell us how humans solved similar problems in the past. Platform intelligence tells us the current operational truth. Neither is sufficient on its own.</p>
+      <p>Enterprise AI becomes significantly more effective when it reasons across multiple sources of knowledge: historical incidents and resolution notes, knowledge articles and documented operational experience, live platform intelligence, current operational state, architectural context, and enterprise policies and governance.</p>
+      <p>Each contributes something different. Historical knowledge provides experience. Platform intelligence provides reality. Architectural context explains how the environment is designed. Together they enable AI to reason differently — not simply faster.</p>
+
+      <h2>Beyond static runbooks</h2>
+      <p>For decades, IT operations has relied on runbooks. First, humans executed them manually. Today, many organizations are asking AI agents to execute those same runbooks automatically.</p>
+      <p>I believe the larger opportunity lies elsewhere. Rather than asking AI to execute yesterday's playbooks more efficiently, we should enable AI to determine which reasoning path best fits the environment it is operating in. Sometimes that means selecting an existing playbook. Sometimes it means combining multiple sources of knowledge. Sometimes it means dynamically constructing a new investigative path based on live operational intelligence and architectural context.</p>
+      <p>That represents a fundamental shift — from workflow automation to context-aware operational reasoning.</p>
+
+      <h2>The future of AI-native operations</h2>
+      <p>The future of enterprise AI is not about choosing between historical operational knowledge and real-time operational intelligence. It is about combining both. Historical knowledge captures valuable experience. Platform intelligence provides current operational truth. Architectural context explains how the environment is built. LLMs synthesize these perspectives, and AI agents determine the most appropriate reasoning path and execute the right course of action. That is fundamentally different from simply reproducing historical investigations.</p>
+      <p>As enterprises continue investing in AI, I believe the goal should not be to teach AI how we solved problems yesterday. It should be to enable AI to reason using the best knowledge available today. That, to me, is one of the defining characteristics of an AI-native operating model.</p>
+
+      <div class="takeaways">
+        <h3>Key Takeaways</h3>
+        <ul>
+          <li>Historical incident data captures valuable experience, but also encodes the organizational boundaries, tool limitations, and workarounds of the operating model that existed when it was recorded.</li>
+          <li>Before reasoning about a symptom, AI should first identify what kind of platform is involved — cloud, software-defined networking, hyperconverged infrastructure, and so on.</li>
+          <li>Live platform intelligence often already knows the operational truth that a traditional runbook would otherwise take many steps to discover.</li>
+          <li>The goal isn't faster execution of yesterday's playbooks — it's context-aware reasoning that selects, combines, or constructs the right investigative path.</li>
+          <li>Combining historical knowledge, live platform intelligence, and architectural context — not choosing between them — is what makes an operating model AI-native.</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <section class="section-alt">
+    <div class="container" style="max-width: 700px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">Related Publications</span>
+        <h2>Related reading</h2>
+      </div>
+      <ul class="pub-list reveal">
+        <li>
+          <a href="https://www.forbes.com/sites/forbestechcouncil/2023/12/04/preparing-for-ai-enabled-it-services-from-monitoring-to-observing/" target="_blank" rel="noopener">Preparing for AI-Enabled IT Services: From Monitoring to Observing</a>
+          <p>Forbes Technology Council. Monitoring tells us when something happened. Observation explains why.</p>
+        </li>
+        <li>
+          <a href="https://www.forbes.com/sites/forbestechcouncil/2022/10/05/preparing-for-artificial-intelligence-enabled-it-services-machine-induced-noise/" target="_blank" rel="noopener">Machine-Induced Noise</a>
+          <p>Forbes Technology Council. Reducing signals that require no human action improves service quality and enables smarter automation.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <span class="copyright">&copy; <span data-year></span> Murthy Malapaka. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="mailto:murthymln17@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
