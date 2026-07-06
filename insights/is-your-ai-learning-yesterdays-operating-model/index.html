@@ -81,6 +81,40 @@
       <p>Enterprise AI becomes significantly more effective when it reasons across multiple sources of knowledge: historical incidents and resolution notes, knowledge articles and documented operational experience, live platform intelligence, current operational state, architectural context, and enterprise policies and governance.</p>
       <p>Each contributes something different. Historical knowledge provides experience. Platform intelligence provides reality. Architectural context explains how the environment is designed. Together they enable AI to reason differently — not simply faster.</p>
 
+      <div class="diagram reveal">
+        <div class="diagram-merge">
+          <div class="diagram-node">
+            <strong>Historical Knowledge</strong>
+            <span>Incidents, Runbooks, Resolution Notes</span>
+          </div>
+          <div class="diagram-node">
+            <strong>Live Platform Intelligence</strong>
+            <span>Control Planes, APIs, Events</span>
+          </div>
+        </div>
+        <div class="diagram-arrow">↓</div>
+        <div class="diagram-node diagram-node--wide">
+          <strong>Enterprise Knowledge Layer</strong>
+        </div>
+        <div class="diagram-arrow">↓</div>
+        <div class="diagram-node diagram-node--wide">
+          <strong>Architectural Context</strong>
+          <span>Resource Type, Topology, Policies, Relationships</span>
+        </div>
+        <div class="diagram-arrow">↓</div>
+        <div class="diagram-node diagram-node--wide">
+          <strong>LLM Reasoning Engine</strong>
+        </div>
+        <div class="diagram-arrow">↓</div>
+        <div class="diagram-node diagram-node--wide">
+          <strong>Dynamic Playbook Selection</strong>
+        </div>
+        <div class="diagram-arrow">↓</div>
+        <div class="diagram-node diagram-node--wide diagram-node--final">
+          <strong>AI Agent Execution</strong>
+        </div>
+      </div>
+
       <h2>Beyond static runbooks</h2>
       <p>For decades, IT operations has relied on runbooks. First, humans executed them manually. Today, many organizations are asking AI agents to execute those same runbooks automatically.</p>
       <p>I believe the larger opportunity lies elsewhere. Rather than asking AI to execute yesterday's playbooks more efficiently, we should enable AI to determine which reasoning path best fits the environment it is operating in. Sometimes that means selecting an existing playbook. Sometimes it means combining multiple sources of knowledge. Sometimes it means dynamically constructing a new investigative path based on live operational intelligence and architectural context.</p>

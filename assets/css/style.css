@@ -576,6 +576,53 @@ section { padding: 5rem 0; }
   font-weight: 600;
 }
 
+/* ---------- Article diagram ---------- */
+.diagram {
+  margin: 2.8rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.diagram-merge {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+}
+.diagram-node {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  width: 100%;
+}
+.diagram-node strong {
+  display: block;
+  font-family: 'Fraunces', serif;
+  font-size: 1rem;
+  color: var(--accent-dark);
+}
+.diagram-node span {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  margin-top: 0.3rem;
+}
+.diagram-node--wide { max-width: 420px; }
+.diagram-node--final { background: var(--accent-dark); border-color: var(--accent-dark); }
+.diagram-node--final strong { color: #fff; }
+.diagram-arrow {
+  color: var(--accent);
+  font-size: 1.3rem;
+  line-height: 1;
+  margin: 0.35rem 0;
+}
+@media (max-width: 560px) {
+  .diagram-merge { grid-template-columns: 1fr; }
+}
+
 /* ---------- Contact ---------- */
 .contact-card {
   display: flex;
