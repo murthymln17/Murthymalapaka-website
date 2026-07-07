@@ -545,6 +545,26 @@ section { padding: 5rem 0; }
   font-size: 1.35rem;
   margin-top: 2.4rem;
 }
+.article-body ul.body-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 1.2rem 0 1.6rem;
+}
+.article-body ul.body-list li {
+  position: relative;
+  padding-left: 1.4rem;
+  margin-bottom: 0.6rem;
+  color: var(--text);
+  line-height: 1.65;
+}
+.article-body ul.body-list li:last-child { margin-bottom: 0; }
+.article-body ul.body-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 600;
+}
 .takeaways {
   background: var(--bg-alt);
   border: 1px solid var(--border);
