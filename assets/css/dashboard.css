@@ -67,6 +67,7 @@
 
 /* ---------- Live pill ---------- */
 .dash-header-right { display: flex; align-items: center; }
+.live-pill[hidden] { display: none; }
 .live-pill {
   display: inline-flex;
   align-items: center;
