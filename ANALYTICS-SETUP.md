@@ -23,8 +23,9 @@ You can preview the dashboard design with sample data at any time:
 The dashboard and its API are protected by a single password of your choosing.
 
 1. In the [Cloudflare dashboard](https://dash.cloudflare.com/) go to
-   **Workers & Pages → your Pages project → Settings → Variables and Secrets**.
-2. Add a variable for the **Production** environment:
+   **Workers & Pages → murthymalapaka-website → Settings → Variables and
+   Secrets**.
+2. Add a variable:
    - Name: `DASHBOARD_TOKEN`
    - Value: a long password of your choosing (a password-manager-generated one is ideal)
    - Type: **Secret**
@@ -32,9 +33,9 @@ The dashboard and its API are protected by a single password of your choosing.
    Mac); it's remembered by the browser afterwards.
 
 > All environment variables in this guide go in this same **Variables and
-> Secrets** screen, as **Secret** type, and take effect on the next
-> deployment (trigger one with **Deployments → Retry/Create deployment**, or
-> just push any commit).
+> Secrets** screen on the Worker, as **Secret** type. Secrets added in the
+> dashboard apply immediately; if a value doesn't seem to take, redeploy by
+> pushing any commit.
 
 ---
 
@@ -44,11 +45,7 @@ The dashboard and its API are protected by a single password of your choosing.
 1. In the Cloudflare dashboard, go to **Analytics & Logs → Web Analytics**.
 2. Click **Add a site**, enter `murthymalapaka.com`.
 3. Cloudflare gives you a JS snippet containing a `"token": "..."` value.
-   - If your site is served through Cloudflare Pages, you can instead enable
-     Web Analytics from the Pages project (**Metrics → Web Analytics →
-     Enable**) and Cloudflare injects the beacon automatically — no code
-     change needed.
-   - Otherwise, copy the token into `CF_BEACON_TOKEN` at the top of
+   - Copy the token into `CF_BEACON_TOKEN` at the top of
      `assets/js/analytics.js` and push.
 
 ### 1b. Let the dashboard read the data
@@ -61,7 +58,7 @@ The dashboard and its API are protected by a single password of your choosing.
    Custom Token**:
    - Permissions: **Account → Account Analytics → Read**
    - Account resources: your account
-4. Add these Pages environment variables:
+4. Add these Worker secrets:
 
 | Variable | Value |
 |---|---|
@@ -86,7 +83,7 @@ Google identity the dashboard uses to read your data.
    - Name: `website-dashboard` — no project roles needed.
 4. Open the new service account → **Keys → Add key → Create new key → JSON**.
    A `.json` file downloads. Keep it private.
-5. Add a Pages environment variable:
+5. Add a Worker secret:
 
 | Variable | Value |
 |---|---|
@@ -113,7 +110,7 @@ Google identity the dashboard uses to read your data.
    the service account's email with the **Viewer** role.
 2. In **Admin → Property settings**, copy the numeric **Property ID**
    (e.g. `498765432`).
-3. Add a Pages environment variable:
+3. Add a Worker secret:
 
 | Variable | Value |
 |---|---|
@@ -132,7 +129,7 @@ Data appears in GA4 within a few minutes of the tag going live; the
    record there (Cloudflare can often do this automatically).
 2. In **Settings → Users and permissions → Add user**, add the service
    account's email with **Full** permission (Restricted also works).
-3. Add a Pages environment variable:
+3. Add a Worker secret:
 
 | Variable | Value |
 |---|---|
@@ -165,13 +162,19 @@ property starts with no history — data accumulates from verification onward.
 
 ## Local development
 
-The API endpoints are Cloudflare Pages Functions, so `python3 -m http.server`
-serves the pages but not the API. To run everything locally:
+The site deploys as a Cloudflare Worker (`wrangler.jsonc` + `worker/`), so
+`python3 -m http.server` serves the pages but not the API. To run everything
+locally, put dev values in a `.dev.vars` file (git-ignored):
+
+```
+DASHBOARD_TOKEN=devpassword
+CF_API_TOKEN=...
+```
+
+then start the Worker with:
 
 ```bash
-npx wrangler pages dev . \
-  --binding DASHBOARD_TOKEN=devpassword \
-  --binding CF_API_TOKEN=... # etc.
+npx wrangler dev
 ```
 
 Or just use `/dashboard/?demo=1` for UI work — no API needed.

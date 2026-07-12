@@ -6,14 +6,12 @@
  *   GSC_SITE_URL                - property, e.g. "sc-domain:murthymalapaka.com"
  *                                 or "https://murthymalapaka.com/"
  */
-import { json, configError, rangeDays, isoDate } from './_utils.js';
-import { googleAccessToken } from './_google.js';
+import { json, configError, rangeDays, isoDate } from './utils.js';
+import { googleAccessToken } from './google.js';
 
 const SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
 
-export async function onRequestGet(context) {
-  const { request, env } = context;
-
+export async function handleSearchConsole(request, env) {
   if (!env.GOOGLE_SERVICE_ACCOUNT_JSON || !env.GSC_SITE_URL) {
     return configError(
       'Search Console is not configured: set GOOGLE_SERVICE_ACCOUNT_JSON and GSC_SITE_URL.'

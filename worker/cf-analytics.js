@@ -6,7 +6,7 @@
  *   CF_ACCOUNT_ID - Cloudflare account ID
  *   CF_SITE_TAG   - Web Analytics site tag for murthymalapaka.com
  */
-import { json, configError, rangeDays } from './_utils.js';
+import { json, configError, rangeDays } from './utils.js';
 
 const QUERY = `
 query Dashboard($accountTag: string, $filter: AccountRumPageloadEventsAdaptiveGroupsFilter_InputObject) {
@@ -40,9 +40,7 @@ query Dashboard($accountTag: string, $filter: AccountRumPageloadEventsAdaptiveGr
   }
 }`;
 
-export async function onRequestGet(context) {
-  const { request, env } = context;
-
+export async function handleCloudflareAnalytics(request, env) {
   const missing = ['CF_API_TOKEN', 'CF_ACCOUNT_ID', 'CF_SITE_TAG'].filter((k) => !env[k]);
   if (missing.length) {
     return configError(`Cloudflare Web Analytics is not configured: missing ${missing.join(', ')}.`);
