@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Site Analytics | Murthy Malapaka</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/dashboard.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="/" class="brand"><span class="brand-mark">MM</span> Murthy Malapaka</a>
+    <div class="dash-header-right">
+      <span class="live-pill" id="live-pill" hidden>
+        <span class="live-dot" aria-hidden="true"></span>
+        <span id="live-count">0</span> on site now
+      </span>
+    </div>
+  </div>
+</header>
+
+<main class="dash">
+  <div class="container">
+
+    <div class="dash-head">
+      <div>
+        <span class="eyebrow">murthymalapaka.com</span>
+        <h1>Site Analytics</h1>
+      </div>
+      <div class="dash-controls">
+        <div class="range-picker" role="group" aria-label="Date range">
+          <button type="button" data-days="7">7 days</button>
+          <button type="button" data-days="28" aria-pressed="true">28 days</button>
+          <button type="button" data-days="90">90 days</button>
+        </div>
+        <button type="button" class="refresh-btn" id="refresh-btn" aria-label="Refresh data">↻ Refresh</button>
+      </div>
+    </div>
+
+    <p class="dash-updated" id="dash-updated"></p>
+
+    <!-- KPI row -->
+    <section class="kpi-grid" id="kpi-grid" aria-label="Key metrics"></section>
+
+    <!-- GA4: audience -->
+    <section class="dash-section">
+      <h2 class="dash-section-title">Audience <span class="source-tag">Google Analytics</span></h2>
+      <div class="card-grid">
+        <div class="dash-card dash-card--wide" id="card-ga4-traffic">
+          <h3>Visitors &amp; pageviews per day</h3>
+          <div class="chart-slot" data-chart></div>
+        </div>
+        <div class="dash-card" id="card-ga4-pages">
+          <h3>Most-read pages</h3>
+          <div class="list-slot" data-list></div>
+        </div>
+        <div class="dash-card" id="card-ga4-channels">
+          <h3>Where visitors came from</h3>
+          <div class="list-slot" data-list></div>
+        </div>
+        <div class="dash-card" id="card-ga4-sources">
+          <h3>Top sources</h3>
+          <div class="list-slot" data-list></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search Console -->
+    <section class="dash-section">
+      <h2 class="dash-section-title">Google Search <span class="source-tag">Search Console</span></h2>
+      <div class="card-grid">
+        <div class="dash-card" id="card-gsc-clicks">
+          <h3>Clicks from Google</h3>
+          <div class="chart-slot" data-chart></div>
+        </div>
+        <div class="dash-card" id="card-gsc-impressions">
+          <h3>Impressions in results</h3>
+          <div class="chart-slot" data-chart></div>
+        </div>
+        <div class="dash-card" id="card-gsc-queries">
+          <h3>Top search queries</h3>
+          <div class="list-slot" data-list></div>
+        </div>
+        <div class="dash-card" id="card-gsc-pages">
+          <h3>Top pages in search</h3>
+          <div class="list-slot" data-list></div>
+        </div>
+      </div>
+      <p class="dash-note">Search data is reported by Google with a delay of about two days.</p>
+    </section>
+
+    <!-- Cloudflare -->
+    <section class="dash-section">
+      <h2 class="dash-section-title">Edge Traffic <span class="source-tag">Cloudflare Web Analytics</span></h2>
+      <div class="card-grid">
+        <div class="dash-card dash-card--wide" id="card-cf-traffic">
+          <h3>Visits &amp; pageviews per day</h3>
+          <div class="chart-slot" data-chart></div>
+        </div>
+        <div class="dash-card" id="card-cf-referrers">
+          <h3>Top referrers</h3>
+          <div class="list-slot" data-list></div>
+        </div>
+        <div class="dash-card" id="card-cf-countries">
+          <h3>Countries</h3>
+          <div class="list-slot" data-list></div>
+        </div>
+        <div class="dash-card" id="card-cf-devices">
+          <h3>Devices</h3>
+          <div class="list-slot" data-list></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- Access overlay -->
+<div class="login-overlay" id="login-overlay" hidden>
+  <form class="login-card" id="login-form">
+    <span class="brand-mark brand-mark--lg">MM</span>
+    <h2>Analytics access</h2>
+    <p>Enter the dashboard password to continue.</p>
+    <input type="password" id="login-token" autocomplete="current-password" placeholder="Dashboard password" required>
+    <button type="submit" class="btn btn-primary">Unlock dashboard</button>
+    <p class="login-error" id="login-error" hidden>That password wasn't accepted — try again.</p>
+  </form>
+</div>
+
+<div class="chart-tooltip" id="chart-tooltip" hidden></div>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <span class="copyright">&copy; <span data-year></span> Murthy Malapaka. Private dashboard.</span>
+    <div class="footer-links">
+      <a href="/">Back to site</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+<script src="/assets/js/dashboard.js"></script>
+</body>
+</html>

@@ -12,13 +12,18 @@ Personal site for Murthy Malapaka, Executive Technology Strategist & AI Transfor
 ├── frameworks/
 ├── speaking/
 ├── contact/
+├── dashboard/          (private analytics dashboard — see ANALYTICS-SETUP.md)
+├── functions/api/      (Cloudflare Pages Functions backing the dashboard)
 ├── assets/
 │   ├── images/
 │   ├── css/
 │   └── js/
 ```
 
-Plain static HTML/CSS/JS — no build step required.
+Plain static HTML/CSS/JS — no build step required. The only server-side code
+is the set of Cloudflare Pages Functions under `functions/api/`, which power
+the private analytics dashboard at `/dashboard/`
+(setup: [ANALYTICS-SETUP.md](ANALYTICS-SETUP.md)).
 
 ## Local preview
 
