@@ -13,7 +13,8 @@ Personal site for Murthy Malapaka, Executive Technology Strategist & AI Transfor
 ├── speaking/
 ├── contact/
 ├── dashboard/          (private analytics dashboard — see ANALYTICS-SETUP.md)
-├── functions/api/      (Cloudflare Pages Functions backing the dashboard)
+├── worker/             (Cloudflare Worker: serves the site + dashboard API)
+├── wrangler.jsonc      (Worker configuration)
 ├── assets/
 │   ├── images/
 │   ├── css/
@@ -21,8 +22,8 @@ Personal site for Murthy Malapaka, Executive Technology Strategist & AI Transfor
 ```
 
 Plain static HTML/CSS/JS — no build step required. The only server-side code
-is the set of Cloudflare Pages Functions under `functions/api/`, which power
-the private analytics dashboard at `/dashboard/`
+is the Cloudflare Worker under `worker/`, which serves the static files and
+powers the private analytics dashboard at `/dashboard/`
 (setup: [ANALYTICS-SETUP.md](ANALYTICS-SETUP.md)).
 
 ## Local preview
@@ -35,13 +36,13 @@ python3 -m http.server 8000
 
 Then open `http://localhost:8000`.
 
-## Deploying to Cloudflare Pages
+## Deploying to Cloudflare Workers
 
-1. In the [Cloudflare dashboard](https://dash.cloudflare.com/), go to **Workers & Pages → Create → Pages → Connect to Git**.
-2. Select this repository (`murthymln17/Murthymalapaka-website`) and the branch to deploy.
-3. Build settings:
-   - **Framework preset:** None
-   - **Build command:** (leave blank)
-   - **Build output directory:** `/`
-4. Deploy. Cloudflare will auto-redeploy on every push to the connected branch.
-5. Optionally add a custom domain under the project's **Custom domains** tab.
+The repository is connected to Cloudflare Workers Builds as the
+`murthymalapaka-website` Worker: every push to `main` runs
+`npx wrangler deploy`, which publishes the static files as Worker assets
+(everything except the paths listed in `.assetsignore`) together with the
+API code in `worker/`. Configuration lives in `wrangler.jsonc`.
+
+To serve the site at the custom domain, add `murthymalapaka.com` under the
+Worker's **Settings → Domains & Routes**.

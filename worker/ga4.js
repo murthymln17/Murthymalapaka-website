@@ -7,14 +7,12 @@
  *                                 Viewer on the GA4 property)
  *   GA4_PROPERTY_ID             - numeric GA4 property ID
  */
-import { json, configError, rangeDays } from './_utils.js';
-import { googleAccessToken } from './_google.js';
+import { json, configError, rangeDays } from './utils.js';
+import { googleAccessToken } from './google.js';
 
 const SCOPE = 'https://www.googleapis.com/auth/analytics.readonly';
 
-export async function onRequestGet(context) {
-  const { request, env } = context;
-
+export async function handleGa4(request, env) {
   if (!env.GOOGLE_SERVICE_ACCOUNT_JSON || !env.GA4_PROPERTY_ID) {
     return configError('GA4 is not configured: set GOOGLE_SERVICE_ACCOUNT_JSON and GA4_PROPERTY_ID.');
   }

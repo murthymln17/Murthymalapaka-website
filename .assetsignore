@@ -1,0 +1,14 @@
+# Files that must not be published as public static assets
+.git
+.gitignore
+.assetsignore
+worker
+wrangler.jsonc
+README.md
+ANALYTICS-SETUP.md
+CNAME
+package.json
+package-lock.json
+node_modules
+.wrangler
+.dev.vars*
