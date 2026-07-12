@@ -4,8 +4,8 @@
  * ANALYTICS-SETUP.md at the repository root for where to find each value.
  */
 (function () {
-  // From Google Analytics: Admin → Data streams → your web stream, e.g. 'G-XXXXXXXXXX'
-  var GA4_MEASUREMENT_ID = '';
+  // From Google Analytics: Admin → Data streams → your web stream
+  var GA4_MEASUREMENT_ID = 'G-L7RYE8J4QC';
 
   // From Cloudflare: Web Analytics → your site → JS snippet "token" value.
   // Leave empty if you enabled Web Analytics directly on the Pages project —
