@@ -49,22 +49,19 @@ The dashboard and its API are protected by a single password of your choosing.
      `assets/js/analytics.js` and push.
 
 ### 1b. Let the dashboard read the data
-1. **Site tag**: in Web Analytics, open your site → the URL contains
-   `.../web-analytics/overview?siteTag=XXXX` (or find it in the site's
-   settings / the JS snippet setup screen). That hex string is your site tag.
-2. **Account ID**: visible on any zone's **Overview** page (right column),
-   or in the dashboard URL right after `dash.cloudflare.com/`.
-3. **API token**: go to **My Profile → API Tokens → Create Token → Create
+1. **API token**: go to **My Profile → API Tokens → Create Token → Create
    Custom Token**:
    - Permissions: **Account → Account Analytics → Read**
    - Account resources: your account
-4. Add these Worker secrets:
+2. Add it as a Worker secret:
 
 | Variable | Value |
 |---|---|
-| `CF_API_TOKEN` | the API token from step 3 |
-| `CF_ACCOUNT_ID` | your account ID |
-| `CF_SITE_TAG` | the Web Analytics site tag |
+| `CF_API_TOKEN` | the API token from step 1 |
+
+The account ID and Web Analytics site tag for murthymalapaka.com are not
+secrets and are baked into `worker/cf-analytics.js` as defaults; the
+`CF_ACCOUNT_ID` / `CF_SITE_TAG` secrets only need setting to override them.
 
 ---
 
@@ -155,7 +152,7 @@ property starts with no history — data accumulates from verification onward.
 | Variable | Used by | Required for |
 |---|---|---|
 | `DASHBOARD_TOKEN` | all endpoints | everything |
-| `CF_API_TOKEN`, `CF_ACCOUNT_ID`, `CF_SITE_TAG` | `/api/cloudflare` | Cloudflare section |
+| `CF_API_TOKEN` | `/api/cloudflare` | Cloudflare section (account ID & site tag default in code) |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | `/api/ga4`, `/api/search-console` | both Google sections |
 | `GA4_PROPERTY_ID` | `/api/ga4` | Audience section + live counter |
 | `GSC_SITE_URL` | `/api/search-console` | Google Search section |

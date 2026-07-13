@@ -3,8 +3,10 @@
  *
  * Required environment variables:
  *   CF_API_TOKEN  - API token with "Account Analytics: Read"
+ *
+ * Optional (defaults below are for murthymalapaka.com and are not secrets):
  *   CF_ACCOUNT_ID - Cloudflare account ID
- *   CF_SITE_TAG   - Web Analytics site tag for murthymalapaka.com
+ *   CF_SITE_TAG   - Web Analytics site tag
  */
 import { json, configError, rangeDays } from './utils.js';
 
@@ -40,11 +42,15 @@ query Dashboard($accountTag: string, $filter: AccountRumPageloadEventsAdaptiveGr
   }
 }`;
 
+const DEFAULT_ACCOUNT_ID = '2c58538c94b77c5a803d0cd1aa293afb';
+const DEFAULT_SITE_TAG = '077479bae8114ace81c2daabd3162d15';
+
 export async function handleCloudflareAnalytics(request, env) {
-  const missing = ['CF_API_TOKEN', 'CF_ACCOUNT_ID', 'CF_SITE_TAG'].filter((k) => !env[k]);
-  if (missing.length) {
-    return configError(`Cloudflare Web Analytics is not configured: missing ${missing.join(', ')}.`);
+  if (!env.CF_API_TOKEN) {
+    return configError('Cloudflare Web Analytics is not configured: add the CF_API_TOKEN secret (Account Analytics: Read).');
   }
+  const accountId = env.CF_ACCOUNT_ID || DEFAULT_ACCOUNT_ID;
+  const siteTag = env.CF_SITE_TAG || DEFAULT_SITE_TAG;
 
   const days = rangeDays(request);
   const until = new Date();
@@ -54,7 +60,7 @@ export async function handleCloudflareAnalytics(request, env) {
     AND: [
       { datetime_geq: since.toISOString() },
       { datetime_leq: until.toISOString() },
-      { siteTag: env.CF_SITE_TAG },
+      { siteTag },
     ],
   };
 
@@ -66,7 +72,7 @@ export async function handleCloudflareAnalytics(request, env) {
         Authorization: `Bearer ${env.CF_API_TOKEN}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ query: QUERY, variables: { accountTag: env.CF_ACCOUNT_ID, filter } }),
+      body: JSON.stringify({ query: QUERY, variables: { accountTag: accountId, filter } }),
     });
   } catch (err) {
     return json({ error: `Could not reach the Cloudflare API: ${err.message}` }, 502);
