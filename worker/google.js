@@ -38,19 +38,26 @@ export async function googleAccessToken(env, scope) {
   }
 
   // Tolerate common paste mangling (mobile keyboards): smart quotes,
-  // BOM / zero-width characters, and surrounding whitespace.
+  // BOM / zero-width characters, Unicode spaces and line separators.
   const raw = env.GOOGLE_SERVICE_ACCOUNT_JSON
     .replace(/[\u201C\u201D\u201E\u2033]/g, '"')
+    .replace(/[\u2018\u2019\u2032]/g, "'")
     .replace(/[\uFEFF\u200B-\u200D\u2060]/g, '')
+    .replace(/[\u00A0\u1680\u2000-\u200A\u202F\u205F\u3000]/g, ' ')
+    .replace(/[\u2028\u2029\u0085]/g, '\n')
     .trim();
 
   let sa;
   try {
     sa = JSON.parse(raw);
-  } catch {
+  } catch (parseErr) {
     const head = raw.slice(0, 20);
+    const bad = raw.match(/[^\x20-\x7E\n\r\t]/);
+    const badNote = bad
+      ? ` First unexpected character: U+${bad[0].codePointAt(0).toString(16).toUpperCase().padStart(4, '0')} at position ${bad.index}.`
+      : ` Parser said: ${parseErr.message.slice(0, 120)}.`;
     throw new Error(
-      `GOOGLE_SERVICE_ACCOUNT_JSON is not valid JSON (length ${raw.length}, starts with \u201C${head}\u2026\u201D). ` +
+      `GOOGLE_SERVICE_ACCOUNT_JSON is not valid JSON (length ${raw.length}, starts with \u201C${head}\u2026\u201D).${badNote} ` +
         'Re-copy the ENTIRE key file, from the opening { to the closing }, and paste it again.'
     );
   }
