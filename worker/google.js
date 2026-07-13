@@ -37,14 +37,27 @@ export async function googleAccessToken(env, scope) {
     throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON is not configured');
   }
 
+  // Tolerate common paste mangling (mobile keyboards): smart quotes,
+  // BOM / zero-width characters, and surrounding whitespace.
+  const raw = env.GOOGLE_SERVICE_ACCOUNT_JSON
+    .replace(/[\u201C\u201D\u201E\u2033]/g, '"')
+    .replace(/[\uFEFF\u200B-\u200D\u2060]/g, '')
+    .trim();
+
   let sa;
   try {
-    sa = JSON.parse(env.GOOGLE_SERVICE_ACCOUNT_JSON);
+    sa = JSON.parse(raw);
   } catch {
-    throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON is not valid JSON');
+    const head = raw.slice(0, 20);
+    throw new Error(
+      `GOOGLE_SERVICE_ACCOUNT_JSON is not valid JSON (length ${raw.length}, starts with \u201C${head}\u2026\u201D). ` +
+        'Re-copy the ENTIRE key file, from the opening { to the closing }, and paste it again.'
+    );
   }
   if (!sa.client_email || !sa.private_key) {
-    throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON is missing client_email or private_key');
+    throw new Error(
+      'GOOGLE_SERVICE_ACCOUNT_JSON parsed but is missing client_email or private_key - it does not look like a service account key file.'
+    );
   }
 
   const now = Math.floor(Date.now() / 1000);
