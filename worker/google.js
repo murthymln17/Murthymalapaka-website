@@ -47,10 +47,21 @@ export async function googleAccessToken(env, scope) {
     .replace(/[\u2028\u2029\u0085]/g, '\n')
     .trim();
 
+  // If the paste was truncated at the very end (a common select-all miss),
+  // the object body is intact and only the tail is gone - retry with the
+  // closing characters restored before giving up.
+  const attempts = [raw, `${raw}}`, `${raw}"}`, `${raw}"\n}`];
   let sa;
-  try {
-    sa = JSON.parse(raw);
-  } catch (parseErr) {
+  let parseErr;
+  for (const candidate of attempts) {
+    try {
+      sa = JSON.parse(candidate);
+      break;
+    } catch (err) {
+      if (parseErr === undefined) parseErr = err;
+    }
+  }
+  if (sa === undefined) {
     const head = raw.slice(0, 20);
     const bad = raw.match(/[^\x20-\x7E\n\r\t]/);
     const badNote = bad
