@@ -126,11 +126,9 @@ Data appears in GA4 within a few minutes of the tag going live; the
    record there (Cloudflare can often do this automatically).
 2. In **Settings → Users and permissions → Add user**, add the service
    account's email with **Full** permission (Restricted also works).
-3. Add a Worker secret:
-
-| Variable | Value |
-|---|---|
-| `GSC_SITE_URL` | `sc-domain:murthymalapaka.com` (for a Domain property) or `https://murthymalapaka.com/` (for a URL-prefix property) |
+3. That's it - the property (`sc-domain:murthymalapaka.com`) is baked into
+   `worker/search-console.js` as the default. Set the `GSC_SITE_URL` Worker
+   secret only to override it (e.g. for a URL-prefix property).
 
 Note: Google reports search data with a ~2-day delay, and a brand-new
 property starts with no history — data accumulates from verification onward.
@@ -155,7 +153,7 @@ property starts with no history — data accumulates from verification onward.
 | `CF_API_TOKEN` | `/api/cloudflare` | Cloudflare section (account ID & site tag default in code) |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | `/api/ga4`, `/api/search-console` | both Google sections |
 | `GA4_PROPERTY_ID` | `/api/ga4` | Audience section + live counter |
-| `GSC_SITE_URL` | `/api/search-console` | Google Search section |
+| `GSC_SITE_URL` (optional) | `/api/search-console` | Google Search section (defaults in code) |
 
 ## Local development
 

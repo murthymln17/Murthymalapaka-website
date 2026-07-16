@@ -3,20 +3,22 @@
  *
  * Required environment variables:
  *   GOOGLE_SERVICE_ACCOUNT_JSON - service account key JSON (added as a user in GSC)
- *   GSC_SITE_URL                - property, e.g. "sc-domain:murthymalapaka.com"
- *                                 or "https://murthymalapaka.com/"
+ *
+ * Optional (defaults to the murthymalapaka.com Domain property):
+ *   GSC_SITE_URL - property, e.g. "sc-domain:murthymalapaka.com"
+ *                  or "https://murthymalapaka.com/"
  */
 import { json, configError, rangeDays, isoDate } from './utils.js';
 import { googleAccessToken } from './google.js';
 
 const SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
+const DEFAULT_SITE_URL = 'sc-domain:murthymalapaka.com';
 
 export async function handleSearchConsole(request, env) {
-  if (!env.GOOGLE_SERVICE_ACCOUNT_JSON || !env.GSC_SITE_URL) {
-    return configError(
-      'Search Console is not configured: set GOOGLE_SERVICE_ACCOUNT_JSON and GSC_SITE_URL.'
-    );
+  if (!env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+    return configError('Search Console is not configured: set GOOGLE_SERVICE_ACCOUNT_JSON.');
   }
+  const siteUrl = env.GSC_SITE_URL || DEFAULT_SITE_URL;
 
   const days = rangeDays(request);
   // Search Console data lags ~2 days; extend the window back so a short
@@ -32,7 +34,7 @@ export async function handleSearchConsole(request, env) {
   }
 
   const endpoint = `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(
-    env.GSC_SITE_URL
+    siteUrl
   )}/searchAnalytics/query`;
 
   const runQuery = async (body) => {
