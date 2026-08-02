@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Autonomous Vehicles Can Teach Us About Autonomous IT Operations | Murthy Malapaka</title>
+<meta name="description" content="Operational design domains, sensor fusion, calibration, and engineered safety — the principles that make self-driving cars trustworthy are the same ones enterprises need for autonomous IT operations. Autonomy isn't something you deploy. It's something you engineer.">
+<link rel="canonical" href="https://murthymalapaka.com/insights/autonomous-vehicles-autonomous-it-operations/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://murthymalapaka.com/insights/autonomous-vehicles-autonomous-it-operations/">
+<meta property="og:title" content="What Autonomous Vehicles Can Teach Us About Autonomous IT Operations | Murthy Malapaka">
+<meta property="og:description" content="Operational design domains, sensor fusion, calibration, and engineered safety — the principles that make self-driving cars trustworthy are the same ones enterprises need for autonomous IT operations. Autonomy isn't something you deploy. It's something you engineer.">
+<meta property="og:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<meta property="og:site_name" content="Murthy Malapaka">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="What Autonomous Vehicles Can Teach Us About Autonomous IT Operations | Murthy Malapaka">
+<meta name="twitter:description" content="Operational design domains, sensor fusion, calibration, and engineered safety — the principles that make self-driving cars trustworthy are the same ones enterprises need for autonomous IT operations. Autonomy isn't something you deploy. It's something you engineer.">
+<meta name="twitter:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Article",
+   "headline": "What Autonomous Vehicles Can Teach Us About Autonomous IT Operations",
+   "description": "Operational design domains, sensor fusion, calibration, and engineered safety — the principles that make self-driving cars trustworthy are the same ones enterprises need for autonomous IT operations. Autonomy isn't something you deploy. It's something you engineer.",
+   "url": "https://murthymalapaka.com/insights/autonomous-vehicles-autonomous-it-operations/",
+   "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://murthymalapaka.com/insights/autonomous-vehicles-autonomous-it-operations/"
+   },
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "datePublished": "2026-08-02",
+   "dateModified": "2026-08-02",
+   "author": {
+    "@id": "https://murthymalapaka.com/#person"
+   },
+   "publisher": {
+    "@id": "https://murthymalapaka.com/#person"
+   }
+  },
+  {
+   "@type": "Person",
+   "@id": "https://murthymalapaka.com/#person",
+   "name": "Murthy Malapaka",
+   "jobTitle": "Executive Technology Strategist & AI Transformation Leader",
+   "url": "https://murthymalapaka.com",
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "description": "Murthy Malapaka helps enterprise leadership teams replace labor-centric operating models with AI-native ones — turning strategy into operational reality.",
+   "knowsAbout": [
+    "AI-native operating models",
+    "IT operations transformation",
+    "Enterprise AI strategy",
+    "Intelligent automation",
+    "Platform intelligence"
+   ],
+   "sameAs": [
+    "https://www.linkedin.com/in/murthymln/",
+    "https://councils.forbes.com/profile/Murthy-Malapaka-VIce-president-Technology-Innovation-SLK-software-SLK-Software-The-Automation-Compan/37d0644e-9088-43a1-a051-f20e2c584608"
+   ]
+  }
+ ]
+}
+</script>
+<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script src="/assets/js/analytics.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="/" class="brand"><span class="brand-mark">MM</span> Murthy Malapaka</a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/publications/">Publications</a></li>
+      <li><a href="/frameworks/">Frameworks</a></li>
+      <li><a href="/insights/" aria-current="page">Insights</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="article-hero">
+    <div class="container">
+      <a href="/insights/" class="back-link">← Insights</a>
+      <span class="tag">Autonomous Operations</span>
+      <h1>What Autonomous Vehicles Can Teach Us About Autonomous IT Operations</h1>
+      <p class="read-time">6 min read</p>
+    </div>
+  </div>
+
+  <article class="article-body">
+    <div class="container" style="max-width: 700px;">
+      <p class="lede">While building an autonomous operations platform, I kept noticing something: the engineering principles we relied on were the same ones that make autonomous vehicles trustworthy.</p>
+
+      <p>That wasn't by design. It was because we were solving the same problem — how do you build systems that make increasingly autonomous decisions safely, reliably, and at scale?</p>
+      <p>As enterprises rush to deploy AI agents across IT operations, the autonomous vehicle industry has already learned these lessons the hard way. Autonomous operations isn't primarily an AI challenge. It's a systems engineering challenge.</p>
+
+      <h2>Autonomy Starts With Boundaries, Not Permissions</h2>
+      <p>Self-driving cars aren't built to handle every road, every condition, everywhere. Their capability is deliberately bounded — the Operational Design Domain (ODD) — defined by road type, weather, geography, and traffic patterns.</p>
+      <p>Enterprise AI needs the same discipline. Instead of assuming an agent can manage any operational scenario, define the boundaries within which its decisions are trusted:</p>
+      <ul class="body-list">
+        <li>A Kubernetes environment</li>
+        <li>A software-defined network</li>
+        <li>A cloud platform</li>
+        <li>A virtualization environment</li>
+        <li>Service management workflows</li>
+        <li>Approved maintenance windows</li>
+        <li>Specific classes of operational events</li>
+      </ul>
+      <p>Autonomy begins with clearly scoped operating conditions — not unlimited access.</p>
+
+      <h2>Perception Needs Context, Not Just Data</h2>
+      <p>Autonomous vehicles never trust one sensor. Cameras, radar, LiDAR, GPS, maps, and telemetry are fused together to build a single, accurate picture before any decision is made.</p>
+      <p>IT operations should work the same way — combining observability data, platform APIs, configuration state, CMDB relationships, knowledge repositories, historical intelligence, business context, and policy into one coherent view.</p>
+      <p style="font-size: 1.2rem; font-weight: 600; margin: 1.75rem 0;">The goal isn't processing more alerts. It's understanding the full operational state before acting.</p>
+
+      <h2>Trust Is Earned, Not Deployed</h2>
+      <p>The biggest misconception about enterprise AI is that autonomy begins the moment a model goes live. In our experience, it doesn't.</p>
+      <p>We ran calibration phases where AI recommendations were compared against experienced engineers' decisions, refined, and re-tested — before any scope of autonomous execution expanded. Confidence had to be earned through demonstrated reliability, not assumed from model intelligence.</p>
+      <p>Autonomous vehicles follow the same path: simulation, validation, supervised operation, continuous calibration — long before broader autonomy is granted.</p>
+
+      <h2>Humans Don't Disappear — They Train the System</h2>
+      <p>Autonomy doesn't mean humans step back. It means their judgment becomes part of the system.</p>
+      <p>We built continuous feedback loops with subject matter experts, where approvals, corrections, and operational judgment weren't just a review layer — they became training signal. Each interaction improved future recommendations and expanded confidence in autonomous decisions.</p>
+      <p>It's the same in autonomous vehicles: every takeover, correction, and disengagement is data that makes the next decision better. Human involvement isn't a sign autonomy failed — it's how trustworthy autonomy gets built.</p>
+
+      <h2>The Real Goal: Eliminate the Need for Tickets, Not Resolve Them Faster</h2>
+      <p>Every time our platform needed human help, we treated it as a signal to improve the system — not as a workflow to optimize.</p>
+      <p>The goal was never to resolve more tickets. It was to eliminate the operational demand that created them.</p>
+      <p>So we moved away from traditional Service Desk and NOC queues. Instead, the platform triggered purpose-built, event-driven requests for expert input — only when confidence thresholds or policy required it. Those interactions fed back into the system: calibration improved, boundaries expanded, and reliance on human intervention shrank over time.</p>
+      <p>This reframes what a Service Desk and NOC are for. They stop being the default operational function and become an assurance mechanism for the small number of cases that genuinely need human expertise.</p>
+      <p>A ticket can still exist after the fact — but not to trigger the work. The work is already done. The ticket becomes a record: audit trail, compliance evidence, and training data for the next calibration cycle.</p>
+      <p>That's the real meaning of &ldquo;Eliminate First, Automate Second.&rdquo; The highest form of autonomy isn't measured by tickets resolved — it's measured by how little operational work needs to exist at all.</p>
+
+      <h2>Reasoning Without Execution Is Just Analysis</h2>
+      <p>Autonomous vehicles don't stop at understanding their surroundings — they have trusted mechanisms to steer, brake, and accelerate.</p>
+      <p>Enterprise AI needs the same follow-through: reasoning connected to trusted control planes that can safely execute through infrastructure APIs, cloud services, network controllers, and workflow systems. Whether it's querying an SDN controller, acting on a virtualization platform, or orchestrating cloud changes — autonomy requires trusted execution, not just intelligent output.</p>
+      <p>Without it, you don't have autonomy. You have analysis.</p>
+
+      <h2>Safety Is Engineered, Not Bolted On</h2>
+      <p>Autonomous vehicles layer in multiple safeguards before every decision. Enterprise autonomous operations need the same layers:</p>
+      <ul class="body-list">
+        <li>Confidence thresholds</li>
+        <li>Policy guardrails</li>
+        <li>Human escalation paths</li>
+        <li>Rollback capabilities</li>
+        <li>Auditability</li>
+        <li>Clearly defined operational boundaries</li>
+      </ul>
+      <p>These aren't governance checkboxes added after the fact — they're what makes autonomy trustworthy in the first place.</p>
+
+      <h2>The Takeaway</h2>
+      <p>Autonomous operations isn't the next evolution of AI. It's the next evolution of systems engineering. LLMs are one component in a much larger architecture that also requires defined operational domains, rich context, continuous calibration, trusted execution, human-guided learning, and disciplined safety design.</p>
+      <p>The autonomous vehicle industry spent decades refining these principles. Enterprises building the next generation of AI-native operations platforms have the chance to apply that same rigor — not to replace people, but to eliminate repetitive operational demand and free people to focus on the problems that actually need human judgment.</p>
+      <p style="font-size: 1.2rem; font-weight: 600; margin: 1.75rem 0;">Autonomy isn't something you deploy. It's something you engineer.</p>
+
+      <div class="takeaways">
+        <h3>Key Takeaways</h3>
+        <ul>
+          <li>Autonomy starts with a bounded operational design domain — a defined environment, event class, and maintenance window — not with unlimited access.</li>
+          <li>Perception requires fusion. Observability, platform APIs, configuration state, CMDB relationships, and policy have to resolve into one coherent view before any action.</li>
+          <li>Trust is earned through calibration against experienced engineers' decisions, not granted the moment a model goes live.</li>
+          <li>Human judgment doesn't disappear — approvals and corrections become training signal that expands the scope of autonomous decisions over time.</li>
+          <li>The goal isn't faster ticket resolution. It's eliminating the operational demand that created the ticket, leaving the ticket as a record rather than a trigger.</li>
+          <li>Reasoning without trusted execution is analysis. Safety layers — confidence thresholds, guardrails, rollback, auditability — are what make autonomy trustworthy, not paperwork added afterward.</li>
+        </ul>
+      </div>
+
+      <p class="author-note" style="margin-top: 2rem; color: var(--text-muted);"><em>This is part of an ongoing series on AI-native IT operations. Read the full framework at <a href="/insights/">murthymalapaka.com/insights</a>.</em></p>
+    </div>
+  </article>
+
+  <section class="section-alt">
+    <div class="container" style="max-width: 700px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">Related Publications</span>
+        <h2>Related reading</h2>
+      </div>
+      <ul class="pub-list reveal">
+        <li>
+          <a href="/insights/ai-native-it-operations/">How AI-Native IT Operations Enable Peak Business Performance</a>
+          <p>The intelligence to run the business better is already sitting in ticket queues and event logs. A four-step sequence — eliminate, empower, harden, automate — turns operational data into peak business performance.</p>
+        </li>
+        <li>
+          <a href="/insights/ticket-factories/">Why Are We Still Building Ticket Factories?</a>
+          <p>Challenges the industry's assumption that AI should simply make engineers faster. Organizations should eliminate unnecessary operational demand before automating what remains.</p>
+        </li>
+        <li>
+          <a href="/insights/platform-intelligence/">Platform Intelligence Before AI Reasoning</a>
+          <p>AI agents become significantly more effective when they first understand the operational platform they're interacting with — reasoning from platform intelligence, not just symptoms.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <span class="copyright">&copy; <span data-year></span> Murthy Malapaka. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="mailto:murthymln17@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/murthymln/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
