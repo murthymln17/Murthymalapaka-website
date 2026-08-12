@@ -643,6 +643,60 @@ section { padding: 5rem 0; }
   .diagram-merge { grid-template-columns: 1fr; }
 }
 
+/* ---------- Article data table ---------- */
+.table-scroll {
+  overflow-x: auto;
+  margin: 2rem 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(18, 63, 60, 0.06);
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  font-size: 0.92rem;
+}
+.data-table th,
+.data-table td {
+  padding: 0.95rem 1.3rem;
+  text-align: left;
+  vertical-align: top;
+}
+.data-table thead th {
+  background: var(--accent-dark);
+  color: #fff;
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.data-table tbody tr {
+  border-top: 1px solid var(--border);
+}
+.data-table tbody tr:nth-child(even) { background: var(--bg-alt); }
+.data-table tbody td {
+  color: var(--text);
+  line-height: 1.6;
+}
+.data-table tbody td:first-child {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  color: var(--accent-dark);
+  white-space: nowrap;
+}
+.data-table caption {
+  caption-side: top;
+  text-align: left;
+  padding: 0 0 0.6rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+
 /* ---------- Contact ---------- */
 .contact-card {
   display: flex;
