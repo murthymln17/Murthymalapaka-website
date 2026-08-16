@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intent Architecture: Why AI Adoption Keeps Producing Capability Without Outcomes | Murthy Malapaka</title>
+<meta name="description" content="OpenAI's own enterprise ChatGPT data found no statistically significant link between messages or tokens per employee and revenue per employee. AIOps taught the same lesson a decade ago. Why AI transformation has to start with a measurable business outcome, not a technology initiative.">
+<link rel="canonical" href="https://murthymalapaka.com/insights/intent-architecture/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://murthymalapaka.com/insights/intent-architecture/">
+<meta property="og:title" content="Intent Architecture: Why AI Adoption Keeps Producing Capability Without Outcomes | Murthy Malapaka">
+<meta property="og:description" content="OpenAI's own enterprise ChatGPT data found no statistically significant link between messages or tokens per employee and revenue per employee. AIOps taught the same lesson a decade ago. Why AI transformation has to start with a measurable business outcome, not a technology initiative.">
+<meta property="og:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<meta property="og:site_name" content="Murthy Malapaka">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Intent Architecture: Why AI Adoption Keeps Producing Capability Without Outcomes | Murthy Malapaka">
+<meta name="twitter:description" content="OpenAI's own enterprise ChatGPT data found no statistically significant link between messages or tokens per employee and revenue per employee. AIOps taught the same lesson a decade ago. Why AI transformation has to start with a measurable business outcome, not a technology initiative.">
+<meta name="twitter:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Article",
+   "headline": "Intent Architecture: Why AI Adoption Keeps Producing Capability Without Outcomes",
+   "description": "OpenAI's own enterprise ChatGPT data found no statistically significant link between messages or tokens per employee and revenue per employee. AIOps taught the same lesson a decade ago. Why AI transformation has to start with a measurable business outcome, not a technology initiative.",
+   "url": "https://murthymalapaka.com/insights/intent-architecture/",
+   "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://murthymalapaka.com/insights/intent-architecture/"
+   },
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "datePublished": "2026-08-16",
+   "dateModified": "2026-08-16",
+   "author": {
+    "@id": "https://murthymalapaka.com/#person"
+   },
+   "publisher": {
+    "@id": "https://murthymalapaka.com/#person"
+   }
+  },
+  {
+   "@type": "Person",
+   "@id": "https://murthymalapaka.com/#person",
+   "name": "Murthy Malapaka",
+   "jobTitle": "Executive Technology Strategist & AI Transformation Leader",
+   "url": "https://murthymalapaka.com",
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "description": "Murthy Malapaka helps enterprise leadership teams replace labor-centric operating models with AI-native ones — turning strategy into operational reality.",
+   "knowsAbout": [
+    "AI-native operating models",
+    "IT operations transformation",
+    "Enterprise AI strategy",
+    "Intelligent automation",
+    "Platform intelligence"
+   ],
+   "sameAs": [
+    "https://www.linkedin.com/in/murthymln/",
+    "https://councils.forbes.com/profile/Murthy-Malapaka-VIce-president-Technology-Innovation-SLK-software-SLK-Software-The-Automation-Compan/37d0644e-9088-43a1-a051-f20e2c584608"
+   ]
+  }
+ ]
+}
+</script>
+<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script src="/assets/js/analytics.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="/" class="brand"><span class="brand-mark">MM</span> Murthy Malapaka</a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/publications/">Publications</a></li>
+      <li><a href="/frameworks/">Frameworks</a></li>
+      <li><a href="/insights/" aria-current="page">Insights</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="article-hero">
+    <div class="container">
+      <a href="/insights/" class="back-link">← Insights</a>
+      <span class="tag">AI-Native Operating Models</span>
+      <h1>Intent Architecture: Why AI Adoption Keeps Producing Capability Without Outcomes</h1>
+      <p class="read-time">16 min read</p>
+    </div>
+  </div>
+
+  <article class="article-body">
+    <div class="container" style="max-width: 700px;">
+      <p class="lede">A recent OpenAI working paper on enterprise ChatGPT adoption analyzed more than 17 million messages across more than 1,500 organizations. Buried on page 35, past the usage-growth charts and the discussion of the "frontier gap," is a small table worth paying attention to.</p>
+
+      <div class="table-scroll">
+        <table class="data-table">
+          <caption>OpenAI enterprise ChatGPT study — correlation with revenue per employee</caption>
+          <thead>
+            <tr>
+              <th scope="col">Metric measured</th>
+              <th scope="col">Correlation with revenue per employee</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Messages sent per employee</td>
+              <td>Not statistically significant</td>
+            </tr>
+            <tr>
+              <td>Output tokens per employee</td>
+              <td>Not statistically significant</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>There is an important qualification to what this table tells us. Revenue per employee was measured before ChatGPT adoption, so the study does not establish whether subsequent AI usage increased or decreased productivity. Nor does it show that AI usage has no economic value.</p>
+      <p>But it raises a question I think is more important: why are we measuring AI adoption through AI activity in the first place?</p>
+      <p>Messages sent. Tokens consumed. Users activated. Agents deployed. Workflows automated. These are useful measures of technology adoption. They are not business outcomes.</p>
+      <p>If the objective of enterprise AI is measurable improvement in business performance, then the architecture should begin with the business outcome we intend to change — and work backwards from there. That sounds obvious. But I watched the industry miss essentially the same opportunity during the previous wave of enterprise AI, and I think we are at risk of repeating it.</p>
+
+      <h2>We have seen this before</h2>
+      <p>The original promise of AIOps and observability was bigger than better monitoring. As machine learning became applicable to operational telemetry, the opportunity was to connect technology behavior to the availability and performance of the business processes technology supported.</p>
+      <p>If an order-to-cash process was repeatedly disrupted, for example, the objective wasn't simply to detect the infrastructure or application problem faster. The real outcome was improved availability and performance of order to cash. Technology telemetry was the intelligence required to achieve it.</p>
+      <p>Machine learning gave us new ways to recognize abnormal behavior, correlate signals and identify conditions that preceded failure. The business process gave those signals meaning.</p>
+      <p>I worked directly on this problem during that period. Using APAMA as the core event-processing engine, we built a layered, anomaly-detection-based approach to what I called incident avoidance. Instead of starting with every alert generated by the environment, we started with identified, repetitive, high-severity incidents and worked backwards:</p>
+      <ul class="body-list">
+        <li>What business process was being affected?</li>
+        <li>What metric patterns preceded the failure?</li>
+        <li>Could multiple metric streams be layered together?</li>
+        <li>Could anomalies be identified within the business process itself, in real time?</li>
+        <li>Could automated root-cause identification enrich a pre-incident "situation" before the actual failure occurred?</li>
+      </ul>
+      <p>The objective wasn't simply to detect the incident earlier. It was this: resolve the situation, and the incident never happens.</p>
+      <p>Later, I ran proof-of-concept demonstrations against real Severity-1 use cases across many of the major observability platforms available at the time. Technically, the concept worked — across platforms and across organizations. Commercially and operationally, it never scaled the way I expected.</p>
+      <p>A decade later, that experience looks increasingly important.</p>
+
+      <h2>What actually scaled?</h2>
+      <p>A 2026 survey of senior IT decision-makers with observability budget authority put a number on how far AIOps maturity has actually progressed.</p>
+
+      <div class="table-scroll">
+        <table class="data-table">
+          <caption>AIOps maturity across IT organizations, 2026</caption>
+          <thead>
+            <tr>
+              <th scope="col">Maturity level</th>
+              <th scope="col">Share of organizations</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Full operational maturity — AI fully leveraged across IT operations</td>
+              <td>4%</td>
+            </tr>
+            <tr>
+              <td>Using AI to automate root-cause analysis and remediation</td>
+              <td>12%</td>
+            </tr>
+            <tr>
+              <td>Using AIOps primarily for anomaly detection and incident response</td>
+              <td>13%</td>
+            </tr>
+            <tr>
+              <td>Still piloting or experimenting</td>
+              <td>49%</td>
+            </tr>
+            <tr>
+              <td>Not adopted AI or machine learning in IT operations at all</td>
+              <td>22%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>But the more interesting question isn't simply how much AIOps was adopted. It is what we learned to measure once it was adopted.</p>
+      <p>Look at the metrics that dominate observability and AIOps success stories:</p>
+      <ul class="body-list">
+        <li>MTTR reduced</li>
+        <li>Alerts correlated</li>
+        <li>False positives eliminated</li>
+        <li>Root-cause analysis accelerated</li>
+        <li>SLA compliance improved</li>
+      </ul>
+      <p>These are all valuable operational improvements. But compare them with the outcome that originally mattered: did the availability and performance of the business process improve? Or more specifically, how many business-impacting incidents never occurred?</p>
+      <p>That metric remains remarkably difficult to find in published AIOps case studies. Somewhere along the journey, the center of gravity shifted. The technology was capable of supporting a business outcome. But implementation increasingly optimized the technology operation itself.</p>
+      <p>Detection became better. Response became faster. Operational KPIs improved. Avoidance did not become the dominant operating model.</p>
+      <p>Why? I don't think the missing ingredient was another generation of technology. I think the missing ingredient was intent.</p>
+
+      <h2>What if the intent had been explicit?</h2>
+      <p>Imagine that the transformation had begun with a statement like this:</p>
+      <p style="text-align: center;"><em>"Improve the availability, performance and throughput of the order-to-cash process, measured through agreed business KPIs."</em></p>
+      <p>That changes the architecture. Now the objective isn't "implement observability." It isn't "deploy AIOps." It isn't even "reduce MTTR." Those become capabilities or intermediate measures. The governing intent is the performance of order to cash. Every technology decision can now be evaluated against it:</p>
+      <ul class="body-list">
+        <li>If repetitive application or infrastructure conditions are causing the business process to fail, identify and avoid those conditions.</li>
+        <li>If an operational event carries no meaningful business impact, stop generating work around it.</li>
+        <li>If a known condition can be remediated without human intervention, automate it.</li>
+        <li>If human judgment is required, provide the person with the context necessary to make the decision quickly.</li>
+      </ul>
+      <p>And then return to the original question: did the business KPI move?</p>
+      <p>Had that intent remained the architectural anchor, I believe incident avoidance would have had a much stronger foundation for scaling. Because avoidance would no longer have been an interesting AIOps capability. It would have been a design requirement derived from a measurable business outcome.</p>
+      <p>That distinction matters enormously now, because we are entering the same decision point again.</p>
+
+      <h2>The second wave: GenAI and agentic AI</h2>
+      <p>Generative AI and agentic AI are dramatically more capable than the machine-learning systems of a decade ago. Large language models can reason across enterprise knowledge, interpret context, generate and modify code, interact with systems and increasingly execute multi-step workflows. Agents can plan, invoke tools, make decisions and complete work that previously required people to move between multiple systems.</p>
+      <p>The opportunity is enormous. And once again, the promise is measurable business outcomes:</p>
+      <ul class="body-list">
+        <li>Higher productivity</li>
+        <li>Lower operating cost</li>
+        <li>Faster cycle times</li>
+        <li>Better customer experience</li>
+        <li>Greater throughput</li>
+      </ul>
+      <p>In other words: peak business performance. But look at what we increasingly measure:</p>
+      <ul class="body-list">
+        <li>Copilot adoption</li>
+        <li>Users activated</li>
+        <li>Agents deployed</li>
+        <li>Tokens consumed</li>
+        <li>Tasks completed</li>
+        <li>Workflows automated</li>
+        <li>Developer productivity</li>
+      </ul>
+      <p>Once again, we risk allowing the measures of the technology to replace the measures of the business. The technology has changed enormously. The question organizations are asking has changed much less.</p>
+      <p>A decade ago, we asked: how can machine learning help us detect and respond to operational problems more intelligently? Today we ask: how can GenAI and agents execute existing work more intelligently?</p>
+      <p>Both are legitimate questions. But neither should be the first question. The first question should be: <strong>what measurable business outcome are we trying to change?</strong></p>
+      <p>That is the role of Intent Architecture.</p>
+
+      <h2>The missing layer: Intent Architecture</h2>
+      <p>I define Intent Architecture as starting with a measurable business outcome, making that outcome the governing intent for the transformation, and using it to determine what should be eliminated, what should be automated and where human intelligence should be assisted or enriched.</p>
+      <p>The distinction from capability architecture is important. Capability Architecture asks: <em>what can this technology do?</em> Intent Architecture asks: <em>what measurable business outcome are we trying to change — and what must we eliminate, automate or assist to change it?</em></p>
+      <p>Without that layer, powerful technology naturally attaches itself to the operating model that already exists:</p>
+      <ul class="body-list">
+        <li>We automate the queue.</li>
+        <li>We summarize the ticket.</li>
+        <li>We generate the resolution.</li>
+        <li>We build an agent to execute the workflow.</li>
+        <li>We help the employee complete the task faster.</li>
+      </ul>
+      <p>All of those can produce value. But none asks whether the queue, ticket, workflow or task should exist in its current form. That is where the architecture needs to begin.</p>
+
+      <h2>Intent → Eliminate → Automate → Assist</h2>
+      <p>Once the business intent is explicit, the design sequence becomes much clearer.</p>
+
+      <h3>1. Define the measurable intent</h3>
+      <p>Start with the business outcome, not the technology initiative. The distinction is critical — one names a technology initiative, the other names an outcome:</p>
+
+      <div class="table-scroll">
+        <table class="data-table">
+          <caption>Naming the initiative vs. naming the outcome</caption>
+          <thead>
+            <tr>
+              <th scope="col">Instead of</th>
+              <th scope="col">Define the outcome</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Deploy AI across order management.</td>
+              <td>Reduce order-to-cash cycle time while improving availability, throughput and customer experience.</td>
+            </tr>
+            <tr>
+              <td>Deploy AIOps.</td>
+              <td>Reduce business disruption caused by repetitive technology failures.</td>
+            </tr>
+            <tr>
+              <td>Introduce an AI service-desk agent.</td>
+              <td>Reduce employee productivity lost to technology-related interruptions.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>And importantly, define the KPIs before designing the AI solution. If the business outcome isn't measurable before the transformation begins, it becomes very easy to substitute adoption metrics for outcome metrics later.</p>
+
+      <h3>2. Eliminate</h3>
+      <p>Once the intent is defined, ask what work is preventing that outcome and whether some of it needs to exist at all.</p>
+      <p>I have seen remarkably simple examples. An order stuck inside a highly capable order-management platform because the person who created it wasn't permitted to delete a single line item. The user couldn't correct it. A ticket had to be raised. It entered a queue. Someone eventually performed an action the original user could have completed immediately. The delay could last a day or two.</p>
+      <p>There was no technology problem. There wasn't even an automation problem. The fix wasn't a new AI capability. It was a permissions decision nobody had made.</p>
+      <p>If the intent is improving order-to-cash performance, that ticket isn't something to automate. It is something to eliminate. The same principle applies across enterprise operations:</p>
+      <ul class="body-list">
+        <li>Unnecessary approvals</li>
+        <li>Preventable incidents</li>
+        <li>Avoidable access requests</li>
+        <li>Duplicate reconciliation</li>
+        <li>Known-error tickets</li>
+        <li>Manual handoffs created by outdated controls</li>
+      </ul>
+      <p>Before asking AI to perform any of that work faster, ask whether the work should continue to exist.</p>
+
+      <h3>3. Automate what legitimately remains</h3>
+      <p>Not all work can or should disappear. Once unnecessary demand has been removed, automate the repetitive work that legitimately remains. This is where GenAI and agentic AI become extraordinarily powerful.</p>
+      <p>But notice how different the economics now become. Instead of applying agents, inference, integration, orchestration, governance and exception handling to 100% of an inherited workflow, we apply them to the residual workload that actually deserves to exist.</p>
+      <p>That matters because AI isn't free. Every automated workflow carries infrastructure, inference, integration, monitoring, governance and exception-management costs. Automating work that could have been eliminated can create enormous AI activity without changing the underlying economics of the business process. More AI activity is not inherently more AI value.</p>
+
+      <h3>4. Assist where judgment creates value</h3>
+      <p>Some work remains because human judgment genuinely matters. That is where AI should enrich rather than merely replace:</p>
+      <ul class="body-list">
+        <li>Bring together the context</li>
+        <li>Surface relevant history</li>
+        <li>Identify patterns</li>
+        <li>Recommend actions</li>
+        <li>Remove information-gathering work</li>
+      </ul>
+      <p>Let the person focus on judgment, decisions and genuine exceptions. And importantly, treat those human interventions as intelligence:</p>
+      <ul class="body-list">
+        <li>Why did the agent escalate?</li>
+        <li>What wasn't understood?</li>
+        <li>What judgment was necessary?</li>
+        <li>Was the exception genuinely exceptional?</li>
+        <li>Can the next occurrence be automated?</li>
+        <li>Does the exception reveal another category of work that can be eliminated?</li>
+      </ul>
+      <p>That produces a continuous improvement loop.</p>
+
+      <div class="diagram reveal">
+        <div class="diagram-node diagram-node--wide">
+          <strong>Intent</strong>
+          <span>Define the measurable business outcome before any technology decision</span>
+        </div>
+        <div class="diagram-arrow">↓</div>
+        <div class="diagram-node diagram-node--wide">
+          <strong>Eliminate</strong>
+          <span>Ask whether the work preventing the outcome needs to exist at all</span>
+        </div>
+        <div class="diagram-arrow">↓</div>
+        <div class="diagram-node diagram-node--wide">
+          <strong>Automate</strong>
+          <span>Apply AI to the repetitive work that legitimately remains</span>
+        </div>
+        <div class="diagram-arrow">↓</div>
+        <div class="diagram-node diagram-node--wide diagram-node--final">
+          <strong>Assist → Learn</strong>
+          <span>Enrich human judgment on genuine exceptions, and feed what's learned back in</span>
+        </div>
+      </div>
+      <p style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: -1.8rem; margin-bottom: 2.8rem;">↻ every exception cycles back into Intent, sharpening what gets eliminated next</p>
+
+      <p>And through every cycle, measure against the business KPI that established the intent in the first place.</p>
+
+      <h2>This is the connection the OpenAI data makes interesting</h2>
+      <p>This brings us back to the table on page 35. Messages sent and tokens generated are useful indicators of AI activity. Revenue per employee is a business-performance measure. There is no reason to assume one automatically translates into the other.</p>
+      <p>Something has to connect capability to outcome. That something is the architecture of the operating model around the technology. Recent enterprise research makes the problem visible.</p>
+      <ul class="body-list">
+        <li><strong>Deloitte's 2026 State of AI in the Enterprise research</strong> found that 37% of organizations were still applying AI largely at the surface, with little or no change to underlying processes. Another 30% were redesigning key processes around AI, while only about a third — 34% — reported deeper transformation involving new products, services, core processes or business models. Only 21% reported having a mature governance model for autonomous AI agents.</li>
+        <li><strong>IBM's research</strong> exposes an equally interesting contradiction. More than three-quarters of executives said most AI investment had focused on improving existing processes rather than developing net-new capabilities. At the same time, 78% of C-suite executives said achieving maximum benefit from agentic AI requires a new operating model.</li>
+      </ul>
+      <p>In other words, enterprises increasingly recognize that the operating model must change. But much of the investment is still going toward making the existing model more capable. Intent Architecture provides the bridge.</p>
+
+      <h2>The same architecture applies across the enterprise</h2>
+      <p>Consider software engineering. A coding agent can repeatedly fix a class of defect. But if those defects originate from an upstream schema, contract or architectural problem, the intent shouldn't be to make the agent increasingly efficient at fixing them. Eliminate the source.</p>
+      <p>Consider code review. A copilot can generate comments every time a developer violates the same rule. But if the condition can be prevented through policy, linting or an architectural control, don't build a more intelligent review process around recurring unnecessary work. Eliminate it.</p>
+      <p>Consider employee support. An AI agent can become extraordinarily efficient at resolving password, access and configuration requests. But if users can safely self-serve those actions, don't celebrate the number of tickets the agent resolved. Ask why the ticket existed.</p>
+      <p>And consider IT operations. An AIOps platform can become extraordinarily good at predicting, diagnosing and remediating incidents. But if the same underlying condition continually generates those incidents, the ultimate measure isn't how quickly AI resolved them. It is whether they stopped occurring.</p>
+      <p>Different technologies. Different workflows. The same architecture.</p>
+
+      <h2>Procurement cannot buy intent it was never given</h2>
+      <p>This also explains a persistent problem with outsourced services. Many managed-services contracts still operate through FTE, time-and-materials, ticket-volume or other input-oriented commercial models.</p>
+      <p>It is easy to blame the service provider. A vendor paid to process work has an obvious economic tension when asked to eliminate the work generating that revenue. But that is only half the problem.</p>
+      <p>Procurement typically receives something to source after the operating model has already been defined: FTE requirements, ticket volumes, response-time SLAs, service categories, unit-cost targets. These are measurable, benchmarkable and auditable. But procurement cannot independently decide that 40% of those tickets should never exist. That decision belongs upstream with the owner of the business process.</p>
+      <p>If the process owner hasn't defined the intended business outcome and identified what demand should disappear, procurement cannot reasonably construct a contract around eliminating it. So procurement buys capacity to process the demand. The provider optimizes delivery. AI is introduced to improve productivity. And everyone may perform exactly as they were incentivized to perform. Yet the unnecessary work survives.</p>
+      <p>Intent was never handed to procurement to contract against. This is why outcome-based contracting begins before the RFP. It begins with Intent Architecture.</p>
+
+      <h2>Two waves, the same missing architecture</h2>
+      <p>Looking back, I increasingly see the first wave of AI in operations and today's GenAI/agentic-AI wave as variations of the same architectural challenge.</p>
+      <p>In the classic AI and machine-learning era, we had the ability to use intelligence to improve the availability and performance of technology-enabled business processes. But what scaled most visibly was detection and response, not the avoidance that could have compounded into a business KPI.</p>
+
+      <div class="diagram reveal">
+        <div class="diagram-merge">
+          <div class="diagram-node">
+            <strong>What scaled</strong>
+            <span>Machine-learning capability → anomaly detection → incident response → operational KPIs</span>
+          </div>
+          <div class="diagram-node">
+            <strong>What could have scaled</strong>
+            <span>Business intent → availability &amp; performance → avoidance → measurable business KPI</span>
+          </div>
+        </div>
+      </div>
+
+      <p>Now GenAI and agentic AI give us vastly greater capability. We risk scaling the first pattern again, at a much larger scale, instead of the second.</p>
+
+      <div class="diagram reveal">
+        <div class="diagram-merge">
+          <div class="diagram-node">
+            <strong>What we risk scaling</strong>
+            <span>AI capability → copilots → agents → automated workflows → usage &amp; productivity measures</span>
+          </div>
+          <div class="diagram-node">
+            <strong>What the architecture could be</strong>
+            <span>Business intent → eliminate → automate → assist → measurable business KPI</span>
+          </div>
+        </div>
+      </div>
+
+      <p>The technology waves are different. The missing layer is the same: intent.</p>
+
+      <h2>The question I'd put to CIOs</h2>
+      <p>The question isn't whether enterprises should adopt AI. They already are. Nor is it whether generative AI and autonomous agents will become more capable. They will.</p>
+      <p>The question is what sits above that capability. Before deciding which model to deploy, which copilot to license, which agent to build or which workflow to automate, ask: <strong>what measurable business outcome are we trying to change?</strong></p>
+      <p>Then make that outcome the intent around which the architecture is designed. What can be eliminated? What should be automated? Where should people be assisted? What should the system learn from the remaining exceptions? And ultimately: did the business KPI move?</p>
+      <p>A decade ago, we had machine-learning technology capable of helping us avoid incidents and improve the availability and performance of business processes. What scaled more successfully was detection and response. Today, we have dramatically more powerful intelligence available to us. We shouldn't repeat the same architectural mistake at a much larger scale.</p>
+      <p>Capability Architecture asks what AI can do. Intent Architecture defines the measurable business outcome and determines how AI — through elimination, automation and assistance — should achieve it. If we want AI adoption to scale into measurable business outcomes rather than simply measurable AI activity, that intent needs to come first.</p>
+
+      <div class="takeaways">
+        <h3>Key Takeaways</h3>
+        <ul>
+          <li>OpenAI's own enterprise ChatGPT research found no statistically significant correlation between messages or tokens per employee and revenue per employee — activity metrics aren't outcome metrics, and adoption doesn't automatically translate into business performance.</li>
+          <li>AIOps taught the same lesson a decade earlier: machine-learning capability scaled into faster detection and response, while the outcome it could have delivered — incident avoidance tied to a business KPI — never became the dominant operating model.</li>
+          <li>Intent Architecture starts with a measurable business outcome as the governing intent, then works through a design sequence — Eliminate, Automate, Assist — with every human exception feeding back into what gets eliminated next.</li>
+          <li>Deloitte's and IBM's 2026 research shows the same gap playing out today: most AI investment still optimizes existing processes, even as large majorities of executives say agentic AI requires a genuinely new operating model.</li>
+          <li>Procurement cannot eliminate demand it was never told to eliminate. Outcome-based contracting — and outsourced-services reform generally — has to begin with Intent Architecture, upstream of the RFP.</li>
+        </ul>
+      </div>
+
+      <h2>Sources &amp; Further Reading</h2>
+      <ul class="body-list">
+        <li><strong>OpenAI — How Organizations Use AI: Evidence from ChatGPT.</strong> Enterprise ChatGPT research covering more than 1,500 organizations and more than 17 million messages, including analysis of enterprise usage patterns and organizational characteristics.</li>
+        <li><strong><a href="https://www.logicmonitor.com/resources/2026-observability-ai-outlook-for-it" target="_blank" rel="noopener">LogicMonitor — 2026 Observability &amp; AI Outlook for IT Leaders</a>.</strong> Research on AI and observability maturity, including adoption of anomaly detection, automated root-cause analysis, remediation and broader AI-enabled operations.</li>
+        <li><strong><a href="https://www.deloitte.com/us/en/what-we-do/capabilities/applied-artificial-intelligence/content/state-of-ai-in-the-enterprise.html" target="_blank" rel="noopener">Deloitte — The State of AI in the Enterprise 2026: The Untapped Edge</a>.</strong> Research based on 3,235 business and IT leaders across 24 countries examining surface-level AI adoption, process redesign, deeper business transformation and agentic-AI governance.</li>
+        <li><strong><a href="https://www.ibm.com/thought-leadership/institute-business-value/en-us/report/agentic-ai-operating-model" target="_blank" rel="noopener">IBM Institute for Business Value — Agentic AI's Strategic Ascent</a>.</strong> Research examining the shift from incremental AI improvements to new operating models and the C-suite view that realizing agentic AI's full potential requires operating-model transformation.</li>
+      </ul>
+
+      <p class="author-note" style="margin-top: 2rem; color: var(--text-muted);"><em>This extends the Eliminate → Automate → Assist framework from my AI-native IT operations series to enterprise AI adoption broadly. Read the full framework at <a href="/insights/">murthymalapaka.com/insights</a>.</em></p>
+    </div>
+  </article>
+
+  <section class="section-alt">
+    <div class="container" style="max-width: 700px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">Related Publications</span>
+        <h2>Related reading</h2>
+      </div>
+      <ul class="pub-list reveal">
+        <li>
+          <a href="/insights/ai-native-it-ops-reference-architecture/">AI-Native IT Operations: A Reference Architecture for Guaranteed Outcomes per Token Invested</a>
+          <p>Most AI-native IT operations efforts start with a vendor, a model, or an agent library — not an architecture. A reference architecture where current-state intelligence defines the target, elimination-led execution replaces labor, and SME assurance closes the loop back to intelligence.</p>
+        </li>
+        <li>
+          <a href="/insights/ticket-factories/">Why Are We Still Building Ticket Factories?</a>
+          <p>Challenges the industry's assumption that AI should simply make engineers faster. Organizations should eliminate unnecessary operational demand before automating what remains.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <span class="copyright">&copy; <span data-year></span> Murthy Malapaka. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="mailto:murthymln17@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/murthymln/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
