@@ -26,6 +26,13 @@ is the Cloudflare Worker under `worker/`, which serves the static files and
 powers the private analytics dashboard at `/dashboard/`
 (setup: [ANALYTICS-SETUP.md](ANALYTICS-SETUP.md)).
 
+> **Deployment at a glance.** This site is served by Cloudflare Workers, *not*
+> GitHub Pages — despite the `CNAME` file at the repo root. Pushing to `main`
+> triggers a Cloudflare Workers Build, which takes a few minutes; Cloudflare
+> emails you once the publish completes. See
+> [Deploying to Cloudflare Workers](#deploying-to-cloudflare-workers) below,
+> and [CLAUDE.md](CLAUDE.md) for the full publishing checklist.
+
 ## Local preview
 
 Serve the folder with any static file server, e.g.:

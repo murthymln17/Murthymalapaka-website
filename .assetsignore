@@ -6,6 +6,7 @@ worker
 wrangler.jsonc
 README.md
 ANALYTICS-SETUP.md
+CLAUDE.md
 CNAME
 package.json
 package-lock.json
