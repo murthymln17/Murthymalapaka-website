@@ -3,6 +3,7 @@
 .gitignore
 .assetsignore
 worker
+scripts
 wrangler.jsonc
 README.md
 ANALYTICS-SETUP.md
