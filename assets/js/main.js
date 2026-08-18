@@ -12,21 +12,35 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const revealEls = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window && revealEls.length) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-    revealEls.forEach((el) => observer.observe(el));
-  } else {
-    revealEls.forEach((el) => el.classList.add('in-view'));
+  if (revealEls.length) {
+    const revealAll = () => revealEls.forEach((el) => el.classList.add('in-view'));
+    // Some mobile/in-app browsers (e.g. WebViews opened from social apps)
+    // never fire an IntersectionObserver callback, which would otherwise
+    // leave this content stuck at opacity:0 forever. Fall back to showing
+    // everything after a short delay so a broken observer never hides content.
+    const fallback = window.setTimeout(revealAll, 1500);
+    if ('IntersectionObserver' in window) {
+      try {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15 }
+        );
+        revealEls.forEach((el) => observer.observe(el));
+      } catch (err) {
+        window.clearTimeout(fallback);
+        revealAll();
+      }
+    } else {
+      window.clearTimeout(fallback);
+      revealAll();
+    }
   }
 
   const yearEl = document.querySelector('[data-year]');
