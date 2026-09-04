@@ -58,10 +58,21 @@ whose API lives in `worker/` (`/api/ga4`, `/api/search-console`,
 `/api/cloudflare`, `/api/insights`). Preview UI changes with
 `/dashboard/?demo=1` — no credentials needed.
 
-**When the user reports a LinkedIn post** (date, linked article, impressions,
-reactions), append it to the `posts` array in `worker/linkedin-posts.json`
-and merge — the dashboard's "LinkedIn posts → site traffic" card is driven by
-that file. Field shapes are documented in the file's `_readme`.
+**LinkedIn data lives in `worker/linkedin-posts.json`** and drives the
+Objectives section's Reach/Connect figures, the post-traffic correlation, and
+the Audience-quality card. Two refresh paths:
+
+- *A single post*: append `{date, topic, articlePath, impressions, engagements}`
+  to `posts`.
+- *A new LinkedIn export* (Analytics → Export, an .xlsx with Discovery /
+  Engagement / Top Posts / Followers / Audience + Content Demographics tabs —
+  the user usually sends screenshots of the tabs): replace the whole `export`
+  object and merge new rows into `posts`. **Always checksum** the transcribed
+  daily impressions against the Discovery tab's total before committing; the
+  2026-06-07→09-04 export reconciled exactly at 10,467.
+
+`schedule` lists standing posting weekdays — those count as post days even
+without a logged post. Field shapes are documented in the file's `_readme`.
 
 ## Styling
 

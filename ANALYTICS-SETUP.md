@@ -159,12 +159,19 @@ extra setup needed. Two optional extras:
   is written by Claude instead of the built-in template. Model defaults to
   `claude-sonnet-5`; override with an `INSIGHTS_MODEL` variable. Briefs are
   cached ~6 hours per range, so cost is a few calls a day at most.
-- **LinkedIn post correlation**: LinkedIn's API doesn't expose personal post
-  analytics, so `worker/linkedin-posts.json` is a manually kept log. After
-  posting, tell a Claude Code session the post date, which article it links
-  to, and the impression count (from the post's "View analytics"); it updates
-  the log and merges. The dashboard then correlates post days with site
-  traffic and computes per-post click-through.
+- **LinkedIn data**: `worker/linkedin-posts.json` holds a LinkedIn export plus
+  a post log. LinkedIn's Member Post Analytics API exists but requires an
+  approved developer app, so the practical refresh is LinkedIn's own export:
+  **Analytics → Export**, which produces an .xlsx with Discovery, Engagement,
+  Top Posts, Followers, Audience Demographics and Content Demographics tabs.
+  Send that file (or screenshots of its tabs) to a Claude Code session and ask
+  it to refresh the file. That powers:
+  - LinkedIn impressions inside **Reach** and new followers inside **Connect**
+  - the **impressions ↔ site sessions** correlation on the posts card
+  - the **Audience quality** card — viewer vs follower seniority, the only
+    direct read on whether the content reaches executives
+  Between exports, single posts can be appended by telling Claude the date,
+  linked article, and impression count.
 
 ## Environment variable summary
 
