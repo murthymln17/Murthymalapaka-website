@@ -374,9 +374,20 @@
         sub: fmtNum(funnel.connect.contactViews) + ' contact views \u00b7 ' + fmtNum(funnel.connect.linkedinProfileClicks) + ' LinkedIn profile clicks',
       },
     ];
+    var stageStatuses = [funnel.reach.status, funnel.read.status, funnel.connect.status];
     stages.forEach(function (st, i) {
       var tile = el('div', 'funnel-stage');
-      tile.appendChild(el('span', 'kpi-label', st.label));
+      var head = el('div', 'funnel-head');
+      head.appendChild(el('span', 'kpi-label', st.label));
+      var status = stageStatuses[i];
+      if (status) {
+        var pill = el('span', 'status-pill status--' + status.level);
+        pill.appendChild(el('i', 'status-dot'));
+        pill.appendChild(document.createTextNode(status.label));
+        pill.title = status.reason || '';
+        head.appendChild(pill);
+      }
+      tile.appendChild(head);
       tile.appendChild(el('span', 'kpi-value', fmtNum(st.value)));
       tile.appendChild(el('span', 'kpi-sub', st.sub));
       var deltaText = fmtDelta(st.delta);
@@ -813,9 +824,9 @@
         'Traffic peaks on Tue and Wed. Across 3 logged LinkedIn posts, post days average 52.0 sessions vs 31.0 on other days (+68% lift).',
       ],
       funnel: {
-        reach: { value: 1240, searchImpressions: 1050, linkedinSessions: 190, delta: 0.18 },
-        read: { value: 830, articleViews: 830, engagedSessions: 410, avgEngagementSeconds: 96, delta: 0.22 },
-        connect: { value: 31, contactViews: 22, linkedinProfileClicks: 9, delta: null },
+        reach: { value: 1240, searchImpressions: 1050, linkedinSessions: 190, delta: 0.18, status: { level: 'green', label: 'On track', reason: 'Growing vs the prior period' } },
+        read: { value: 830, articleViews: 830, engagedSessions: 410, avgEngagementSeconds: 96, delta: 0.22, status: { level: 'green', label: 'On track', reason: 'Growing vs the prior period' } },
+        connect: { value: 31, contactViews: 22, linkedinProfileClicks: 9, delta: null, status: { level: 'amber', label: 'Watch', reason: 'Active, but no prior-period baseline to judge against yet' } },
       },
       weekday: {
         pattern: [

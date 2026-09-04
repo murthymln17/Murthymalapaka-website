@@ -136,6 +136,25 @@
   flex-direction: column;
   gap: 0.3rem;
 }
+.funnel-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font: 600 0.7rem/1 'Inter', sans-serif;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.25rem 0.55rem;
+  white-space: nowrap;
+}
+.status-pill .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+.status--green .status-dot { background: #0ca30c; }
+.status--amber .status-dot { background: #fab219; }
+.status--red .status-dot { background: #d03b3b; }
+.status--red { color: #d03b3b; }
+
 .funnel-stage .kpi-value { font: 600 1.9rem/1.1 'Inter', sans-serif; color: var(--text); }
 .funnel-stage .kpi-sub { font-size: 0.75rem; color: var(--ink-muted); }
 .funnel-arrow {
