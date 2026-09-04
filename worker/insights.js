@@ -15,7 +15,7 @@
  * Required env: GOOGLE_SERVICE_ACCOUNT_JSON, GA4_PROPERTY_ID.
  * Optional env: GSC_SITE_URL override, ANTHROPIC_API_KEY, INSIGHTS_MODEL.
  */
-import { json, configError, rangeDays, isoDate } from './utils.js';
+import { json, configError, rangeDays, isoDate, fillDailySeries } from './utils.js';
 import { googleAccessToken } from './google.js';
 import linkedinLog from './linkedin-posts.json' with { type: 'json' };
 
@@ -406,19 +406,22 @@ export async function handleInsights(request, env) {
     return json({ error: err.message }, 502);
   }
 
-  // --- unpack GA4 report 0 (current + previous period share one report) ---
-  const dailyCurrent = [];
+  // --- unpack GA4 report 0 (current + previous period share one report).
+  // Classify rows by their date, not by the appended dateRange label — its
+  // value format is not stable, and a mislabel leaks prior-period days into
+  // the current series (observed in production).
+  const currentStart = isoDate(-days);
+  let dailyCurrent = [];
   const prevTotals = { sessions: 0, users: 0, pageviews: 0 };
   const curTotals = { sessions: 0, users: 0, pageviews: 0, engagedSessions: 0, engagementSeconds: 0 };
   for (const row of reports[0]?.rows || []) {
-    const dims = row.dimensionValues.map((d) => d.value);
-    const range = dims[dims.length - 1]; // 'date_range_0' | 'date_range_1'
-    if (range === 'date_range_1') {
+    const date = ga4Date(row.dimensionValues[0].value);
+    if (date < currentStart) {
       prevTotals.sessions += mval(row, 0);
       prevTotals.users += mval(row, 1);
       prevTotals.pageviews += mval(row, 2);
     } else {
-      dailyCurrent.push({ date: ga4Date(dims[0]), sessions: mval(row, 0) });
+      dailyCurrent.push({ date, sessions: mval(row, 0) });
       curTotals.sessions += mval(row, 0);
       curTotals.users += mval(row, 1);
       curTotals.pageviews += mval(row, 2);
@@ -426,7 +429,9 @@ export async function handleInsights(request, env) {
       curTotals.engagementSeconds += mval(row, 4);
     }
   }
-  dailyCurrent.sort((a, b) => a.date.localeCompare(b.date));
+  // Zero-fill so silent days count as zeros in weekday averages and
+  // post-day comparisons instead of vanishing from the statistics.
+  dailyCurrent = fillDailySeries(dailyCurrent, days, { sessions: 0 });
 
   const pages = (reports[1]?.rows || []).map((r) => ({
     path: r.dimensionValues[0].value,
