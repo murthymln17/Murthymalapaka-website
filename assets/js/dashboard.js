@@ -466,7 +466,8 @@
         ? Math.round(((l.avgSessionsOnPostDays - l.avgSessionsOnOtherDays) / l.avgSessionsOnOtherDays) * 100)
         : null;
       var summary = el('p', 'exec-stat');
-      summary.appendChild(document.createTextNode('Post days average '));
+      var dayLabel = l.scheduleDays && l.scheduleDays.length ? 'Post days (' + l.scheduleDays.join(' & ') + ') average ' : 'Post days average ';
+      summary.appendChild(document.createTextNode(dayLabel));
       summary.appendChild(el('b', null, l.avgSessionsOnPostDays.toFixed(1)));
       summary.appendChild(document.createTextNode(' sessions vs '));
       summary.appendChild(el('b', null, l.avgSessionsOnOtherDays.toFixed(1)));
@@ -834,7 +835,7 @@
         ],
       },
       linkedin: {
-        postsInWindow: 3, avgSessionsOnPostDays: 52, avgSessionsOnOtherDays: 31,
+        scheduleDays: ['Mon', 'Thu'], postsInWindow: 8, loggedPostsInWindow: 3, avgSessionsOnPostDays: 52, avgSessionsOnOtherDays: 31,
         perPost: [
           { date: labels[labels.length - 3], topic: 'FDE article', impressions: 2300, linkedinSessionsNext48h: 41, clickThroughRate: 0.0178 },
           { date: labels[Math.max(0, labels.length - 10)], topic: 'Usage bill', impressions: 1600, linkedinSessionsNext48h: 24, clickThroughRate: 0.015 },
