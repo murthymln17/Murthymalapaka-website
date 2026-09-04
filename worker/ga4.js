@@ -90,6 +90,16 @@ export async function handleGa4(request, env) {
         orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
         limit: 12,
       },
+      {
+        // Where readers actually are. GA4 carries the full history here;
+        // the Cloudflare countries card only covers the period since its
+        // beacon started collecting.
+        dateRanges,
+        dimensions: [{ name: 'country' }],
+        metrics: [{ name: 'activeUsers' }, { name: 'sessions' }],
+        orderBys: [{ metric: { metricName: 'activeUsers' }, desc: true }],
+        limit: 15,
+      },
     ],
   };
 
@@ -108,7 +118,7 @@ export async function handleGa4(request, env) {
     return json({ error: err.message }, 502);
   }
 
-  const [daily, pages, channels, sources] = batch.reports || [];
+  const [daily, pages, channels, sources, countries] = batch.reports || [];
   const rows = (report) => report?.rows || [];
   const metric = (row, i) => Number(row.metricValues?.[i]?.value || 0);
 
@@ -161,6 +171,11 @@ export async function handleGa4(request, env) {
       label: r.dimensionValues[0].value,
       sessions: metric(r, 0),
       users: metric(r, 1),
+    })),
+    countries: rows(countries).map((r) => ({
+      label: r.dimensionValues[0].value || '(not set)',
+      users: metric(r, 0),
+      sessions: metric(r, 1),
     })),
   });
 }

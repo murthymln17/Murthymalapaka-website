@@ -641,6 +641,9 @@
     renderBarList(listSlot('card-ga4-sources'), data.sources.map(function (s) {
       return { label: s.label, value: s.sessions, sub: fmtNum(s.users) + ' visitors' };
     }));
+    renderBarList(listSlot('card-ga4-countries'), (data.countries || []).map(function (c) {
+      return { label: c.label, value: c.users, sub: fmtNum(c.sessions) + ' sessions' };
+    }));
     updateLivePill(data.realtimeUsers);
   }
 
@@ -692,7 +695,7 @@
 
   /* ---------- loading ---------- */
 
-  var GA4_CARDS = ['card-ga4-traffic', 'card-ga4-pages', 'card-ga4-channels', 'card-ga4-sources'];
+  var GA4_CARDS = ['card-ga4-traffic', 'card-ga4-pages', 'card-ga4-channels', 'card-ga4-sources', 'card-ga4-countries'];
   var GSC_CARDS = ['card-gsc-clicks', 'card-gsc-impressions', 'card-gsc-queries', 'card-gsc-pages'];
   var CF_CARDS = ['card-cf-traffic', 'card-cf-referrers', 'card-cf-countries', 'card-cf-devices'];
 
@@ -831,6 +834,14 @@
         { label: 'Organic Search', sessions: 289, users: 259 },
         { label: 'Direct', sessions: 214, users: 190 },
         { label: 'Referral', sessions: 88, users: 76 },
+      ],
+      countries: [
+        { label: 'United States', users: 148, sessions: 173 },
+        { label: 'India', users: 96, sessions: 112 },
+        { label: 'United Kingdom', users: 31, sessions: 34 },
+        { label: 'Canada', users: 18, sessions: 20 },
+        { label: 'Germany', users: 11, sessions: 12 },
+        { label: 'Australia', users: 7, sessions: 8 },
       ],
       sources: [
         { label: 'linkedin.com', sessions: 331, users: 291 },
