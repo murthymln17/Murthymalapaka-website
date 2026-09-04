@@ -46,7 +46,10 @@ The dashboard and its API are protected by a single password of your choosing.
 2. Click **Add a site**, enter `murthymalapaka.com`.
 3. Cloudflare gives you a JS snippet containing a `"token": "..."` value.
    - Copy the token into `CF_BEACON_TOKEN` at the top of
-     `assets/js/analytics.js` and push.
+     `assets/js/analytics.js` and push. (This is set for murthymalapaka.com —
+     the "automatic setup" injection never produced data, so the beacon loads
+     explicitly. In Web Analytics → Manage site, set RUM to **"Enable with JS
+     Snippet installation"** so Cloudflare doesn't inject a second copy.)
 
 ### 1b. Let the dashboard read the data
 1. **API token**: go to **My Profile → API Tokens → Create Token → Create
@@ -145,6 +148,24 @@ property starts with no history — data accumulates from verification onward.
 - Switch between 7 / 28 / 90-day views; the live visitor count refreshes
   every minute automatically.
 
+## 5b. Objectives section (insights engine)
+
+The dashboard's top **Objectives** section is computed by `/api/insights`
+(`worker/insights.js`) from the same GA4 + Search Console credentials — no
+extra setup needed. Two optional extras:
+
+- **Claude-written advisor brief**: add an `ANTHROPIC_API_KEY` Worker secret
+  (from [console.anthropic.com](https://console.anthropic.com/)) and the brief
+  is written by Claude instead of the built-in template. Model defaults to
+  `claude-sonnet-5`; override with an `INSIGHTS_MODEL` variable. Briefs are
+  cached ~6 hours per range, so cost is a few calls a day at most.
+- **LinkedIn post correlation**: LinkedIn's API doesn't expose personal post
+  analytics, so `worker/linkedin-posts.json` is a manually kept log. After
+  posting, tell a Claude Code session the post date, which article it links
+  to, and the impression count (from the post's "View analytics"); it updates
+  the log and merges. The dashboard then correlates post days with site
+  traffic and computes per-post click-through.
+
 ## Environment variable summary
 
 | Variable | Used by | Required for |
@@ -154,6 +175,8 @@ property starts with no history — data accumulates from verification onward.
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | `/api/ga4`, `/api/search-console` | both Google sections |
 | `GA4_PROPERTY_ID` | `/api/ga4` | Audience section + live counter |
 | `GSC_SITE_URL` (optional) | `/api/search-console` | Google Search section (defaults in code) |
+| `ANTHROPIC_API_KEY` (optional) | `/api/insights` | Claude-written advisor brief |
+| `INSIGHTS_MODEL` (optional) | `/api/insights` | override brief model (default `claude-sonnet-5`) |
 
 ## Local development
 

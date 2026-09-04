@@ -8,7 +8,7 @@
  *   GSC_SITE_URL - property, e.g. "sc-domain:murthymalapaka.com"
  *                  or "https://murthymalapaka.com/"
  */
-import { json, configError, rangeDays, isoDate } from './utils.js';
+import { json, configError, rangeDays, isoDate, fillDailySeries } from './utils.js';
 import { googleAccessToken } from './google.js';
 
 const SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
@@ -62,13 +62,17 @@ export async function handleSearchConsole(request, env) {
     return json({ error: err.message }, 502);
   }
 
-  const timeseries = byDate.map((r) => ({
-    date: r.keys[0],
-    clicks: r.clicks,
-    impressions: r.impressions,
-    ctr: r.ctr,
-    position: r.position,
-  }));
+  const timeseries = fillDailySeries(
+    byDate.map((r) => ({
+      date: r.keys[0],
+      clicks: r.clicks,
+      impressions: r.impressions,
+      ctr: r.ctr,
+      position: r.position,
+    })),
+    days,
+    { clicks: 0, impressions: 0, ctr: 0, position: 0 }
+  );
 
   const totals = timeseries.reduce(
     (acc, r) => ({

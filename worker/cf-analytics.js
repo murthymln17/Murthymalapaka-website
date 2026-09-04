@@ -8,7 +8,7 @@
  *   CF_ACCOUNT_ID - Cloudflare account ID
  *   CF_SITE_TAG   - Web Analytics site tag
  */
-import { json, configError, rangeDays } from './utils.js';
+import { json, configError, rangeDays, fillDailySeries } from './utils.js';
 
 const QUERY = `
 query Dashboard($accountTag: string, $filter: AccountRumPageloadEventsAdaptiveGroupsFilter_InputObject) {
@@ -96,11 +96,15 @@ export async function handleCloudflareAnalytics(request, env) {
       visits: r.sum?.visits ?? null,
     }));
 
-  const timeseries = (account.timeseries || []).map((r) => ({
-    date: r.dimensions.date,
-    pageviews: r.count,
-    visits: r.sum?.visits ?? 0,
-  }));
+  const timeseries = fillDailySeries(
+    (account.timeseries || []).map((r) => ({
+      date: r.dimensions.date,
+      pageviews: r.count,
+      visits: r.sum?.visits ?? 0,
+    })),
+    days,
+    { pageviews: 0, visits: 0 }
+  );
 
   const totals = timeseries.reduce(
     (acc, r) => ({ pageviews: acc.pageviews + r.pageviews, visits: acc.visits + r.visits }),

@@ -119,6 +119,72 @@
   margin-top: 0.3rem;
 }
 
+/* ---------- Objectives: funnel, brief, tables ---------- */
+.funnel-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: stretch;
+  gap: 0.6rem;
+  margin: 0.9rem 0;
+}
+.funnel-stage {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.funnel-stage .kpi-value { font: 600 1.9rem/1.1 'Inter', sans-serif; color: var(--text); }
+.funnel-stage .kpi-sub { font-size: 0.75rem; color: var(--ink-muted); }
+.funnel-arrow {
+  align-self: center;
+  color: var(--ink-muted);
+  font-size: 1.3rem;
+  padding: 0 0.15rem;
+}
+.funnel-delta { font-size: 0.75rem; font-weight: 600; color: var(--accent-dark); }
+
+.brief-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  list-style: disc;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+.brief-source { font-size: 0.72rem; color: var(--ink-muted); margin: 0.8rem 0 0; }
+
+.exec-stat { font-size: 0.88rem; color: var(--text-muted); margin: 0 0 0.8rem; }
+.exec-stat b { color: var(--text); font-variant-numeric: tabular-nums; }
+
+.table-wrap { overflow-x: auto; }
+.insight-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  min-width: 560px;
+}
+.insight-table th, .insight-table td {
+  text-align: right;
+  padding: 0.45rem 0.6rem;
+  border-bottom: 1px solid var(--grid-line);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.insight-table th:first-child, .insight-table td:first-child {
+  text-align: left;
+  white-space: normal;
+  min-width: 200px;
+}
+.insight-table th { color: var(--text-muted); font-weight: 500; }
+.insight-table td a { color: var(--text); }
+.insight-table td a:hover { color: var(--accent); }
+
 /* ---------- Sections & cards ---------- */
 .dash-section { margin-bottom: 2.6rem; padding: 0; }
 .dash-section-title {
@@ -349,6 +415,8 @@
   .kpi-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 640px) {
+  .funnel-grid { grid-template-columns: 1fr; }
+  .funnel-arrow { transform: rotate(90deg); padding: 0; line-height: 0.6; }
   .dash { padding-top: 1.6rem; }
   .card-grid { grid-template-columns: 1fr; }
   .dash-head { flex-direction: column; align-items: flex-start; }

@@ -49,6 +49,34 @@
     <!-- KPI row -->
     <section class="kpi-grid" id="kpi-grid" aria-label="Key metrics"></section>
 
+    <!-- Objectives: the judgment layer -->
+    <section class="dash-section" id="objectives">
+      <h2 class="dash-section-title">Objectives <span class="source-tag">Insights Engine</span></h2>
+      <div class="dash-card dash-card--wide" id="card-brief">
+        <h3>Advisor brief</h3>
+        <div class="brief-slot" data-brief></div>
+      </div>
+      <div class="funnel-grid" id="funnel-grid" aria-label="Reach, read, connect funnel"></div>
+      <div class="card-grid">
+        <div class="dash-card" id="card-weekday">
+          <h3>Traffic by day of week</h3>
+          <div class="list-slot" data-list></div>
+        </div>
+        <div class="dash-card" id="card-exec">
+          <h3>Executive-intent search reach</h3>
+          <div class="list-slot" data-list></div>
+        </div>
+        <div class="dash-card dash-card--wide" id="card-articles">
+          <h3>Article effectiveness</h3>
+          <div class="table-slot" data-table></div>
+        </div>
+        <div class="dash-card dash-card--wide" id="card-posts">
+          <h3>LinkedIn posts → site traffic</h3>
+          <div class="list-slot" data-list></div>
+        </div>
+      </div>
+    </section>
+
     <!-- GA4: audience -->
     <section class="dash-section">
       <h2 class="dash-section-title">Audience <span class="source-tag">Google Analytics</span></h2>
@@ -99,6 +127,7 @@
     <!-- Cloudflare -->
     <section class="dash-section">
       <h2 class="dash-section-title">Edge Traffic <span class="source-tag">Cloudflare Web Analytics</span></h2>
+      <p class="dash-note" style="margin: -0.4rem 0 0.9rem;">Counts every visit at the network edge — including the many professionals whose ad-blockers hide them from Google Analytics. Read it as the true floor of your traffic; the gap between these numbers and GA4 is your blocked-tracker audience.</p>
       <div class="card-grid">
         <div class="dash-card dash-card--wide" id="card-cf-traffic">
           <h3>Visits &amp; pageviews per day</h3>

@@ -1,0 +1,4 @@
+{
+  "_readme": "Manually maintained LinkedIn post log — LinkedIn's API does not expose personal post analytics, so numbers come from the LinkedIn app (open a post → View analytics). To update: tell a Claude Code session your post date, the article it links to, and its impression/reaction counts; it edits this file and merges. Fields: date (yyyy-mm-dd, the day the post went live), articlePath (site path the post links to, or null), topic (short label), impressions, reactions, comments (as of last check).",
+  "posts": []
+}

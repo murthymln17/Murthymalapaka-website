@@ -7,10 +7,11 @@
   // From Google Analytics: Admin → Data streams → your web stream
   var GA4_MEASUREMENT_ID = 'G-L7RYE8J4QC';
 
-  // From Cloudflare: Web Analytics → your site → JS snippet "token" value.
-  // Leave empty if you enabled Web Analytics directly on the Pages project —
-  // Cloudflare injects its beacon automatically in that case.
-  var CF_BEACON_TOKEN = '';
+  // From Cloudflare: Web Analytics → your site → JS snippet "token" value
+  // (the Web Analytics site tag). Loaded explicitly because the "automatic
+  // setup" injection never produced data for this site. If Cloudflare's
+  // snippet screen shows a different token, replace this value.
+  var CF_BEACON_TOKEN = '077479bae8114ace81c2daabd3162d15';
 
   if (GA4_MEASUREMENT_ID) {
     var gtagScript = document.createElement('script');

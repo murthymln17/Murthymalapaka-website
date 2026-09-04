@@ -7,7 +7,7 @@
  *                                 Viewer on the GA4 property)
  *   GA4_PROPERTY_ID             - numeric GA4 property ID
  */
-import { json, configError, rangeDays } from './utils.js';
+import { json, configError, rangeDays, fillDailySeries } from './utils.js';
 import { googleAccessToken } from './google.js';
 
 const SCOPE = 'https://www.googleapis.com/auth/analytics.readonly';
@@ -112,16 +112,20 @@ export async function handleGa4(request, env) {
   const rows = (report) => report?.rows || [];
   const metric = (row, i) => Number(row.metricValues?.[i]?.value || 0);
 
-  const timeseries = rows(daily).map((r) => {
-    const raw = r.dimensionValues[0].value; // yyyymmdd
-    return {
-      date: `${raw.slice(0, 4)}-${raw.slice(4, 6)}-${raw.slice(6, 8)}`,
-      users: metric(r, 0),
-      pageviews: metric(r, 1),
-      sessions: metric(r, 2),
-      avgSessionDuration: metric(r, 3),
-    };
-  });
+  const timeseries = fillDailySeries(
+    rows(daily).map((r) => {
+      const raw = r.dimensionValues[0].value; // yyyymmdd
+      return {
+        date: `${raw.slice(0, 4)}-${raw.slice(4, 6)}-${raw.slice(6, 8)}`,
+        users: metric(r, 0),
+        pageviews: metric(r, 1),
+        sessions: metric(r, 2),
+        avgSessionDuration: metric(r, 3),
+      };
+    }),
+    days,
+    { users: 0, pageviews: 0, sessions: 0, avgSessionDuration: 0 }
+  );
 
   const totals = timeseries.reduce(
     (acc, r) => ({

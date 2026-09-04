@@ -50,6 +50,19 @@ Consequences worth knowing:
 Read time in the hero has run roughly 200–230 words per minute in existing
 articles; keep new ones consistent with that.
 
+## Dashboard & analytics
+
+The private dashboard at `/dashboard/` (code: `dashboard/index.html`,
+`assets/js/dashboard.js`, `assets/css/dashboard.css`) is served by the Worker,
+whose API lives in `worker/` (`/api/ga4`, `/api/search-console`,
+`/api/cloudflare`, `/api/insights`). Preview UI changes with
+`/dashboard/?demo=1` — no credentials needed.
+
+**When the user reports a LinkedIn post** (date, linked article, impressions,
+reactions), append it to the `posts` array in `worker/linkedin-posts.json`
+and merge — the dashboard's "LinkedIn posts → site traffic" card is driven by
+that file. Field shapes are documented in the file's `_readme`.
+
 ## Styling
 
 Reuse the classes already in `assets/css/style.css` rather than adding new
