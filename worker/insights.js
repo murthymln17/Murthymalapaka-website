@@ -205,35 +205,48 @@ function weekdayPattern(daily) {
   return { pattern, bestDays: ranked.slice(0, 2).filter((d) => d.avgSessions > 0).map((d) => d.day) };
 }
 
-function postDayLift(posts, dailyLinkedin, dailyAll) {
-  const windowPosts = posts.filter((p) => dailyAll.some((d) => d.date === p.date));
-  if (!windowPosts.length) return null;
+function postDayLift(posts, schedule, dailyLinkedin, dailyAll) {
+  const loggedByDate = new Map(
+    posts.filter((p) => dailyAll.some((d) => d.date === p.date)).map((p) => [p.date, p])
+  );
+  // A standing posting schedule (e.g. every Mon and Thu) makes those weekdays
+  // post days even without a logged entry; logged posts add detail on top.
+  const scheduleIdx = new Set((schedule || []).map((d) => WEEKDAYS.indexOf(d)).filter((i) => i >= 0));
+  const postDates = new Set(loggedByDate.keys());
+  for (const d of dailyAll) {
+    if (scheduleIdx.has(new Date(`${d.date}T00:00:00Z`).getUTCDay())) postDates.add(d.date);
+  }
+  if (!postDates.size) return null;
+
   const liSessions = new Map(dailyLinkedin.map((d) => [d.date, d.sessions]));
   const allSessions = new Map(dailyAll.map((d) => [d.date, d.sessions]));
-  const postDates = new Set();
-  for (const p of windowPosts) {
-    postDates.add(p.date);
-    postDates.add(isoNext(p.date)); // day after a post still counts as post-driven
-  }
+
+  // Compare the post days themselves against all remaining days; the
+  // 48-hour view below is per-post attribution, not part of the averages.
   let postDayTotal = 0, postDayCount = 0, otherTotal = 0, otherCount = 0;
   for (const d of dailyAll) {
     if (postDates.has(d.date)) { postDayTotal += d.sessions; postDayCount++; }
     else { otherTotal += d.sessions; otherCount++; }
   }
-  const perPost = windowPosts.map((p) => ({
-    date: p.date,
-    topic: p.topic || null,
-    articlePath: p.articlePath || null,
-    impressions: p.impressions ?? null,
-    linkedinSessionsNext48h: (liSessions.get(p.date) || 0) + (liSessions.get(isoNext(p.date)) || 0),
-    siteSessionsNext48h: (allSessions.get(p.date) || 0) + (allSessions.get(isoNext(p.date)) || 0),
-    clickThroughRate:
-      p.impressions
-        ? ((liSessions.get(p.date) || 0) + (liSessions.get(isoNext(p.date)) || 0)) / p.impressions
-        : null,
-  }));
+
+  const perPost = [...postDates].sort().reverse().slice(0, 10).map((date) => {
+    const logged = loggedByDate.get(date);
+    const li48 = (liSessions.get(date) || 0) + (liSessions.get(isoNext(date)) || 0);
+    return {
+      date,
+      topic: logged?.topic || null,
+      articlePath: logged?.articlePath || null,
+      impressions: logged?.impressions ?? null,
+      linkedinSessionsNext48h: li48,
+      siteSessionsNext48h: (allSessions.get(date) || 0) + (allSessions.get(isoNext(date)) || 0),
+      clickThroughRate: logged?.impressions ? li48 / logged.impressions : null,
+    };
+  });
+
   return {
-    postsInWindow: windowPosts.length,
+    scheduleDays: [...scheduleIdx].sort().map((i) => WEEKDAYS[i]),
+    postsInWindow: postDayCount,
+    loggedPostsInWindow: loggedByDate.size,
     avgSessionsOnPostDays: postDayCount ? postDayTotal / postDayCount : 0,
     avgSessionsOnOtherDays: otherCount ? otherTotal / otherCount : 0,
     perPost,
@@ -287,14 +300,19 @@ function buildBrief(ins, days) {
     const lift = l.avgSessionsOnOtherDays
       ? Math.round(((l.avgSessionsOnPostDays - l.avgSessionsOnOtherDays) / l.avgSessionsOnOtherDays) * 100)
       : null;
+    const label = l.scheduleDays && l.scheduleDays.length
+      ? `LinkedIn post days (${l.scheduleDays.join(' & ')}${l.loggedPostsInWindow ? `, ${l.loggedPostsInWindow} logged post${l.loggedPostsInWindow === 1 ? '' : 's'}` : ''})`
+      : `Across ${l.postsInWindow} logged LinkedIn post day${l.postsInWindow === 1 ? '' : 's'}, post days`;
     lines.push(
-      `Across ${l.postsInWindow} logged LinkedIn post${l.postsInWindow === 1 ? '' : 's'}, post days average ` +
-        `${l.avgSessionsOnPostDays.toFixed(1)} sessions vs ${l.avgSessionsOnOtherDays.toFixed(1)} on other days` +
+      `${label} average ${l.avgSessionsOnPostDays.toFixed(1)} sessions vs ${l.avgSessionsOnOtherDays.toFixed(1)} on other days` +
         (lift !== null ? ` (${lift >= 0 ? '+' : ''}${lift}% lift)` : '') + '.'
     );
+    if (!l.loggedPostsInWindow) {
+      lines.push('Log individual posts (date + impressions) to add per-post click-through on top of the schedule correlation.');
+    }
   } else {
     lines.push(
-      'No LinkedIn posts logged for this period yet — tell Claude your post dates and impression counts to unlock the post-to-traffic correlation.'
+      'No LinkedIn posting schedule or logged posts — tell Claude your posting days or post stats to unlock the post-to-traffic correlation.'
     );
   }
   return lines;
@@ -491,7 +509,7 @@ export async function handleInsights(request, env) {
     search: gsc ? classifyQueries(gsc.queries) : null,
     searchUnavailable: gscError,
     weekday: weekdayPattern(dailyCurrent),
-    linkedin: postDayLift(linkedinLog.posts || [], linkedinDaily, dailyCurrent),
+    linkedin: postDayLift(linkedinLog.posts || [], linkedinLog.schedule || [], linkedinDaily, dailyCurrent),
     loggedPosts: (linkedinLog.posts || []).length,
     articles: articles.sort((a, b) => b.pageviews - a.pageviews).slice(0, 15),
   };
