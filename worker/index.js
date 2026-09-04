@@ -11,11 +11,13 @@ import { json } from './utils.js';
 import { handleGa4 } from './ga4.js';
 import { handleSearchConsole } from './search-console.js';
 import { handleCloudflareAnalytics } from './cf-analytics.js';
+import { handleInsights } from './insights.js';
 
 const routes = {
   '/api/ga4': handleGa4,
   '/api/search-console': handleSearchConsole,
   '/api/cloudflare': handleCloudflareAnalytics,
+  '/api/insights': handleInsights,
 };
 
 async function sha256(text) {

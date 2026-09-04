@@ -22,3 +22,21 @@ export function isoDate(deltaDays = 0) {
   const d = new Date(Date.now() + deltaDays * 86400000);
   return d.toISOString().slice(0, 10);
 }
+
+/**
+ * Fill a daily timeseries so every date in the last `days` days (UTC) is
+ * present, inserting zero-valued rows for dates the source omitted. Sources
+ * (GA4, Search Console, Cloudflare) all skip days with no traffic, which
+ * makes charts silently misrepresent the x-axis on low-traffic sites.
+ *
+ * rows: [{ date: 'yyyy-mm-dd', ...metrics }]; zeroRow: metrics for an empty day.
+ */
+export function fillDailySeries(rows, days, zeroRow) {
+  const byDate = new Map(rows.map((r) => [r.date, r]));
+  const filled = [];
+  for (let i = days; i >= 0; i--) {
+    const date = isoDate(-i);
+    filled.push(byDate.get(date) || { date, ...zeroRow });
+  }
+  return filled;
+}

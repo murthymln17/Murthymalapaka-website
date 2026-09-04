@@ -8,7 +8,7 @@
   var SERIES_2 = '#c98500';
   var DEMO = new URLSearchParams(location.search).has('demo');
 
-  var state = { days: 28, loading: false, data: { ga4: null, gsc: null, cf: null } };
+  var state = { days: 28, loading: false, data: { ga4: null, gsc: null, cf: null, insights: null } };
   var tooltip = document.getElementById('chart-tooltip');
 
   /* ---------- formatting ---------- */
@@ -327,7 +327,7 @@
     cardIds.forEach(function (id, i) {
       var card = document.getElementById(id);
       if (!card) return;
-      var slot = card.querySelector('[data-chart], [data-list]');
+      var slot = card.querySelector('[data-chart], [data-list], [data-brief], [data-table]');
       slot.textContent = '';
       if (i > 0) {
         slot.appendChild(el('p', 'chart-empty', notConfigured ? 'Not connected yet' : 'Unavailable'));
@@ -345,6 +345,152 @@
       }
       slot.appendChild(notice);
     });
+  }
+
+  /* ---------- insights (Objectives section) ---------- */
+
+  var INSIGHTS_CARDS = ['card-brief', 'card-weekday', 'card-exec', 'card-articles', 'card-posts'];
+
+  function fmtDelta(delta) {
+    if (delta == null) return '';
+    var pct = Math.round(delta * 100);
+    return (pct >= 0 ? '\u2191 ' : '\u2193 ') + Math.abs(pct) + '% vs prior period';
+  }
+
+  function renderFunnel(funnel) {
+    var grid = document.getElementById('funnel-grid');
+    grid.textContent = '';
+    var stages = [
+      {
+        label: 'Reach', value: funnel.reach.value, delta: funnel.reach.delta,
+        sub: fmtNum(funnel.reach.searchImpressions) + ' search impressions \u00b7 ' + fmtNum(funnel.reach.linkedinSessions) + ' LinkedIn visits',
+      },
+      {
+        label: 'Read', value: funnel.read.articleViews, delta: funnel.read.delta,
+        sub: fmtDur(funnel.read.avgEngagementSeconds) + ' avg. engagement \u00b7 ' + fmtNum(funnel.read.engagedSessions) + ' engaged sessions',
+      },
+      {
+        label: 'Connect', value: funnel.connect.value, delta: funnel.connect.delta,
+        sub: fmtNum(funnel.connect.contactViews) + ' contact views \u00b7 ' + fmtNum(funnel.connect.linkedinProfileClicks) + ' LinkedIn profile clicks',
+      },
+    ];
+    stages.forEach(function (st, i) {
+      var tile = el('div', 'funnel-stage');
+      tile.appendChild(el('span', 'kpi-label', st.label));
+      tile.appendChild(el('span', 'kpi-value', fmtNum(st.value)));
+      tile.appendChild(el('span', 'kpi-sub', st.sub));
+      var deltaText = fmtDelta(st.delta);
+      if (deltaText) tile.appendChild(el('span', 'funnel-delta', deltaText));
+      grid.appendChild(tile);
+      if (i < stages.length - 1) grid.appendChild(el('div', 'funnel-arrow', '\u2192'));
+    });
+  }
+
+  function renderInsights(data) {
+    var briefSlot = document.querySelector('#card-brief [data-brief]');
+    briefSlot.textContent = '';
+    var list = el('ul', 'brief-list');
+    (data.brief || []).forEach(function (line) {
+      list.appendChild(el('li', null, line));
+    });
+    briefSlot.appendChild(list);
+    briefSlot.appendChild(el('p', 'brief-source',
+      data.briefSource === 'claude'
+        ? 'Written by Claude from this period\u2019s data.'
+        : 'Computed from this period\u2019s data. Add an ANTHROPIC_API_KEY secret for a Claude-written brief.'));
+
+    renderFunnel(data.funnel);
+
+    renderBarList(listSlot('card-weekday'), data.weekday.pattern.map(function (d) {
+      return { label: d.day, value: Math.round(d.avgSessions * 10) / 10 };
+    }), function (v) { return v.toFixed(1); });
+
+    var execSlot = listSlot('card-exec');
+    execSlot.textContent = '';
+    if (data.search) {
+      var stat = el('p', 'exec-stat');
+      stat.appendChild(el('b', null, Math.round(data.search.executiveShare * 100) + '%'));
+      stat.appendChild(document.createTextNode(' of search impressions are executive-intent queries \u00b7 '));
+      stat.appendChild(el('b', null, Math.round(data.search.brandShare * 100) + '%'));
+      stat.appendChild(document.createTextNode(' are searches for your name.'));
+      execSlot.appendChild(stat);
+      var holder = el('div');
+      execSlot.appendChild(holder);
+      renderBarList(holder, data.search.topExecutiveQueries.map(function (q) {
+        return { label: q.query, value: q.impressions, sub: 'pos. ' + q.position.toFixed(1) };
+      }));
+    } else {
+      execSlot.appendChild(el('p', 'chart-empty', data.searchUnavailable
+        ? 'Search Console unavailable: ' + data.searchUnavailable
+        : 'Connect Search Console to classify your search reach.'));
+    }
+
+    var tableSlot = document.querySelector('#card-articles [data-table]');
+    tableSlot.textContent = '';
+    if (!data.articles.length) {
+      tableSlot.appendChild(el('p', 'chart-empty', 'No article traffic in this period yet.'));
+    } else {
+      var wrap = el('div', 'table-wrap');
+      var table = document.createElement('table');
+      table.className = 'insight-table';
+      var head = document.createElement('tr');
+      ['Article', 'Views', 'From LinkedIn', 'Search impr.', 'Search clicks', 'Avg. read'].forEach(function (h) {
+        head.appendChild(el('th', null, h));
+      });
+      table.appendChild(head);
+      data.articles.forEach(function (a) {
+        var tr = document.createElement('tr');
+        var titleCell = document.createElement('td');
+        var link = document.createElement('a');
+        link.href = a.path;
+        link.target = '_blank';
+        link.rel = 'noopener';
+        link.textContent = a.title || a.path;
+        titleCell.appendChild(link);
+        tr.appendChild(titleCell);
+        [fmtNum(a.pageviews), fmtNum(a.linkedinSessions), fmtNum(a.searchImpressions),
+         fmtNum(a.searchClicks), fmtDur(a.avgEngagementSeconds)].forEach(function (v) {
+          tr.appendChild(el('td', null, v));
+        });
+        table.appendChild(tr);
+      });
+      wrap.appendChild(table);
+      tableSlot.appendChild(wrap);
+    }
+
+    var postSlot = listSlot('card-posts');
+    postSlot.textContent = '';
+    if (data.linkedin) {
+      var l = data.linkedin;
+      var lift = l.avgSessionsOnOtherDays
+        ? Math.round(((l.avgSessionsOnPostDays - l.avgSessionsOnOtherDays) / l.avgSessionsOnOtherDays) * 100)
+        : null;
+      var summary = el('p', 'exec-stat');
+      summary.appendChild(document.createTextNode('Post days average '));
+      summary.appendChild(el('b', null, l.avgSessionsOnPostDays.toFixed(1)));
+      summary.appendChild(document.createTextNode(' sessions vs '));
+      summary.appendChild(el('b', null, l.avgSessionsOnOtherDays.toFixed(1)));
+      summary.appendChild(document.createTextNode(' on other days' + (lift !== null ? ' (' + (lift >= 0 ? '+' : '') + lift + '% lift)' : '') + '.'));
+      postSlot.appendChild(summary);
+      var holder2 = el('div');
+      postSlot.appendChild(holder2);
+      renderBarList(holder2, l.perPost.map(function (post) {
+        var subBits = [];
+        if (post.impressions != null) subBits.push(fmtNum(post.impressions) + ' LinkedIn impr.');
+        if (post.clickThroughRate != null) subBits.push(fmtPct(post.clickThroughRate) + ' click-through');
+        return {
+          label: fmtDate(post.date) + (post.topic ? ' \u00b7 ' + post.topic : ''),
+          value: post.linkedinSessionsNext48h,
+          sub: subBits.join(' \u00b7 ') || 'LinkedIn sessions within 48h',
+        };
+      }));
+    } else {
+      var note = el('div', 'setup-notice');
+      note.appendChild(el('strong', null, 'No LinkedIn posts logged for this period. '));
+      note.appendChild(document.createTextNode(
+        'LinkedIn\u2019s API doesn\u2019t expose personal post analytics, so this card runs on a post log you keep: after posting, tell a Claude Code session the date, linked article, and impression count \u2014 it updates the log and this card starts correlating posts to site traffic.'));
+      postSlot.appendChild(note);
+    }
   }
 
   /* ---------- renderers per source ---------- */
@@ -503,6 +649,13 @@
       if (!err || !err.auth) renderNotice(GSC_CARDS, err && err.error || 'Request failed.', err && err.notConfigured);
     });
 
+    var pIns = apiFetch('/api/insights?days=' + state.days).then(function (data) {
+      state.data.insights = data;
+      renderInsights(data);
+    }).catch(function (err) {
+      if (!err || !err.auth) renderNotice(INSIGHTS_CARDS, err && err.error || 'Request failed.', err && err.notConfigured);
+    });
+
     var pCf = apiFetch('/api/cloudflare?days=' + state.days).then(function (data) {
       state.data.cf = data;
       renderCf(data);
@@ -511,7 +664,7 @@
       if (!err || !err.auth) renderNotice(CF_CARDS, err && err.error || 'Request failed.', err && err.notConfigured);
     });
 
-    Promise.allSettled([pGa4, pGsc, pCf]).then(function () {
+    Promise.allSettled([pGa4, pGsc, pCf, pIns]).then(function () {
       renderKpis(results.ga4, results.gsc);
       setLoading(false);
       document.getElementById('dash-updated').textContent =
@@ -555,6 +708,7 @@
       if (state.data.ga4) renderGa4(state.data.ga4);
       if (state.data.gsc) renderGsc(state.data.gsc);
       if (state.data.cf) renderCf(state.data.cf);
+      if (state.data.insights) renderInsights(state.data.insights);
     }, 250);
   });
 
@@ -648,6 +802,51 @@
       { totals: { users: totalUsers, pageviews: totalViews, sessions: Math.round(totalUsers * 1.2), avgSessionDuration: 148 } },
       { totals: { clicks: totalClicks, impressions: totalImps, ctr: totalClicks / totalImps } }
     );
+    renderInsights({
+      briefSource: 'computed',
+      brief: [
+        'Reach: 1,240 (up 18% vs the prior 28 days) — 1,050 search impressions and 190 LinkedIn-sourced visits.',
+        'Read: 830 article views with 96s average engagement; 410 engaged sessions overall.',
+        'Connect: 31 actions — 22 contact-page views and 9 clicks through to your LinkedIn profile.',
+        '41% of search impressions come from executive-intent queries (top: \u201cai native operating model\u201d); 12% are people searching your name.',
+        'Traffic peaks on Tue and Wed. Across 3 logged LinkedIn posts, post days average 52.0 sessions vs 31.0 on other days (+68% lift).',
+      ],
+      funnel: {
+        reach: { value: 1240, searchImpressions: 1050, linkedinSessions: 190, delta: 0.18 },
+        read: { value: 830, articleViews: 830, engagedSessions: 410, avgEngagementSeconds: 96, delta: 0.22 },
+        connect: { value: 31, contactViews: 22, linkedinProfileClicks: 9, delta: null },
+      },
+      weekday: {
+        pattern: [
+          { day: 'Sun', avgSessions: 18 }, { day: 'Mon', avgSessions: 34 },
+          { day: 'Tue', avgSessions: 52 }, { day: 'Wed', avgSessions: 47 },
+          { day: 'Thu', avgSessions: 38 }, { day: 'Fri', avgSessions: 24 },
+          { day: 'Sat', avgSessions: 12 },
+        ],
+        bestDays: ['Tue', 'Wed'],
+      },
+      search: {
+        executiveShare: 0.41, brandShare: 0.12,
+        topExecutiveQueries: [
+          { query: 'ai native operating model', impressions: 610, position: 6.2 },
+          { query: 'forward deployed engineers it operations', impressions: 240, position: 11.4 },
+          { query: 'eliminate tickets before automating', impressions: 130, position: 14.9 },
+        ],
+      },
+      linkedin: {
+        postsInWindow: 3, avgSessionsOnPostDays: 52, avgSessionsOnOtherDays: 31,
+        perPost: [
+          { date: labels[labels.length - 3], topic: 'FDE article', impressions: 2300, linkedinSessionsNext48h: 41, clickThroughRate: 0.0178 },
+          { date: labels[Math.max(0, labels.length - 10)], topic: 'Usage bill', impressions: 1600, linkedinSessionsNext48h: 24, clickThroughRate: 0.015 },
+          { date: labels[Math.max(0, labels.length - 17)], topic: 'Governed digital labor', impressions: 900, linkedinSessionsNext48h: 11, clickThroughRate: 0.0122 },
+        ],
+      },
+      articles: [
+        { path: '/insights/it-operations-forward-deployed-engineers/', title: 'IT Operations Doesn\u2019t Need Forward-Deployed Engineers', pageviews: 214, linkedinSessions: 64, searchImpressions: 380, searchClicks: 21, avgEngagementSeconds: 208 },
+        { path: '/insights/ticket-factories/', title: 'Why Are We Still Building Ticket Factories?', pageviews: 156, linkedinSessions: 12, searchImpressions: 720, searchClicks: 38, avgEngagementSeconds: 187 },
+        { path: '/insights/ai-native-it-operations/', title: 'How AI-Native IT Operations Enable Peak Business Performance', pageviews: 121, linkedinSessions: 22, searchImpressions: 260, searchClicks: 12, avgEngagementSeconds: 173 },
+      ],
+    });
     document.getElementById('dash-updated').textContent = 'Demo data — remove ?demo=1 from the URL for live analytics.';
   }
 
