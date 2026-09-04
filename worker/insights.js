@@ -8,7 +8,10 @@
  *  - Reach → Read → Connect funnel with period-over-period deltas
  *  - Executive-intent share of search impressions (vocabulary match)
  *  - Per-article effectiveness (views, LinkedIn-sourced visits, search)
- *  - Day-of-week traffic pattern and LinkedIn post-day lift
+ *  - Day-of-week traffic pattern, LinkedIn post-day lift, and the
+ *    correlation between LinkedIn impressions and site sessions
+ *  - Audience quality: seniority of post viewers vs followers, from
+ *    LinkedIn's exported demographics (worker/linkedin-posts.json)
  *  - An advisor brief: deterministic narrative by default, written by
  *    Claude when the optional ANTHROPIC_API_KEY secret is configured.
  *
@@ -190,6 +193,69 @@ function classifyQueries(queries) {
   };
 }
 
+/** Sum a [{date, ...}] series over the last `days` days (UTC), inclusive. */
+function sumInWindow(rows, days, field) {
+  const start = isoDate(-days);
+  let total = 0;
+  let covered = 0;
+  for (const r of rows || []) {
+    if (r.date >= start) {
+      total += r[field] || 0;
+      covered += 1;
+    }
+  }
+  return { total, covered };
+}
+
+/** Pearson correlation of two aligned numeric arrays; null if too few points. */
+function pearson(xs, ys) {
+  const n = xs.length;
+  if (n < 10) return null;
+  const mx = xs.reduce((a, b) => a + b, 0) / n;
+  const my = ys.reduce((a, b) => a + b, 0) / n;
+  let num = 0, dx = 0, dy = 0;
+  for (let i = 0; i < n; i++) {
+    const a = xs[i] - mx, b = ys[i] - my;
+    num += a * b;
+    dx += a * a;
+    dy += b * b;
+  }
+  if (!dx || !dy) return null;
+  return num / Math.sqrt(dx * dy);
+}
+
+// Seniority bands that count as leadership for the executive-reach measure.
+const LEADERSHIP_BANDS = ['Director', 'VP', 'CXO', 'Owner', 'Partner'];
+
+/**
+ * Executive reach from LinkedIn's demographic breakdowns: what share of the
+ * people who SEE the posts (content) and who follow the profile (audience)
+ * sit at Director level or above. This is the only direct read on seniority —
+ * no web analytics can see a visitor's job title.
+ */
+function audienceQuality(demographics, asOf) {
+  if (!demographics) return null;
+  const band = (block) => {
+    if (!block?.seniority) return null;
+    const rows = block.seniority;
+    const share = rows
+      .filter((r) => LEADERSHIP_BANDS.includes(r.label))
+      .reduce((a, r) => a + r.pct, 0) / 100;
+    return {
+      label: block.label,
+      leadershipShare: share,
+      cxoShare: (rows.find((r) => r.label === 'CXO')?.pct || 0) / 100,
+      seniority: rows,
+      topCompanies: (block.companies || []).slice(0, 6),
+      topIndustries: (block.industries || []).slice(0, 4),
+    };
+  };
+  const content = band(demographics.content);
+  const audience = band(demographics.audience);
+  if (!content && !audience) return null;
+  return { asOf: asOf || null, content, audience };
+}
+
 function weekdayPattern(daily) {
   const sums = Array(7).fill(0), counts = Array(7).fill(0);
   for (const d of daily) {
@@ -205,7 +271,7 @@ function weekdayPattern(daily) {
   return { pattern, bestDays: ranked.slice(0, 2).filter((d) => d.avgSessions > 0).map((d) => d.day) };
 }
 
-function postDayLift(posts, schedule, dailyLinkedin, dailyAll) {
+function postDayLift(posts, schedule, dailyLinkedin, dailyAll, exportDaily) {
   const loggedByDate = new Map(
     posts.filter((p) => dailyAll.some((d) => d.date === p.date)).map((p) => [p.date, p])
   );
@@ -237,11 +303,20 @@ function postDayLift(posts, schedule, dailyLinkedin, dailyAll) {
       topic: logged?.topic || null,
       articlePath: logged?.articlePath || null,
       impressions: logged?.impressions ?? null,
+      engagements: logged?.engagements ?? null,
       linkedinSessionsNext48h: li48,
       siteSessionsNext48h: (allSessions.get(date) || 0) + (allSessions.get(isoNext(date)) || 0),
       clickThroughRate: logged?.impressions ? li48 / logged.impressions : null,
     };
   });
+
+  // Correlate LinkedIn impressions with site sessions on the same dates.
+  const exportByDate = new Map((exportDaily || []).map((d) => [d.date, d.impressions]));
+  const pairs = dailyAll.filter((d) => exportByDate.has(d.date));
+  const impressionsTrafficCorrelation = pearson(
+    pairs.map((d) => exportByDate.get(d.date)),
+    pairs.map((d) => d.sessions)
+  );
 
   return {
     scheduleDays: [...scheduleIdx].sort().map((i) => WEEKDAYS[i]),
@@ -249,6 +324,8 @@ function postDayLift(posts, schedule, dailyLinkedin, dailyAll) {
     loggedPostsInWindow: loggedByDate.size,
     avgSessionsOnPostDays: postDayCount ? postDayTotal / postDayCount : 0,
     avgSessionsOnOtherDays: otherCount ? otherTotal / otherCount : 0,
+    impressionsTrafficCorrelation,
+    correlationDays: pairs.length,
     perPost,
   };
 }
@@ -288,9 +365,17 @@ function fmtPctDelta(delta) {
 function buildBrief(ins, days) {
   const lines = [];
   const f = ins.funnel;
+  const reachBits = [`${f.reach.searchImpressions.toLocaleString('en-US')} search impressions`];
+  if (f.reach.linkedinImpressions) {
+    reachBits.push(`${f.reach.linkedinImpressions.toLocaleString('en-US')} LinkedIn impressions`);
+  }
+  reachBits.push(`${f.reach.linkedinSessions} LinkedIn-sourced visits`);
   lines.push(
     `Reach: ${f.reach.value.toLocaleString('en-US')} (${fmtPctDelta(f.reach.delta)} vs the prior ${days} days) — ` +
-      `${f.reach.searchImpressions.toLocaleString('en-US')} search impressions and ${f.reach.linkedinSessions} LinkedIn-sourced visits.`
+      `${reachBits.join(', ')}.` +
+      (f.reach.exportStale && f.reach.exportAsOf
+        ? ` LinkedIn impressions only cover up to ${f.reach.exportAsOf} — refresh the export for a full picture.`
+        : '')
   );
   lines.push(
     `Read: ${f.read.articleViews} article views with ${Math.round(f.read.avgEngagementSeconds)}s average engagement; ` +
@@ -298,7 +383,13 @@ function buildBrief(ins, days) {
   );
   const connectBits = [`${f.connect.contactViews} contact-page views`];
   if (f.connect.linkedinProfileClicks) connectBits.push(`${f.connect.linkedinProfileClicks} clicks through to your LinkedIn profile`);
-  lines.push(`Connect: ${f.connect.value} actions — ${connectBits.join(' and ')}.`);
+  if (f.connect.followersGained) {
+    connectBits.push(
+      `${f.connect.followersGained} new LinkedIn followers` +
+        (f.connect.followersTotal ? ` (${f.connect.followersTotal} total)` : '')
+    );
+  }
+  lines.push(`Connect: ${f.connect.value} actions — ${connectBits.join(', ')}.`);
   if (ins.search) {
     const s = ins.search;
     lines.push(
@@ -309,6 +400,34 @@ function buildBrief(ins, days) {
   }
   if (ins.weekday.bestDays.length) {
     lines.push(`Traffic peaks on ${ins.weekday.bestDays.join(' and ')}.`);
+  }
+  if (ins.audienceQuality?.content) {
+    const c = ins.audienceQuality.content;
+    const a = ins.audienceQuality.audience;
+    let line =
+      `${Math.round(c.leadershipShare * 100)}% of the people who see your posts are Director-level or above ` +
+      `(${Math.round(c.cxoShare * 100)}% CXO)`;
+    if (a) {
+      line += `, versus ${Math.round(a.leadershipShare * 100)}% of your followers — ` +
+        (a.leadershipShare > c.leadershipShare
+          ? 'your follower base is more senior than the audience your posts actually reach'
+          : 'your posts are reaching a more senior audience than your follower base');
+    }
+    lines.push(line + '.');
+    if (c.topCompanies?.length) {
+      lines.push(
+        `Top employers among post viewers: ${c.topCompanies.slice(0, 4).map((x) => x.label).join(', ')}.`
+      );
+    }
+  }
+  if (ins.linkedin?.impressionsTrafficCorrelation != null) {
+    const r = ins.linkedin.impressionsTrafficCorrelation;
+    const strength = Math.abs(r) >= 0.5 ? 'strong' : Math.abs(r) >= 0.3 ? 'moderate' : 'weak';
+    lines.push(
+      `LinkedIn impressions and site sessions show a ${strength} ${r >= 0 ? 'positive' : 'negative'} ` +
+        `correlation (r = ${r.toFixed(2)} across ${ins.linkedin.correlationDays} days)` +
+        (Math.abs(r) < 0.3 ? ' — impressions are not yet translating into visits.' : '.')
+    );
   }
   if (ins.linkedin) {
     const l = ins.linkedin;
@@ -352,6 +471,7 @@ async function claudeBrief(env, ins, days) {
     },
     weekday: ins.weekday,
     linkedin: ins.linkedin,
+    audienceQuality: ins.audienceQuality,
     topArticles: ins.articles.slice(0, 8),
   };
 
@@ -494,8 +614,31 @@ export async function handleInsights(request, env) {
   });
 
   const searchImpressions = gsc?.totals.impressions ?? 0;
-  const reachValue = searchImpressions + linkedinSessions;
-  const prevReach = gsc ? gsc.previousTotals.impressions : null;
+
+  // LinkedIn export: impressions and follower growth inside the window.
+  const exportData = linkedinLog.export || null;
+  const exportDaily = exportData?.daily || [];
+  const liImpr = sumInWindow(exportDaily, days, 'impressions');
+  const liImprPrev = (() => {
+    const start = isoDate(-2 * days);
+    const end = isoDate(-days - 1);
+    let total = 0, covered = 0;
+    for (const r of exportDaily) {
+      if (r.date >= start && r.date <= end) { total += r.impressions || 0; covered += 1; }
+    }
+    return { total, covered };
+  })();
+  const followersGained = sumInWindow(exportData?.followers?.daily || [], days, 'gained').total;
+  // The export is a periodic snapshot; if it does not cover most of the
+  // window, report its contribution but flag the partial coverage.
+  const exportCoverage = days ? liImpr.covered / days : 0;
+  const linkedinImpressions = liImpr.total;
+
+  const reachValue = searchImpressions + linkedinImpressions + linkedinSessions;
+  const prevReach =
+    gsc || liImprPrev.covered
+      ? (gsc ? gsc.previousTotals.impressions : 0) + liImprPrev.total
+      : null;
 
   const insights = {
     days,
@@ -503,10 +646,12 @@ export async function handleInsights(request, env) {
       reach: {
         value: reachValue,
         searchImpressions,
+        linkedinImpressions,
         linkedinSessions,
-        // Delta uses search impressions only when GSC history exists; the
-        // LinkedIn component has no per-period baseline of its own.
-        delta: gsc ? pctChange(searchImpressions, prevReach) : null,
+        exportCoverage,
+        exportStale: exportCoverage < 0.5,
+        exportAsOf: exportData?.range?.end || null,
+        delta: prevReach ? pctChange(searchImpressions + linkedinImpressions, prevReach) : null,
       },
       read: {
         value: articleViews,
@@ -516,9 +661,11 @@ export async function handleInsights(request, env) {
         delta: pctChange(curTotals.pageviews, prevTotals.pageviews),
       },
       connect: {
-        value: contactViews + linkedinProfileClicks,
+        value: contactViews + linkedinProfileClicks + followersGained,
         contactViews,
         linkedinProfileClicks,
+        followersGained,
+        followersTotal: exportData?.followers?.total ?? null,
         delta: null,
       },
     },
@@ -529,7 +676,14 @@ export async function handleInsights(request, env) {
     search: gsc ? classifyQueries(gsc.queries) : null,
     searchUnavailable: gscError,
     weekday: weekdayPattern(dailyCurrent),
-    linkedin: postDayLift(linkedinLog.posts || [], linkedinLog.schedule || [], linkedinDaily, dailyCurrent),
+    linkedin: postDayLift(
+      linkedinLog.posts || [],
+      linkedinLog.schedule || [],
+      linkedinDaily,
+      dailyCurrent,
+      exportDaily
+    ),
+    audienceQuality: audienceQuality(exportData?.demographics, exportData?.range?.end),
     loggedPosts: (linkedinLog.posts || []).length,
     articles: articles.sort((a, b) => b.pageviews - a.pageviews).slice(0, 15),
   };

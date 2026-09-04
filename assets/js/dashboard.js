@@ -349,7 +349,7 @@
 
   /* ---------- insights (Objectives section) ---------- */
 
-  var INSIGHTS_CARDS = ['card-brief', 'card-weekday', 'card-exec', 'card-articles', 'card-posts'];
+  var INSIGHTS_CARDS = ['card-brief', 'card-weekday', 'card-exec', 'card-audience', 'card-articles', 'card-posts'];
 
   function fmtDelta(delta) {
     if (delta == null) return '';
@@ -363,7 +363,12 @@
     var stages = [
       {
         label: 'Reach', value: funnel.reach.value, delta: funnel.reach.delta,
-        sub: fmtNum(funnel.reach.searchImpressions) + ' search impressions \u00b7 ' + fmtNum(funnel.reach.linkedinSessions) + ' LinkedIn visits',
+        sub: fmtNum(funnel.reach.searchImpressions) + ' search impr. \u00b7 '
+          + (funnel.reach.linkedinImpressions ? fmtNum(funnel.reach.linkedinImpressions) + ' LinkedIn impr. \u00b7 ' : '')
+          + fmtNum(funnel.reach.linkedinSessions) + ' LinkedIn visits',
+        note: funnel.reach.exportStale && funnel.reach.exportAsOf
+          ? 'LinkedIn impressions only through ' + fmtDate(funnel.reach.exportAsOf) + ' \u2014 refresh the export'
+          : null,
       },
       {
         label: 'Read', value: funnel.read.articleViews, delta: funnel.read.delta,
@@ -371,7 +376,9 @@
       },
       {
         label: 'Connect', value: funnel.connect.value, delta: funnel.connect.delta,
-        sub: fmtNum(funnel.connect.contactViews) + ' contact views \u00b7 ' + fmtNum(funnel.connect.linkedinProfileClicks) + ' LinkedIn profile clicks',
+        sub: fmtNum(funnel.connect.contactViews) + ' contact views \u00b7 '
+          + fmtNum(funnel.connect.linkedinProfileClicks) + ' profile clicks'
+          + (funnel.connect.followersGained ? ' \u00b7 ' + fmtNum(funnel.connect.followersGained) + ' new followers' : ''),
       },
     ];
     var stageStatuses = [funnel.reach.status, funnel.read.status, funnel.connect.status];
@@ -392,9 +399,59 @@
       tile.appendChild(el('span', 'kpi-sub', st.sub));
       var deltaText = fmtDelta(st.delta);
       if (deltaText) tile.appendChild(el('span', 'funnel-delta', deltaText));
+      if (st.note) tile.appendChild(el('span', 'funnel-note', st.note));
       grid.appendChild(tile);
       if (i < stages.length - 1) grid.appendChild(el('div', 'funnel-arrow', '\u2192'));
     });
+  }
+
+  function renderAudienceQuality(slot, aq) {
+    slot.textContent = '';
+    if (!aq || !aq.content) {
+      slot.appendChild(el('p', 'chart-empty',
+        'Send a LinkedIn analytics export to a Claude session to populate viewer demographics.'));
+      return;
+    }
+    var c = aq.content;
+    var a = aq.audience;
+
+    var stat = el('p', 'exec-stat');
+    stat.appendChild(el('b', null, Math.round(c.leadershipShare * 100) + '%'));
+    stat.appendChild(document.createTextNode(' of post viewers are Director-level or above ('));
+    stat.appendChild(el('b', null, Math.round(c.cxoShare * 100) + '%'));
+    stat.appendChild(document.createTextNode(' CXO)'));
+    if (a) {
+      stat.appendChild(document.createTextNode(' \u00b7 followers: '));
+      stat.appendChild(el('b', null, Math.round(a.leadershipShare * 100) + '%'));
+      stat.appendChild(document.createTextNode(' leadership, '));
+      stat.appendChild(el('b', null, Math.round(a.cxoShare * 100) + '%'));
+      stat.appendChild(document.createTextNode(' CXO.'));
+    }
+    slot.appendChild(stat);
+
+    var cols = el('div', 'audience-cols');
+    [
+      { title: 'Seniority of post viewers', rows: c.seniority, suffix: '%' },
+      a ? { title: 'Seniority of followers', rows: a.seniority, suffix: '%' } : null,
+      c.topCompanies && c.topCompanies.length
+        ? { title: 'Where post viewers work', rows: c.topCompanies, suffix: '%' } : null,
+    ].filter(Boolean).forEach(function (col) {
+      var box = el('div', 'audience-col');
+      box.appendChild(el('h4', null, col.title));
+      var holder = el('div');
+      box.appendChild(holder);
+      renderBarList(holder, col.rows.map(function (r) {
+        return { label: r.label, value: r.pct };
+      }), function (v) { return v + col.suffix; });
+      cols.appendChild(box);
+    });
+    slot.appendChild(cols);
+
+    if (aq.asOf) {
+      slot.appendChild(el('p', 'dash-note',
+        'From LinkedIn\u2019s analytics export, as of ' + fmtDate(aq.asOf)
+          + '. LinkedIn is the only source that reports viewer seniority \u2014 refresh by sending a new export.'));
+    }
   }
 
   function renderInsights(data) {
@@ -435,6 +492,8 @@
         ? 'Search Console unavailable: ' + data.searchUnavailable
         : 'Connect Search Console to classify your search reach.'));
     }
+
+    renderAudienceQuality(listSlot('card-audience'), data.audienceQuality);
 
     var tableSlot = document.querySelector('#card-articles [data-table]');
     tableSlot.textContent = '';
@@ -484,6 +543,15 @@
       summary.appendChild(el('b', null, l.avgSessionsOnOtherDays.toFixed(1)));
       summary.appendChild(document.createTextNode(' on other days' + (lift !== null ? ' (' + (lift >= 0 ? '+' : '') + lift + '% lift)' : '') + '.'));
       postSlot.appendChild(summary);
+      if (l.impressionsTrafficCorrelation != null) {
+        var r = l.impressionsTrafficCorrelation;
+        var strength = Math.abs(r) >= 0.5 ? 'strong' : Math.abs(r) >= 0.3 ? 'moderate' : 'weak';
+        var corr = el('p', 'exec-stat');
+        corr.appendChild(document.createTextNode('LinkedIn impressions vs site sessions: '));
+        corr.appendChild(el('b', null, strength + ' ' + (r >= 0 ? 'positive' : 'negative') + ' correlation'));
+        corr.appendChild(document.createTextNode(' (r = ' + r.toFixed(2) + ' across ' + l.correlationDays + ' days).'));
+        postSlot.appendChild(corr);
+      }
       var holder2 = el('div');
       postSlot.appendChild(holder2);
       renderBarList(holder2, l.perPost.map(function (post) {
@@ -821,12 +889,13 @@
         'Read: 830 article views with 96s average engagement; 410 engaged sessions overall.',
         'Connect: 31 actions — 22 contact-page views and 9 clicks through to your LinkedIn profile.',
         '41% of search impressions come from executive-intent queries (top: \u201cai native operating model\u201d); 12% are people searching your name.',
-        'Traffic peaks on Tue and Wed. Across 3 logged LinkedIn posts, post days average 52.0 sessions vs 31.0 on other days (+68% lift).',
+        '27% of the people who see your posts are Director-level or above (3% CXO), versus 43% of your followers \u2014 your follower base is more senior than the audience your posts actually reach.',
+        'Traffic peaks on Tue and Wed. Post days (Mon & Thu) average 52.0 sessions vs 31.0 on other days (+68% lift).',
       ],
       funnel: {
-        reach: { value: 1240, searchImpressions: 1050, linkedinSessions: 190, delta: 0.18, status: { level: 'green', label: 'On track', reason: 'Growing vs the prior period' } },
+        reach: { value: 4290, searchImpressions: 1050, linkedinImpressions: 3050, linkedinSessions: 190, exportCoverage: 1, exportStale: false, exportAsOf: '2026-09-04', delta: 0.18, status: { level: 'green', label: 'On track', reason: 'Growing vs the prior period' } },
         read: { value: 830, articleViews: 830, engagedSessions: 410, avgEngagementSeconds: 96, delta: 0.22, status: { level: 'green', label: 'On track', reason: 'Growing vs the prior period' } },
-        connect: { value: 31, contactViews: 22, linkedinProfileClicks: 9, delta: null, status: { level: 'amber', label: 'Watch', reason: 'Active, but no prior-period baseline to judge against yet' } },
+        connect: { value: 42, contactViews: 22, linkedinProfileClicks: 9, followersGained: 11, followersTotal: 571, delta: null, status: { level: 'amber', label: 'Watch', reason: 'Active, but no prior-period baseline to judge against yet' } },
       },
       weekday: {
         pattern: [
@@ -846,12 +915,36 @@
         ],
       },
       linkedin: {
-        scheduleDays: ['Mon', 'Thu'], postsInWindow: 8, loggedPostsInWindow: 3, avgSessionsOnPostDays: 52, avgSessionsOnOtherDays: 31,
+        scheduleDays: ['Mon', 'Thu'], postsInWindow: 8, loggedPostsInWindow: 3, avgSessionsOnPostDays: 52, avgSessionsOnOtherDays: 31, impressionsTrafficCorrelation: 0.41, correlationDays: 28,
         perPost: [
           { date: labels[labels.length - 3], topic: 'FDE article', impressions: 2300, linkedinSessionsNext48h: 41, clickThroughRate: 0.0178 },
           { date: labels[Math.max(0, labels.length - 10)], topic: 'Usage bill', impressions: 1600, linkedinSessionsNext48h: 24, clickThroughRate: 0.015 },
           { date: labels[Math.max(0, labels.length - 17)], topic: 'Governed digital labor', impressions: 900, linkedinSessionsNext48h: 11, clickThroughRate: 0.0122 },
         ],
+      },
+      audienceQuality: {
+        asOf: '2026-09-04',
+        content: {
+          label: 'Post viewers', leadershipShare: 0.27, cxoShare: 0.03,
+          seniority: [
+            { label: 'Senior', pct: 38 }, { label: 'Entry', pct: 15 }, { label: 'Director', pct: 14 },
+            { label: 'Manager', pct: 11 }, { label: 'VP', pct: 6 }, { label: 'CXO', pct: 3 },
+            { label: 'Owner', pct: 2 }, { label: 'Partner', pct: 2 },
+          ],
+          topCompanies: [
+            { label: 'Tata Consultancy Services', pct: 8 }, { label: 'ServiceNow', pct: 5 },
+            { label: 'Cognizant', pct: 2 }, { label: 'Accenture', pct: 2 }, { label: 'Deloitte', pct: 1 },
+          ],
+        },
+        audience: {
+          label: 'Followers', leadershipShare: 0.43, cxoShare: 0.09,
+          seniority: [
+            { label: 'Senior', pct: 32 }, { label: 'Director', pct: 16 }, { label: 'VP', pct: 10 },
+            { label: 'CXO', pct: 9 }, { label: 'Entry', pct: 8 }, { label: 'Manager', pct: 7 },
+            { label: 'Owner', pct: 4 }, { label: 'Partner', pct: 4 },
+          ],
+          topCompanies: [{ label: 'Microland Limited', pct: 2 }, { label: 'Wipro', pct: 2 }],
+        },
       },
       articles: [
         { path: '/insights/it-operations-forward-deployed-engineers/', title: 'IT Operations Doesn\u2019t Need Forward-Deployed Engineers', pageviews: 214, linkedinSessions: 64, searchImpressions: 380, searchClicks: 21, avgEngagementSeconds: 208 },

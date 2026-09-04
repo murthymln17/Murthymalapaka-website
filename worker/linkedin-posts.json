@@ -1,5 +1,1282 @@
 {
-  "_readme": "Manually maintained LinkedIn post log — LinkedIn's API does not expose personal post analytics, so numbers come from the LinkedIn app (open a post → View analytics). To update: tell a Claude Code session your post date, the article it links to, and its impression/reaction counts; it edits this file and merges. Fields: date (yyyy-mm-dd, the day the post went live), articlePath (site path the post links to, or null), topic (short label), impressions, reactions, comments (as of last check). 'schedule' lists standing posting weekdays (Sun..Sat) — every such day counts as a post day for the traffic correlation even without a logged entry; logged posts add impressions and click-through detail on top.",
-  "schedule": ["Mon", "Thu"],
-  "posts": []
+  "_readme": "LinkedIn data for the dashboard's Objectives section. LinkedIn's API does not expose personal post analytics without an approved developer app, so this file is refreshed from LinkedIn's own export: Analytics -> Export (an .xlsx with Discovery / Engagement / Top Posts / Followers / Audience Demographics / Content Demographics tabs). To refresh: send the export (or screenshots of its tabs) to a Claude Code session and ask it to update this file -- it replaces 'export' and merges 'posts'. 'schedule' lists standing posting weekdays (Sun..Sat); every such day counts as a post day for the traffic correlation even without a logged entry. Percentages recorded as '<1%' are stored as 0.5.",
+  "schedule": [
+    "Mon",
+    "Thu"
+  ],
+  "export": {
+    "source": "LinkedIn aggregate analytics export",
+    "range": {
+      "start": "2026-06-07",
+      "end": "2026-09-04"
+    },
+    "totals": {
+      "impressions": 10467,
+      "membersReached": 5647
+    },
+    "daily": [
+      {
+        "date": "2026-06-07",
+        "impressions": 7,
+        "engagements": 0
+      },
+      {
+        "date": "2026-06-08",
+        "impressions": 80,
+        "engagements": 1
+      },
+      {
+        "date": "2026-06-09",
+        "impressions": 66,
+        "engagements": 3
+      },
+      {
+        "date": "2026-06-10",
+        "impressions": 133,
+        "engagements": 5
+      },
+      {
+        "date": "2026-06-11",
+        "impressions": 115,
+        "engagements": 0
+      },
+      {
+        "date": "2026-06-12",
+        "impressions": 138,
+        "engagements": 1
+      },
+      {
+        "date": "2026-06-13",
+        "impressions": 25,
+        "engagements": 0
+      },
+      {
+        "date": "2026-06-14",
+        "impressions": 8,
+        "engagements": 0
+      },
+      {
+        "date": "2026-06-15",
+        "impressions": 98,
+        "engagements": 1
+      },
+      {
+        "date": "2026-06-16",
+        "impressions": 42,
+        "engagements": 1
+      },
+      {
+        "date": "2026-06-17",
+        "impressions": 17,
+        "engagements": 0
+      },
+      {
+        "date": "2026-06-18",
+        "impressions": 38,
+        "engagements": 0
+      },
+      {
+        "date": "2026-06-19",
+        "impressions": 11,
+        "engagements": 0
+      },
+      {
+        "date": "2026-06-20",
+        "impressions": 21,
+        "engagements": 1
+      },
+      {
+        "date": "2026-06-21",
+        "impressions": 22,
+        "engagements": 0
+      },
+      {
+        "date": "2026-06-22",
+        "impressions": 136,
+        "engagements": 6
+      },
+      {
+        "date": "2026-06-23",
+        "impressions": 96,
+        "engagements": 3
+      },
+      {
+        "date": "2026-06-24",
+        "impressions": 20,
+        "engagements": 0
+      },
+      {
+        "date": "2026-06-25",
+        "impressions": 76,
+        "engagements": 2
+      },
+      {
+        "date": "2026-06-26",
+        "impressions": 20,
+        "engagements": 1
+      },
+      {
+        "date": "2026-06-27",
+        "impressions": 15,
+        "engagements": 0
+      },
+      {
+        "date": "2026-06-28",
+        "impressions": 5,
+        "engagements": 0
+      },
+      {
+        "date": "2026-06-29",
+        "impressions": 119,
+        "engagements": 0
+      },
+      {
+        "date": "2026-06-30",
+        "impressions": 33,
+        "engagements": 0
+      },
+      {
+        "date": "2026-07-01",
+        "impressions": 21,
+        "engagements": 0
+      },
+      {
+        "date": "2026-07-02",
+        "impressions": 63,
+        "engagements": 1
+      },
+      {
+        "date": "2026-07-03",
+        "impressions": 13,
+        "engagements": 0
+      },
+      {
+        "date": "2026-07-04",
+        "impressions": 22,
+        "engagements": 1
+      },
+      {
+        "date": "2026-07-05",
+        "impressions": 11,
+        "engagements": 0
+      },
+      {
+        "date": "2026-07-06",
+        "impressions": 130,
+        "engagements": 11
+      },
+      {
+        "date": "2026-07-07",
+        "impressions": 94,
+        "engagements": 3
+      },
+      {
+        "date": "2026-07-08",
+        "impressions": 31,
+        "engagements": 1
+      },
+      {
+        "date": "2026-07-09",
+        "impressions": 73,
+        "engagements": 0
+      },
+      {
+        "date": "2026-07-10",
+        "impressions": 31,
+        "engagements": 0
+      },
+      {
+        "date": "2026-07-11",
+        "impressions": 11,
+        "engagements": 0
+      },
+      {
+        "date": "2026-07-12",
+        "impressions": 15,
+        "engagements": 0
+      },
+      {
+        "date": "2026-07-13",
+        "impressions": 55,
+        "engagements": 3
+      },
+      {
+        "date": "2026-07-14",
+        "impressions": 206,
+        "engagements": 5
+      },
+      {
+        "date": "2026-07-15",
+        "impressions": 381,
+        "engagements": 1
+      },
+      {
+        "date": "2026-07-16",
+        "impressions": 825,
+        "engagements": 6
+      },
+      {
+        "date": "2026-07-17",
+        "impressions": 663,
+        "engagements": 6
+      },
+      {
+        "date": "2026-07-18",
+        "impressions": 365,
+        "engagements": 0
+      },
+      {
+        "date": "2026-07-19",
+        "impressions": 484,
+        "engagements": 1
+      },
+      {
+        "date": "2026-07-20",
+        "impressions": 860,
+        "engagements": 4
+      },
+      {
+        "date": "2026-07-21",
+        "impressions": 452,
+        "engagements": 2
+      },
+      {
+        "date": "2026-07-22",
+        "impressions": 151,
+        "engagements": 0
+      },
+      {
+        "date": "2026-07-23",
+        "impressions": 120,
+        "engagements": 1
+      },
+      {
+        "date": "2026-07-24",
+        "impressions": 314,
+        "engagements": 2
+      },
+      {
+        "date": "2026-07-25",
+        "impressions": 209,
+        "engagements": 1
+      },
+      {
+        "date": "2026-07-26",
+        "impressions": 163,
+        "engagements": 1
+      },
+      {
+        "date": "2026-07-27",
+        "impressions": 258,
+        "engagements": 6
+      },
+      {
+        "date": "2026-07-28",
+        "impressions": 187,
+        "engagements": 3
+      },
+      {
+        "date": "2026-07-29",
+        "impressions": 104,
+        "engagements": 1
+      },
+      {
+        "date": "2026-07-30",
+        "impressions": 142,
+        "engagements": 3
+      },
+      {
+        "date": "2026-07-31",
+        "impressions": 117,
+        "engagements": 0
+      },
+      {
+        "date": "2026-08-01",
+        "impressions": 39,
+        "engagements": 0
+      },
+      {
+        "date": "2026-08-02",
+        "impressions": 20,
+        "engagements": 0
+      },
+      {
+        "date": "2026-08-03",
+        "impressions": 132,
+        "engagements": 2
+      },
+      {
+        "date": "2026-08-04",
+        "impressions": 79,
+        "engagements": 0
+      },
+      {
+        "date": "2026-08-05",
+        "impressions": 52,
+        "engagements": 2
+      },
+      {
+        "date": "2026-08-06",
+        "impressions": 79,
+        "engagements": 1
+      },
+      {
+        "date": "2026-08-07",
+        "impressions": 157,
+        "engagements": 1
+      },
+      {
+        "date": "2026-08-08",
+        "impressions": 101,
+        "engagements": 0
+      },
+      {
+        "date": "2026-08-09",
+        "impressions": 71,
+        "engagements": 0
+      },
+      {
+        "date": "2026-08-10",
+        "impressions": 106,
+        "engagements": 2
+      },
+      {
+        "date": "2026-08-11",
+        "impressions": 61,
+        "engagements": 1
+      },
+      {
+        "date": "2026-08-12",
+        "impressions": 30,
+        "engagements": 1
+      },
+      {
+        "date": "2026-08-13",
+        "impressions": 70,
+        "engagements": 2
+      },
+      {
+        "date": "2026-08-14",
+        "impressions": 38,
+        "engagements": 4
+      },
+      {
+        "date": "2026-08-15",
+        "impressions": 13,
+        "engagements": 0
+      },
+      {
+        "date": "2026-08-16",
+        "impressions": 3,
+        "engagements": 0
+      },
+      {
+        "date": "2026-08-17",
+        "impressions": 71,
+        "engagements": 3
+      },
+      {
+        "date": "2026-08-18",
+        "impressions": 41,
+        "engagements": 3
+      },
+      {
+        "date": "2026-08-19",
+        "impressions": 233,
+        "engagements": 3
+      },
+      {
+        "date": "2026-08-20",
+        "impressions": 61,
+        "engagements": 1
+      },
+      {
+        "date": "2026-08-21",
+        "impressions": 45,
+        "engagements": 3
+      },
+      {
+        "date": "2026-08-22",
+        "impressions": 9,
+        "engagements": 0
+      },
+      {
+        "date": "2026-08-23",
+        "impressions": 15,
+        "engagements": 0
+      },
+      {
+        "date": "2026-08-24",
+        "impressions": 141,
+        "engagements": 5
+      },
+      {
+        "date": "2026-08-25",
+        "impressions": 28,
+        "engagements": 0
+      },
+      {
+        "date": "2026-08-26",
+        "impressions": 23,
+        "engagements": 0
+      },
+      {
+        "date": "2026-08-27",
+        "impressions": 84,
+        "engagements": 3
+      },
+      {
+        "date": "2026-08-28",
+        "impressions": 24,
+        "engagements": 1
+      },
+      {
+        "date": "2026-08-29",
+        "impressions": 10,
+        "engagements": 0
+      },
+      {
+        "date": "2026-08-30",
+        "impressions": 229,
+        "engagements": 2
+      },
+      {
+        "date": "2026-08-31",
+        "impressions": 196,
+        "engagements": 2
+      },
+      {
+        "date": "2026-09-01",
+        "impressions": 59,
+        "engagements": 4
+      },
+      {
+        "date": "2026-09-02",
+        "impressions": 39,
+        "engagements": 0
+      },
+      {
+        "date": "2026-09-03",
+        "impressions": 148,
+        "engagements": 1
+      },
+      {
+        "date": "2026-09-04",
+        "impressions": 48,
+        "engagements": 10
+      }
+    ],
+    "followers": {
+      "total": 571,
+      "asOf": "2026-09-04",
+      "daily": [
+        {
+          "date": "2026-06-09",
+          "gained": 12
+        },
+        {
+          "date": "2026-06-10",
+          "gained": 2
+        },
+        {
+          "date": "2026-06-16",
+          "gained": 1
+        },
+        {
+          "date": "2026-06-23",
+          "gained": 2
+        },
+        {
+          "date": "2026-06-24",
+          "gained": 2
+        },
+        {
+          "date": "2026-07-06",
+          "gained": 4
+        },
+        {
+          "date": "2026-07-07",
+          "gained": 1
+        },
+        {
+          "date": "2026-07-10",
+          "gained": 1
+        },
+        {
+          "date": "2026-07-11",
+          "gained": 1
+        },
+        {
+          "date": "2026-07-13",
+          "gained": 2
+        },
+        {
+          "date": "2026-07-15",
+          "gained": 1
+        },
+        {
+          "date": "2026-07-16",
+          "gained": 2
+        },
+        {
+          "date": "2026-07-17",
+          "gained": 2
+        },
+        {
+          "date": "2026-07-18",
+          "gained": 1
+        },
+        {
+          "date": "2026-07-19",
+          "gained": 1
+        },
+        {
+          "date": "2026-07-20",
+          "gained": 1
+        },
+        {
+          "date": "2026-07-22",
+          "gained": 1
+        },
+        {
+          "date": "2026-07-26",
+          "gained": 1
+        },
+        {
+          "date": "2026-07-30",
+          "gained": 1
+        },
+        {
+          "date": "2026-08-08",
+          "gained": 1
+        },
+        {
+          "date": "2026-08-09",
+          "gained": 3
+        },
+        {
+          "date": "2026-08-13",
+          "gained": 1
+        },
+        {
+          "date": "2026-08-15",
+          "gained": 4
+        },
+        {
+          "date": "2026-08-17",
+          "gained": 1
+        },
+        {
+          "date": "2026-08-20",
+          "gained": 1
+        }
+      ]
+    },
+    "demographics": {
+      "audience": {
+        "label": "Followers",
+        "seniority": [
+          {
+            "label": "Senior",
+            "pct": 32.0
+          },
+          {
+            "label": "Director",
+            "pct": 16.0
+          },
+          {
+            "label": "VP",
+            "pct": 10.0
+          },
+          {
+            "label": "CXO",
+            "pct": 9.0
+          },
+          {
+            "label": "Entry",
+            "pct": 8.0
+          },
+          {
+            "label": "Manager",
+            "pct": 7.0
+          },
+          {
+            "label": "Owner",
+            "pct": 4.0
+          },
+          {
+            "label": "Partner",
+            "pct": 4.0
+          }
+        ],
+        "jobTitles": [
+          {
+            "label": "Founder",
+            "pct": 5.0
+          },
+          {
+            "label": "Chief Executive Officer",
+            "pct": 3.0
+          },
+          {
+            "label": "Co-Founder",
+            "pct": 3.0
+          },
+          {
+            "label": "Managing Director",
+            "pct": 2.0
+          },
+          {
+            "label": "Software Engineer",
+            "pct": 1.0
+          },
+          {
+            "label": "Architect",
+            "pct": 1.0
+          },
+          {
+            "label": "President",
+            "pct": 1.0
+          },
+          {
+            "label": "Human Resources Manager",
+            "pct": 1.0
+          }
+        ],
+        "industries": [
+          {
+            "label": "IT Services and IT Consulting",
+            "pct": 49.0
+          },
+          {
+            "label": "Software Development",
+            "pct": 8.0
+          },
+          {
+            "label": "Technology, Information and Internet",
+            "pct": 5.0
+          },
+          {
+            "label": "Financial Services",
+            "pct": 5.0
+          },
+          {
+            "label": "Staffing and Recruiting",
+            "pct": 3.0
+          },
+          {
+            "label": "Human Resources Services",
+            "pct": 3.0
+          },
+          {
+            "label": "Business Consulting and Services",
+            "pct": 3.0
+          },
+          {
+            "label": "Computer and Network Security",
+            "pct": 2.0
+          },
+          {
+            "label": "Telecommunications",
+            "pct": 2.0
+          },
+          {
+            "label": "Professional Training and Coaching",
+            "pct": 1.0
+          }
+        ],
+        "companies": [
+          {
+            "label": "Microland Limited",
+            "pct": 2.0
+          },
+          {
+            "label": "Wipro",
+            "pct": 2.0
+          },
+          {
+            "label": "HCLTech",
+            "pct": 1.0
+          },
+          {
+            "label": "Altimetrik",
+            "pct": 1.0
+          },
+          {
+            "label": "SLK",
+            "pct": 1.0
+          }
+        ],
+        "companySize": [
+          {
+            "label": "10,001+ employees",
+            "pct": 28.0
+          },
+          {
+            "label": "11-50 employees",
+            "pct": 12.0
+          },
+          {
+            "label": "1,001-5,000 employees",
+            "pct": 10.0
+          },
+          {
+            "label": "51-200 employees",
+            "pct": 10.0
+          },
+          {
+            "label": "2-10 employees",
+            "pct": 9.0
+          },
+          {
+            "label": "5,001-10,000 employees",
+            "pct": 6.0
+          },
+          {
+            "label": "201-500 employees",
+            "pct": 5.0
+          },
+          {
+            "label": "501-1,000 employees",
+            "pct": 3.0
+          }
+        ],
+        "locations": [
+          {
+            "label": "Greater Bengaluru Area",
+            "pct": 24.0
+          },
+          {
+            "label": "New York City Metropolitan Area",
+            "pct": 9.0
+          },
+          {
+            "label": "San Francisco Bay Area",
+            "pct": 8.0
+          },
+          {
+            "label": "Greater Chicago Area",
+            "pct": 4.0
+          },
+          {
+            "label": "Mumbai Metropolitan Region",
+            "pct": 4.0
+          },
+          {
+            "label": "London Area, United Kingdom",
+            "pct": 3.0
+          },
+          {
+            "label": "Dallas-Fort Worth Metroplex",
+            "pct": 3.0
+          },
+          {
+            "label": "Greater Chennai Area",
+            "pct": 2.0
+          },
+          {
+            "label": "Greater Delhi Area",
+            "pct": 2.0
+          }
+        ]
+      },
+      "content": {
+        "label": "Post viewers",
+        "seniority": [
+          {
+            "label": "Senior",
+            "pct": 38.0
+          },
+          {
+            "label": "Entry",
+            "pct": 15.0
+          },
+          {
+            "label": "Director",
+            "pct": 14.0
+          },
+          {
+            "label": "Manager",
+            "pct": 11.0
+          },
+          {
+            "label": "VP",
+            "pct": 6.0
+          },
+          {
+            "label": "CXO",
+            "pct": 3.0
+          },
+          {
+            "label": "Owner",
+            "pct": 2.0
+          },
+          {
+            "label": "Partner",
+            "pct": 2.0
+          },
+          {
+            "label": "Training",
+            "pct": 0.5
+          }
+        ],
+        "jobTitles": [
+          {
+            "label": "Software Engineer",
+            "pct": 4.0
+          },
+          {
+            "label": "Founder",
+            "pct": 2.0
+          },
+          {
+            "label": "Project Manager",
+            "pct": 2.0
+          },
+          {
+            "label": "Solutions Architect",
+            "pct": 2.0
+          },
+          {
+            "label": "Product Manager",
+            "pct": 1.0
+          },
+          {
+            "label": "Architect",
+            "pct": 1.0
+          },
+          {
+            "label": "Sales Recruiter",
+            "pct": 1.0
+          },
+          {
+            "label": "Co-Founder",
+            "pct": 1.0
+          },
+          {
+            "label": "Program Manager",
+            "pct": 1.0
+          }
+        ],
+        "industries": [
+          {
+            "label": "IT Services and IT Consulting",
+            "pct": 45.0
+          },
+          {
+            "label": "Software Development",
+            "pct": 16.0
+          },
+          {
+            "label": "Technology, Information and Internet",
+            "pct": 8.0
+          },
+          {
+            "label": "Business Consulting and Services",
+            "pct": 4.0
+          },
+          {
+            "label": "Financial Services",
+            "pct": 4.0
+          },
+          {
+            "label": "Staffing and Recruiting",
+            "pct": 1.0
+          },
+          {
+            "label": "Banking",
+            "pct": 1.0
+          },
+          {
+            "label": "Telecommunications",
+            "pct": 1.0
+          },
+          {
+            "label": "Hospitals and Health Care",
+            "pct": 0.5
+          },
+          {
+            "label": "Insurance",
+            "pct": 0.5
+          }
+        ],
+        "companies": [
+          {
+            "label": "Tata Consultancy Services",
+            "pct": 8.0
+          },
+          {
+            "label": "ServiceNow",
+            "pct": 5.0
+          },
+          {
+            "label": "Cognizant",
+            "pct": 2.0
+          },
+          {
+            "label": "Accenture",
+            "pct": 2.0
+          },
+          {
+            "label": "Deloitte",
+            "pct": 1.0
+          },
+          {
+            "label": "Infosys",
+            "pct": 1.0
+          },
+          {
+            "label": "EY",
+            "pct": 1.0
+          },
+          {
+            "label": "HCLTech",
+            "pct": 0.5
+          },
+          {
+            "label": "Microsoft",
+            "pct": 0.5
+          }
+        ],
+        "companySize": [
+          {
+            "label": "10,001+ employees",
+            "pct": 51.0
+          },
+          {
+            "label": "1,001-5,000 employees",
+            "pct": 10.0
+          },
+          {
+            "label": "51-200 employees",
+            "pct": 6.0
+          },
+          {
+            "label": "11-50 employees",
+            "pct": 5.0
+          },
+          {
+            "label": "5,001-10,000 employees",
+            "pct": 5.0
+          },
+          {
+            "label": "501-1,000 employees",
+            "pct": 4.0
+          },
+          {
+            "label": "201-500 employees",
+            "pct": 4.0
+          },
+          {
+            "label": "2-10 employees",
+            "pct": 4.0
+          }
+        ],
+        "locations": [
+          {
+            "label": "Greater Bengaluru Area",
+            "pct": 10.0
+          },
+          {
+            "label": "San Francisco Bay Area",
+            "pct": 8.0
+          },
+          {
+            "label": "Greater Hyderabad Area",
+            "pct": 6.0
+          },
+          {
+            "label": "New York City Metropolitan Area",
+            "pct": 5.0
+          },
+          {
+            "label": "Greater Delhi Area",
+            "pct": 4.0
+          },
+          {
+            "label": "Dallas-Fort Worth Metroplex",
+            "pct": 4.0
+          },
+          {
+            "label": "Greater Chennai Area",
+            "pct": 3.0
+          },
+          {
+            "label": "London Area, United Kingdom",
+            "pct": 2.0
+          },
+          {
+            "label": "Greater Toronto Area, Canada",
+            "pct": 2.0
+          }
+        ]
+      }
+    }
+  },
+  "posts": [
+    {
+      "date": "2026-09-03",
+      "topic": "AIOps / autonomous operations",
+      "articlePath": null,
+      "impressions": 257,
+      "engagements": 2,
+      "slug": "aiops-itoperations-autonomousoperations"
+    },
+    {
+      "date": "2026-09-03",
+      "topic": "Ten years ago I built anomaly detection",
+      "articlePath": null,
+      "impressions": 152,
+      "engagements": 11,
+      "slug": "ten-years-ago-i-built-an-anomaly-detection"
+    },
+    {
+      "date": "2026-08-31",
+      "topic": "A CFO asks why margin on a healthy SKU",
+      "articlePath": null,
+      "impressions": 143,
+      "engagements": 6,
+      "slug": "a-cfo-asks-why-margin-on-a-healthy-sku-has"
+    },
+    {
+      "date": "2026-08-30",
+      "topic": "Nvidia paid $12.9B for Hugging Face",
+      "articlePath": null,
+      "impressions": 383,
+      "engagements": 2,
+      "slug": "nvidia-just-paid-129b-for-hugging-face"
+    },
+    {
+      "date": "2026-08-27",
+      "topic": "Autonomous operations / peak business performance",
+      "articlePath": null,
+      "impressions": 117,
+      "engagements": 4,
+      "slug": "autonomousoperations-ainativeoperations-peakbusinessperformance"
+    },
+    {
+      "date": "2026-08-24",
+      "topic": "Peak Business Performance Starts With What You Eliminate",
+      "articlePath": "/insights/peak-performance-starts-with-elimination/",
+      "impressions": 134,
+      "engagements": 4,
+      "slug": "peak-business-performance-starts-with-what"
+    },
+    {
+      "date": "2026-08-20",
+      "topic": "Enterprises shifting real volume",
+      "articlePath": null,
+      "impressions": 129,
+      "engagements": 5,
+      "slug": "enterprises-are-shifting-real-volume-toward"
+    },
+    {
+      "date": "2026-08-13",
+      "topic": "Why human assurance isn't a fallback",
+      "articlePath": "/insights/human-assurance-it-operations/",
+      "impressions": 131,
+      "engagements": 5,
+      "slug": "why-human-assurance-isnt-a-fallback"
+    },
+    {
+      "date": "2026-08-10",
+      "topic": "Tokenomics for AI-native IT operations",
+      "articlePath": null,
+      "impressions": 126,
+      "engagements": 2,
+      "slug": "tokenomics-for-ai-native-it-operations"
+    },
+    {
+      "date": "2026-07-30",
+      "topic": "Open-weight models / enterprise AI",
+      "articlePath": "/insights/open-weight-adoption-triggers/",
+      "impressions": 96,
+      "engagements": 2,
+      "slug": "artificialintelligence-openweightmodels-enterpriseai"
+    },
+    {
+      "date": "2026-07-29",
+      "topic": "Building an engaged, inclusive tech team",
+      "articlePath": null,
+      "impressions": 38,
+      "engagements": 1,
+      "slug": "build-an-engaged-inclusive-tech-team-with"
+    },
+    {
+      "date": "2026-07-27",
+      "topic": "CNBC on growing momentum",
+      "articlePath": null,
+      "impressions": 332,
+      "engagements": 10,
+      "slug": "cnbc-recently-highlighted-the-growing-momentum"
+    },
+    {
+      "date": "2026-07-24",
+      "topic": "ServiceNow's latest earnings",
+      "articlePath": null,
+      "impressions": 1038,
+      "engagements": 4,
+      "slug": "servicenows-latest-earnings"
+    },
+    {
+      "date": "2026-07-23",
+      "topic": "The economics of AI-native IT operations",
+      "articlePath": null,
+      "impressions": 122,
+      "engagements": 2,
+      "slug": "the-economics-of-ai-native-it-operations"
+    },
+    {
+      "date": "2026-07-21",
+      "topic": "Enterprise AI / IT operations",
+      "articlePath": null,
+      "impressions": 231,
+      "engagements": 3,
+      "slug": "ai-itoperations-enterpriseai"
+    },
+    {
+      "date": "2026-07-20",
+      "topic": "AI-native IT operations / implementation",
+      "articlePath": null,
+      "impressions": 553,
+      "engagements": 3,
+      "slug": "ainative-itoperations-aiimplementation"
+    },
+    {
+      "date": "2026-07-19",
+      "topic": "Relevance of this post",
+      "articlePath": null,
+      "impressions": 36,
+      "engagements": 1,
+      "slug": "there-is-so-much-relevance-of-this-post-for"
+    },
+    {
+      "date": "2026-07-17",
+      "topic": "Microsoft told its engineers to stop",
+      "articlePath": null,
+      "impressions": 277,
+      "engagements": 1,
+      "slug": "microsoft-just-told-its-engineers-to-stop"
+    },
+    {
+      "date": "2026-07-17",
+      "topic": "OpenAI analyzed 1.7M conversations",
+      "articlePath": null,
+      "impressions": 101,
+      "engagements": 7,
+      "slug": "openai-recently-analyzed-more-than-17-million"
+    },
+    {
+      "date": "2026-07-16",
+      "topic": "TCS Q1 earnings call",
+      "articlePath": null,
+      "impressions": 885,
+      "engagements": 7,
+      "slug": "tcss-q1-earnings-call"
+    },
+    {
+      "date": "2026-07-14",
+      "topic": "TCS move toward outcome-based pricing",
+      "articlePath": null,
+      "impressions": 2759,
+      "engagements": 12,
+      "slug": "tcss-move-toward-outcome-based-pricing"
+    },
+    {
+      "date": "2026-07-13",
+      "topic": "How AI-Native IT Operations Enable Peak Business Performance",
+      "articlePath": "/insights/ai-native-it-operations/",
+      "impressions": 91,
+      "engagements": 3,
+      "slug": "how-ai-native-it-operations-enable-business"
+    },
+    {
+      "date": "2026-07-09",
+      "topic": "Agentic AI / IT operations",
+      "articlePath": null,
+      "impressions": 112,
+      "engagements": 0,
+      "slug": "ai-agenticai-itoperations-7480973884"
+    },
+    {
+      "date": "2026-07-06",
+      "topic": "Is Your AI Learning Yesterday's Operating Model?",
+      "articlePath": "/insights/is-your-ai-learning-yesterdays-operating-model/",
+      "impressions": 265,
+      "engagements": 18,
+      "slug": "is-your-ai-learning-yesterdays-operating"
+    },
+    {
+      "date": "2026-07-02",
+      "topic": "Agentic AI / IT operations",
+      "articlePath": null,
+      "impressions": 106,
+      "engagements": 2,
+      "slug": "ai-agenticai-itoperations-7478447747"
+    },
+    {
+      "date": "2026-06-29",
+      "topic": "IT operations / observability",
+      "articlePath": null,
+      "impressions": 195,
+      "engagements": 0,
+      "slug": "ai-itoperations-observability"
+    },
+    {
+      "date": "2026-06-25",
+      "topic": "Digital transformation / IT operations",
+      "articlePath": null,
+      "impressions": 111,
+      "engagements": 2,
+      "slug": "ai-digitaltransformation-itoperations"
+    },
+    {
+      "date": "2026-06-22",
+      "topic": "Agentic AI / autonomous operations",
+      "articlePath": null,
+      "impressions": 244,
+      "engagements": 9,
+      "slug": "ai-agenticai-autonomousoperations"
+    },
+    {
+      "date": "2026-06-18",
+      "topic": "Why Are We Still Building Ticket Factories?",
+      "articlePath": "/insights/ticket-factories/",
+      "impressions": 111,
+      "engagements": 1,
+      "slug": "why-we-are-still-building-ticket-factories"
+    },
+    {
+      "date": "2026-06-15",
+      "topic": "Agentic AI / digital labor",
+      "articlePath": null,
+      "impressions": 115,
+      "engagements": 1,
+      "slug": "autonomousoperations-agenticai-digitallabor"
+    },
+    {
+      "date": "2026-06-11",
+      "topic": "Palantir CEO on Anthropic",
+      "articlePath": null,
+      "impressions": 137,
+      "engagements": 0,
+      "slug": "palantir-ceo-takes-pointed-shot-at-anthropic"
+    },
+    {
+      "date": "2026-06-11",
+      "topic": "Why coding assistants have limits",
+      "articlePath": null,
+      "impressions": 119,
+      "engagements": 1,
+      "slug": "many-people-ask-why-coding-assistants-have"
+    },
+    {
+      "date": "2026-06-08",
+      "topic": "The conversation around digital labor",
+      "articlePath": null,
+      "impressions": 391,
+      "engagements": 11,
+      "slug": "the-conversation-around-digital-labor"
+    }
+  ]
 }
