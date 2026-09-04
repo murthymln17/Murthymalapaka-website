@@ -257,6 +257,21 @@ function isoNext(date) {
   return new Date(new Date(`${date}T00:00:00Z`).getTime() + 86400000).toISOString().slice(0, 10);
 }
 
+/**
+ * RAG status for a funnel stage, derived from activity and period-over-period
+ * trend by fixed rules (never hand-assigned):
+ *   red   - no activity this period, or down more than 25% vs prior period
+ *   amber - active but flat/slightly down, or active with no baseline yet
+ *   green - growing vs prior period
+ */
+function stageStatus(value, delta) {
+  if (!value) return { level: 'red', label: 'Off track', reason: 'No activity this period' };
+  if (delta == null) return { level: 'amber', label: 'Watch', reason: 'Active, but no prior-period baseline to judge against yet' };
+  if (delta < -0.25) return { level: 'red', label: 'Off track', reason: 'Down more than 25% vs the prior period' };
+  if (delta < 0.05) return { level: 'amber', label: 'Watch', reason: 'Flat or slightly down vs the prior period' };
+  return { level: 'green', label: 'On track', reason: 'Growing vs the prior period' };
+}
+
 function pctChange(current, previous) {
   if (!previous) return null;
   return (current - previous) / previous;
@@ -518,6 +533,10 @@ export async function handleInsights(request, env) {
     loggedPosts: (linkedinLog.posts || []).length,
     articles: articles.sort((a, b) => b.pageviews - a.pageviews).slice(0, 15),
   };
+
+  for (const stage of Object.values(insights.funnel)) {
+    stage.status = stageStatus(stage.value, stage.delta);
+  }
 
   insights.brief = buildBrief(insights, days);
   insights.briefSource = 'computed';
