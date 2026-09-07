@@ -217,6 +217,20 @@
 .insight-table td a { color: var(--text); }
 .insight-table td a:hover { color: var(--accent); }
 
+/* Long article paths must not push the duration columns out of view. */
+.insight-table td.visit-page {
+  max-width: 260px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* The visit table is the only seven-column one; on a phone, trim its two
+   widest columns so Stayed and Engaged are reachable in a single swipe. */
+@media (max-width: 640px) {
+  .visits-table th:first-child, .visits-table td:first-child { min-width: 110px; }
+  .visits-table td.visit-page { max-width: 100px; }
+}
+
 /* ---------- Sections & cards ---------- */
 .dash-section { margin-bottom: 2.6rem; padding: 0; }
 .dash-section-title {

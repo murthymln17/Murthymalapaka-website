@@ -22,6 +22,10 @@
 
   function fmtDur(seconds) {
     if (!seconds) return '0s';
+    // Visit spans can run past an hour; "1h 5m" reads better than "65m 2s".
+    if (seconds >= 3600) {
+      return Math.floor(seconds / 3600) + 'h ' + Math.floor((seconds % 3600) / 60) + 'm';
+    }
     var m = Math.floor(seconds / 60);
     var s = Math.round(seconds % 60);
     return m ? m + 'm ' + s + 's' : s + 's';
@@ -638,9 +642,9 @@
     }
     var wrap = el('div', 'table-wrap');
     var table = document.createElement('table');
-    table.className = 'insight-table';
+    table.className = 'insight-table visits-table';
     var head = document.createElement('tr');
-    ['When', 'Where from', 'Source', 'Landed on', 'Pages', 'Engaged'].forEach(function (h) {
+    ['When', 'Where from', 'Source', 'Landed on', 'Pages', 'Stayed', 'Engaged'].forEach(function (h) {
       head.appendChild(el('th', null, h));
     });
     table.appendChild(head);
@@ -650,15 +654,20 @@
       var place = [v.city, v.country].filter(Boolean).join(', ') || 'Unknown';
       tr.appendChild(el('td', null, place));
       tr.appendChild(el('td', null, v.source));
-      var pageCell = document.createElement('td');
+      var pageCell = el('td', 'visit-page');
       var link = document.createElement('a');
       link.href = v.landingPage;
       link.target = '_blank';
       link.rel = 'noopener';
       link.textContent = v.landingPage;
+      link.title = v.landingPage;
       pageCell.appendChild(link);
       tr.appendChild(pageCell);
       tr.appendChild(el('td', null, fmtNum(v.pageviews)));
+      // Span from first to last activity; GA4's minute granularity floors a
+      // short visit at zero, so show that as "<1m" rather than "0s".
+      tr.appendChild(el('td', null,
+        v.durationSeconds ? fmtDur(v.durationSeconds) : '<1m'));
       tr.appendChild(el('td', null, fmtDur(v.engagementSeconds)));
       table.appendChild(tr);
     });
@@ -672,7 +681,9 @@
       'Pseudonymous by design \u2014 GA4 never exposes visitor identity. Times are shown in your local timezone'
         + (localZone ? ' (' + localZone + ')' : '')
         + (propertyTimeZone ? ', converted from the GA4 property\u2019s ' + propertyTimeZone : '')
-        + '. Rows within 30 minutes from the same place, source and landing page are grouped as one visit.'));
+        + '. Stayed is the span from first to last activity; Engaged is the time GA4 recorded as active. '
+        + 'Rows within 30 minutes from the same place, source and landing page are grouped as one visit, '
+        + 'so a longer visit can appear as consecutive rows.'));
   }
 
   function renderGa4(data) {
@@ -894,10 +905,10 @@
       ],
       propertyTimeZone: 'America/Los_Angeles',
       recentVisits: [
-        { startedAt: new Date(Date.now() - 12 * 60000).toISOString(), city: 'Dallas', country: 'United States', source: 'linkedin.com', landingPage: '/insights/physical-ai-eliminate-predict-prevent/', pageviews: 4, engagementSeconds: 316 },
-        { startedAt: new Date(Date.now() - 47 * 60000).toISOString(), city: 'Bengaluru', country: 'India', source: 'linkedin.com', landingPage: '/insights/physical-ai-eliminate-predict-prevent/', pageviews: 1, engagementSeconds: 22 },
-        { startedAt: new Date(Date.now() - 3 * 3600000).toISOString(), city: 'New York', country: 'United States', source: 'google', landingPage: '/insights/ticket-factories/', pageviews: 3, engagementSeconds: 244 },
-        { startedAt: new Date(Date.now() - 26 * 3600000).toISOString(), city: 'London', country: 'United Kingdom', source: '(direct)', landingPage: '/', pageviews: 2, engagementSeconds: 61 },
+        { startedAt: new Date(Date.now() - 12 * 60000).toISOString(), city: 'Dallas', country: 'United States', source: 'linkedin.com', landingPage: '/insights/physical-ai-eliminate-predict-prevent/', pageviews: 4, durationSeconds: 3902, engagementSeconds: 316 },
+        { startedAt: new Date(Date.now() - 47 * 60000).toISOString(), city: 'Bengaluru', country: 'India', source: 'linkedin.com', landingPage: '/insights/physical-ai-eliminate-predict-prevent/', pageviews: 1, durationSeconds: 0, engagementSeconds: 22 },
+        { startedAt: new Date(Date.now() - 3 * 3600000).toISOString(), city: 'New York', country: 'United States', source: 'google', landingPage: '/insights/ticket-factories/', pageviews: 3, durationSeconds: 605, engagementSeconds: 244 },
+        { startedAt: new Date(Date.now() - 26 * 3600000).toISOString(), city: 'London', country: 'United Kingdom', source: '(direct)', landingPage: '/', pageviews: 2, durationSeconds: 180, engagementSeconds: 61 },
       ],
       countries: [
         { label: 'United States', users: 148, sessions: 173 },

@@ -70,10 +70,12 @@ function stitchVisits(rawRows, metric, timeZone) {
       open.pageviews += metric(r, 0);
       open.engagementSeconds += metric(r, 1);
       if (at < open.startedAt) open.startedAt = at;
+      if (at > open.endedAt) open.endedAt = at;
     } else {
       visits.push({
         key,
         startedAt: at,
+        endedAt: at,
         city: city && city !== '(not set)' ? city : null,
         country: country && country !== '(not set)' ? country : null,
         source: source || '(direct)',
@@ -86,6 +88,11 @@ function stitchVisits(rawRows, metric, timeZone) {
   visits.sort((a, b) => b.startedAt - a.startedAt);
   return visits.slice(0, 25).map((v) => ({
     startedAt: v.startedAt.toISOString(),
+    endedAt: v.endedAt.toISOString(),
+    // Wall-clock span from first to last recorded activity. GA4 reports by
+    // the minute, so a visit inside a single minute spans 0 — the card shows
+    // that as "<1m" rather than implying an instantaneous visit.
+    durationSeconds: Math.round((v.endedAt - v.startedAt) / 1000),
     city: v.city,
     country: v.country,
     source: v.source,
