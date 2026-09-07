@@ -7,7 +7,7 @@
  *                                 Viewer on the GA4 property)
  *   GA4_PROPERTY_ID             - numeric GA4 property ID
  */
-import { json, configError, rangeDays, fillDailySeries } from './utils.js';
+import { json, configError, rangeDays, fillDailySeries, runBatchedReports } from './utils.js';
 import { googleAccessToken } from './google.js';
 
 const SCOPE = 'https://www.googleapis.com/auth/analytics.readonly';
@@ -170,11 +170,11 @@ export async function handleGa4(request, env) {
   let batch;
   let realtimeUsers = null;
   try {
-    const [batchRes, realtimeRes] = await Promise.all([
-      post('batchRunReports', reports),
+    const [reportList, realtimeRes] = await Promise.all([
+      runBatchedReports(base, token, reports.requests),
       post('runRealtimeReport', { metrics: [{ name: 'activeUsers' }] }).catch(() => null),
     ]);
-    batch = batchRes;
+    batch = { reports: reportList };
     if (realtimeRes) {
       realtimeUsers = Number(realtimeRes.rows?.[0]?.metricValues?.[0]?.value || 0);
     }

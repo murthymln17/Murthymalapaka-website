@@ -18,7 +18,7 @@
  * Required env: GOOGLE_SERVICE_ACCOUNT_JSON, GA4_PROPERTY_ID.
  * Optional env: GSC_SITE_URL override, ANTHROPIC_API_KEY, INSIGHTS_MODEL.
  */
-import { json, configError, rangeDays, isoDate, fillDailySeries } from './utils.js';
+import { json, configError, rangeDays, isoDate, fillDailySeries, runBatchedReports } from './utils.js';
 import { googleAccessToken } from './google.js';
 import linkedinLog from './linkedin-posts.json' with { type: 'json' };
 
@@ -114,16 +114,9 @@ async function fetchGa4(env, token, days) {
     ],
   };
 
-  const res = await fetch(`${base}:batchRunReports`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) {
-    const detail = await res.text();
-    throw new Error(`GA4 Data API ${res.status}: ${detail.slice(0, 300)}`);
-  }
-  return (await res.json()).reports || [];
+  // Chunked so adding a sixth report here never trips the API's 5-per-batch
+  // limit (which broke /api/ga4 in production).
+  return runBatchedReports(base, token, body.requests);
 }
 
 const mval = (row, i) => Number(row.metricValues?.[i]?.value || 0);
