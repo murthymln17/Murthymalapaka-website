@@ -40,3 +40,33 @@ export function fillDailySeries(rows, days, zeroRow) {
   }
   return filled;
 }
+
+/**
+ * The GA4 Data API rejects a batchRunReports call carrying more than five
+ * report requests ("Batch requests are limited to 5 requests"). Split the
+ * list into compliant chunks, run them in parallel, and return the reports
+ * flattened back into the caller's original order.
+ */
+export const GA4_BATCH_LIMIT = 5;
+
+export async function runBatchedReports(propertyBase, token, requests) {
+  const chunks = [];
+  for (let i = 0; i < requests.length; i += GA4_BATCH_LIMIT) {
+    chunks.push(requests.slice(i, i + GA4_BATCH_LIMIT));
+  }
+  const results = await Promise.all(
+    chunks.map(async (chunk) => {
+      const res = await fetch(`${propertyBase}:batchRunReports`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ requests: chunk }),
+      });
+      if (!res.ok) {
+        const detail = await res.text();
+        throw new Error(`GA4 Data API ${res.status}: ${detail.slice(0, 300)}`);
+      }
+      return (await res.json()).reports || [];
+    })
+  );
+  return results.flat();
+}
