@@ -12,6 +12,54 @@ import { googleAccessToken } from './google.js';
 
 const SCOPE = 'https://www.googleapis.com/auth/analytics.readonly';
 
+/**
+ * GA4 reports activity per minute, so a single visit spans several rows.
+ * Group rows from the same place/source/landing page within 30 minutes into
+ * one visit. Returns the 25 most recent, newest first. Output carries no
+ * identity fields — GA4 exposes none, and none are derived here.
+ */
+function stitchVisits(rawRows, metric) {
+  const parseMinute = (raw) =>
+    new Date(Date.UTC(
+      Number(raw.slice(0, 4)), Number(raw.slice(4, 6)) - 1, Number(raw.slice(6, 8)),
+      Number(raw.slice(8, 10)), Number(raw.slice(10, 12))
+    ));
+  const visits = [];
+  for (const r of rawRows) {
+    const [rawMinute, city, country, source, landingPage] = r.dimensionValues.map((d) => d.value);
+    if (!/^\d{12}$/.test(rawMinute)) continue; // '(other)' and thresholded rows
+    const at = parseMinute(rawMinute);
+    const key = `${city}|${country}|${source}|${landingPage}`;
+    const open = visits.find((v) => v.key === key && Math.abs(v.startedAt - at) <= 30 * 60 * 1000);
+    if (open) {
+      open.pageviews += metric(r, 0);
+      open.engagementSeconds += metric(r, 1);
+      if (at < open.startedAt) open.startedAt = at;
+    } else {
+      visits.push({
+        key,
+        startedAt: at,
+        city: city && city !== '(not set)' ? city : null,
+        country: country && country !== '(not set)' ? country : null,
+        source: source || '(direct)',
+        landingPage,
+        pageviews: metric(r, 0),
+        engagementSeconds: metric(r, 1),
+      });
+    }
+  }
+  visits.sort((a, b) => b.startedAt - a.startedAt);
+  return visits.slice(0, 25).map((v) => ({
+    startedAt: v.startedAt.toISOString(),
+    city: v.city,
+    country: v.country,
+    source: v.source,
+    landingPage: v.landingPage,
+    pageviews: v.pageviews,
+    engagementSeconds: v.engagementSeconds,
+  }));
+}
+
 export async function handleGa4(request, env) {
   if (!env.GOOGLE_SERVICE_ACCOUNT_JSON || !env.GA4_PROPERTY_ID) {
     return configError('GA4 is not configured: set GOOGLE_SERVICE_ACCOUNT_JSON and GA4_PROPERTY_ID.');
@@ -26,43 +74,7 @@ export async function handleGa4(request, env) {
   try {
     token = await googleAccessToken(env, SCOPE);
   } catch (err) {
-    // GA4 reports activity per minute, so one visit spans several rows. Stitch
-  // rows from the same place/source/landing page into a single visit when
-  // they fall within 30 minutes of each other.
-  const parseMinute = (raw) =>
-    new Date(Date.UTC(
-      Number(raw.slice(0, 4)), Number(raw.slice(4, 6)) - 1, Number(raw.slice(6, 8)),
-      Number(raw.slice(8, 10)), Number(raw.slice(10, 12))
-    ));
-  const recentVisits = [];
-  for (const r of rows(recent)) {
-    const [rawMinute, city, country, source, landingPage] = r.dimensionValues.map((d) => d.value);
-    if (!/^\d{12}$/.test(rawMinute)) continue;
-    const at = parseMinute(rawMinute);
-    const key = `${city}|${country}|${source}|${landingPage}`;
-    const open = recentVisits.find(
-      (v) => v.key === key && Math.abs(v.startedAt - at) <= 30 * 60 * 1000
-    );
-    if (open) {
-      open.pageviews += metric(r, 0);
-      open.engagementSeconds += metric(r, 1);
-      if (at < open.startedAt) open.startedAt = at;
-    } else {
-      recentVisits.push({
-        key,
-        startedAt: at,
-        city: city && city !== '(not set)' ? city : null,
-        country: country && country !== '(not set)' ? country : null,
-        source: source || '(direct)',
-        landingPage,
-        pageviews: metric(r, 0),
-        engagementSeconds: metric(r, 1),
-      });
-    }
-  }
-  recentVisits.sort((a, b) => b.startedAt - a.startedAt);
-
-  return json({ error: `Google authentication failed: ${err.message}` }, 502);
+    return json({ error: `Google authentication failed: ${err.message}` }, 502);
   }
 
   const post = async (path, body) => {
@@ -81,81 +93,9 @@ export async function handleGa4(request, env) {
   if (realtimeOnly) {
     try {
       const rt = await post('runRealtimeReport', { metrics: [{ name: 'activeUsers' }] });
-      // GA4 reports activity per minute, so one visit spans several rows. Stitch
-  // rows from the same place/source/landing page into a single visit when
-  // they fall within 30 minutes of each other.
-  const parseMinute = (raw) =>
-    new Date(Date.UTC(
-      Number(raw.slice(0, 4)), Number(raw.slice(4, 6)) - 1, Number(raw.slice(6, 8)),
-      Number(raw.slice(8, 10)), Number(raw.slice(10, 12))
-    ));
-  const recentVisits = [];
-  for (const r of rows(recent)) {
-    const [rawMinute, city, country, source, landingPage] = r.dimensionValues.map((d) => d.value);
-    if (!/^\d{12}$/.test(rawMinute)) continue;
-    const at = parseMinute(rawMinute);
-    const key = `${city}|${country}|${source}|${landingPage}`;
-    const open = recentVisits.find(
-      (v) => v.key === key && Math.abs(v.startedAt - at) <= 30 * 60 * 1000
-    );
-    if (open) {
-      open.pageviews += metric(r, 0);
-      open.engagementSeconds += metric(r, 1);
-      if (at < open.startedAt) open.startedAt = at;
-    } else {
-      recentVisits.push({
-        key,
-        startedAt: at,
-        city: city && city !== '(not set)' ? city : null,
-        country: country && country !== '(not set)' ? country : null,
-        source: source || '(direct)',
-        landingPage,
-        pageviews: metric(r, 0),
-        engagementSeconds: metric(r, 1),
-      });
-    }
-  }
-  recentVisits.sort((a, b) => b.startedAt - a.startedAt);
-
-  return json({ realtimeUsers: Number(rt.rows?.[0]?.metricValues?.[0]?.value || 0) });
+      return json({ realtimeUsers: Number(rt.rows?.[0]?.metricValues?.[0]?.value || 0) });
     } catch (err) {
-      // GA4 reports activity per minute, so one visit spans several rows. Stitch
-  // rows from the same place/source/landing page into a single visit when
-  // they fall within 30 minutes of each other.
-  const parseMinute = (raw) =>
-    new Date(Date.UTC(
-      Number(raw.slice(0, 4)), Number(raw.slice(4, 6)) - 1, Number(raw.slice(6, 8)),
-      Number(raw.slice(8, 10)), Number(raw.slice(10, 12))
-    ));
-  const recentVisits = [];
-  for (const r of rows(recent)) {
-    const [rawMinute, city, country, source, landingPage] = r.dimensionValues.map((d) => d.value);
-    if (!/^\d{12}$/.test(rawMinute)) continue;
-    const at = parseMinute(rawMinute);
-    const key = `${city}|${country}|${source}|${landingPage}`;
-    const open = recentVisits.find(
-      (v) => v.key === key && Math.abs(v.startedAt - at) <= 30 * 60 * 1000
-    );
-    if (open) {
-      open.pageviews += metric(r, 0);
-      open.engagementSeconds += metric(r, 1);
-      if (at < open.startedAt) open.startedAt = at;
-    } else {
-      recentVisits.push({
-        key,
-        startedAt: at,
-        city: city && city !== '(not set)' ? city : null,
-        country: country && country !== '(not set)' ? country : null,
-        source: source || '(direct)',
-        landingPage,
-        pageviews: metric(r, 0),
-        engagementSeconds: metric(r, 1),
-      });
-    }
-  }
-  recentVisits.sort((a, b) => b.startedAt - a.startedAt);
-
-  return json({ error: err.message }, 502);
+      return json({ error: err.message }, 502);
     }
   }
 
@@ -239,43 +179,7 @@ export async function handleGa4(request, env) {
       realtimeUsers = Number(realtimeRes.rows?.[0]?.metricValues?.[0]?.value || 0);
     }
   } catch (err) {
-    // GA4 reports activity per minute, so one visit spans several rows. Stitch
-  // rows from the same place/source/landing page into a single visit when
-  // they fall within 30 minutes of each other.
-  const parseMinute = (raw) =>
-    new Date(Date.UTC(
-      Number(raw.slice(0, 4)), Number(raw.slice(4, 6)) - 1, Number(raw.slice(6, 8)),
-      Number(raw.slice(8, 10)), Number(raw.slice(10, 12))
-    ));
-  const recentVisits = [];
-  for (const r of rows(recent)) {
-    const [rawMinute, city, country, source, landingPage] = r.dimensionValues.map((d) => d.value);
-    if (!/^\d{12}$/.test(rawMinute)) continue;
-    const at = parseMinute(rawMinute);
-    const key = `${city}|${country}|${source}|${landingPage}`;
-    const open = recentVisits.find(
-      (v) => v.key === key && Math.abs(v.startedAt - at) <= 30 * 60 * 1000
-    );
-    if (open) {
-      open.pageviews += metric(r, 0);
-      open.engagementSeconds += metric(r, 1);
-      if (at < open.startedAt) open.startedAt = at;
-    } else {
-      recentVisits.push({
-        key,
-        startedAt: at,
-        city: city && city !== '(not set)' ? city : null,
-        country: country && country !== '(not set)' ? country : null,
-        source: source || '(direct)',
-        landingPage,
-        pageviews: metric(r, 0),
-        engagementSeconds: metric(r, 1),
-      });
-    }
-  }
-  recentVisits.sort((a, b) => b.startedAt - a.startedAt);
-
-  return json({ error: err.message }, 502);
+    return json({ error: err.message }, 502);
   }
 
   const [daily, pages, channels, sources, countries, recent] = batch.reports || [];
@@ -310,42 +214,6 @@ export async function handleGa4(request, env) {
       Math.max(1, totals.sessions)
     : 0;
 
-  // GA4 reports activity per minute, so one visit spans several rows. Stitch
-  // rows from the same place/source/landing page into a single visit when
-  // they fall within 30 minutes of each other.
-  const parseMinute = (raw) =>
-    new Date(Date.UTC(
-      Number(raw.slice(0, 4)), Number(raw.slice(4, 6)) - 1, Number(raw.slice(6, 8)),
-      Number(raw.slice(8, 10)), Number(raw.slice(10, 12))
-    ));
-  const recentVisits = [];
-  for (const r of rows(recent)) {
-    const [rawMinute, city, country, source, landingPage] = r.dimensionValues.map((d) => d.value);
-    if (!/^\d{12}$/.test(rawMinute)) continue;
-    const at = parseMinute(rawMinute);
-    const key = `${city}|${country}|${source}|${landingPage}`;
-    const open = recentVisits.find(
-      (v) => v.key === key && Math.abs(v.startedAt - at) <= 30 * 60 * 1000
-    );
-    if (open) {
-      open.pageviews += metric(r, 0);
-      open.engagementSeconds += metric(r, 1);
-      if (at < open.startedAt) open.startedAt = at;
-    } else {
-      recentVisits.push({
-        key,
-        startedAt: at,
-        city: city && city !== '(not set)' ? city : null,
-        country: country && country !== '(not set)' ? country : null,
-        source: source || '(direct)',
-        landingPage,
-        pageviews: metric(r, 0),
-        engagementSeconds: metric(r, 1),
-      });
-    }
-  }
-  recentVisits.sort((a, b) => b.startedAt - a.startedAt);
-
   return json({
     days,
     realtimeUsers,
@@ -373,14 +241,6 @@ export async function handleGa4(request, env) {
       users: metric(r, 0),
       sessions: metric(r, 1),
     })),
-    recentVisits: recentVisits.slice(0, 25).map((v) => ({
-      startedAt: v.startedAt.toISOString(),
-      city: v.city,
-      country: v.country,
-      source: v.source,
-      landingPage: v.landingPage,
-      pageviews: v.pageviews,
-      engagementSeconds: v.engagementSeconds,
-    })),
+    recentVisits: stitchVisits(rows(recent), metric),
   });
 }
