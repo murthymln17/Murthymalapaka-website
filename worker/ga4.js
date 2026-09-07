@@ -12,18 +12,53 @@ import { googleAccessToken } from './google.js';
 
 const SCOPE = 'https://www.googleapis.com/auth/analytics.readonly';
 
+/** Offset, in ms, of an IANA time zone at a given UTC instant. */
+function zoneOffsetMs(utcMs, timeZone) {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone,
+    hour12: false,
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
+  }).formatToParts(new Date(utcMs));
+  const p = {};
+  for (const part of parts) p[part.type] = part.value;
+  const asIfUtc = Date.UTC(
+    Number(p.year), Number(p.month) - 1, Number(p.day),
+    Number(p.hour) % 24, Number(p.minute), Number(p.second)
+  );
+  return asIfUtc - utcMs;
+}
+
+/**
+ * GA4's dateHourMinute is a wall-clock reading in the PROPERTY's time zone,
+ * carrying no offset. Convert it to a true instant so the dashboard can then
+ * render it in the viewer's local time. Treating the string as UTC (the
+ * original bug) shifted every timestamp twice.
+ */
+function wallClockToInstant(raw, timeZone) {
+  const y = Number(raw.slice(0, 4));
+  const mo = Number(raw.slice(4, 6));
+  const d = Number(raw.slice(6, 8));
+  const h = Number(raw.slice(8, 10));
+  const mi = Number(raw.slice(10, 12));
+  const naive = Date.UTC(y, mo - 1, d, h, mi);
+  if (!timeZone) return new Date(naive); // no metadata: best effort, unshifted
+  let ts = naive - zoneOffsetMs(naive, timeZone);
+  // Re-evaluate once: near a DST boundary the offset at the corrected instant
+  // can differ from the offset at the naive guess.
+  const refined = naive - zoneOffsetMs(ts, timeZone);
+  if (refined !== ts) ts = refined;
+  return new Date(ts);
+}
+
 /**
  * GA4 reports activity per minute, so a single visit spans several rows.
  * Group rows from the same place/source/landing page within 30 minutes into
  * one visit. Returns the 25 most recent, newest first. Output carries no
  * identity fields — GA4 exposes none, and none are derived here.
  */
-function stitchVisits(rawRows, metric) {
-  const parseMinute = (raw) =>
-    new Date(Date.UTC(
-      Number(raw.slice(0, 4)), Number(raw.slice(4, 6)) - 1, Number(raw.slice(6, 8)),
-      Number(raw.slice(8, 10)), Number(raw.slice(10, 12))
-    ));
+function stitchVisits(rawRows, metric, timeZone) {
+  const parseMinute = (raw) => wallClockToInstant(raw, timeZone);
   const visits = [];
   for (const r of rawRows) {
     const [rawMinute, city, country, source, landingPage] = r.dimensionValues.map((d) => d.value);
@@ -241,6 +276,7 @@ export async function handleGa4(request, env) {
       users: metric(r, 0),
       sessions: metric(r, 1),
     })),
-    recentVisits: stitchVisits(rows(recent), metric),
+    propertyTimeZone: recent?.metadata?.timeZone || null,
+    recentVisits: stitchVisits(rows(recent), metric, recent?.metadata?.timeZone),
   });
 }
