@@ -628,7 +628,7 @@
     return document.querySelector('#' + cardId + ' [data-list]');
   }
 
-  function renderRecentVisits(slot, visits) {
+  function renderRecentVisits(slot, visits, propertyTimeZone) {
     slot.textContent = '';
     if (!visits || !visits.length) {
       slot.appendChild(el('p', 'chart-empty',
@@ -664,9 +664,15 @@
     });
     wrap.appendChild(table);
     slot.appendChild(wrap);
+    var localZone = '';
+    try {
+      localZone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    } catch (e) { /* older browsers */ }
     slot.appendChild(el('p', 'dash-note',
-      'Pseudonymous by design \u2014 GA4 never exposes visitor identity. Times are in the property\u2019s timezone; '
-        + 'rows within 30 minutes from the same place, source and landing page are grouped as one visit.'));
+      'Pseudonymous by design \u2014 GA4 never exposes visitor identity. Times are shown in your local timezone'
+        + (localZone ? ' (' + localZone + ')' : '')
+        + (propertyTimeZone ? ', converted from the GA4 property\u2019s ' + propertyTimeZone : '')
+        + '. Rows within 30 minutes from the same place, source and landing page are grouped as one visit.'));
   }
 
   function renderGa4(data) {
@@ -694,7 +700,7 @@
     renderBarList(listSlot('card-ga4-countries'), (data.countries || []).map(function (c) {
       return { label: c.label, value: c.users, sub: fmtNum(c.sessions) + ' sessions' };
     }));
-    renderRecentVisits(document.querySelector('#card-ga4-recent [data-table]'), data.recentVisits);
+    renderRecentVisits(document.querySelector('#card-ga4-recent [data-table]'), data.recentVisits, data.propertyTimeZone);
     updateLivePill(data.realtimeUsers);
   }
 
@@ -886,6 +892,7 @@
         { label: 'Direct', sessions: 214, users: 190 },
         { label: 'Referral', sessions: 88, users: 76 },
       ],
+      propertyTimeZone: 'America/Los_Angeles',
       recentVisits: [
         { startedAt: new Date(Date.now() - 12 * 60000).toISOString(), city: 'Dallas', country: 'United States', source: 'linkedin.com', landingPage: '/insights/physical-ai-eliminate-predict-prevent/', pageviews: 4, engagementSeconds: 316 },
         { startedAt: new Date(Date.now() - 47 * 60000).toISOString(), city: 'Bengaluru', country: 'India', source: 'linkedin.com', landingPage: '/insights/physical-ai-eliminate-predict-prevent/', pageviews: 1, engagementSeconds: 22 },
