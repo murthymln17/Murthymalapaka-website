@@ -36,6 +36,15 @@
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   }
 
+  function fmtDateTime(iso) {
+    var d = new Date(iso);
+    var today = new Date();
+    var sameDay = d.toDateString() === today.toDateString();
+    var time = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    return sameDay ? 'Today ' + time
+      : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' ' + time;
+  }
+
   function el(tag, className, text) {
     var node = document.createElement(tag);
     if (className) node.className = className;
@@ -619,6 +628,47 @@
     return document.querySelector('#' + cardId + ' [data-list]');
   }
 
+  function renderRecentVisits(slot, visits) {
+    slot.textContent = '';
+    if (!visits || !visits.length) {
+      slot.appendChild(el('p', 'chart-empty',
+        'No visit-level rows for this period. GA4 withholds granular rows at low traffic volumes \u2014 '
+          + 'Explore \u2192 User explorer in GA4 always shows them.'));
+      return;
+    }
+    var wrap = el('div', 'table-wrap');
+    var table = document.createElement('table');
+    table.className = 'insight-table';
+    var head = document.createElement('tr');
+    ['When', 'Where from', 'Source', 'Landed on', 'Pages', 'Engaged'].forEach(function (h) {
+      head.appendChild(el('th', null, h));
+    });
+    table.appendChild(head);
+    visits.forEach(function (v) {
+      var tr = document.createElement('tr');
+      tr.appendChild(el('td', null, fmtDateTime(v.startedAt)));
+      var place = [v.city, v.country].filter(Boolean).join(', ') || 'Unknown';
+      tr.appendChild(el('td', null, place));
+      tr.appendChild(el('td', null, v.source));
+      var pageCell = document.createElement('td');
+      var link = document.createElement('a');
+      link.href = v.landingPage;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.textContent = v.landingPage;
+      pageCell.appendChild(link);
+      tr.appendChild(pageCell);
+      tr.appendChild(el('td', null, fmtNum(v.pageviews)));
+      tr.appendChild(el('td', null, fmtDur(v.engagementSeconds)));
+      table.appendChild(tr);
+    });
+    wrap.appendChild(table);
+    slot.appendChild(wrap);
+    slot.appendChild(el('p', 'dash-note',
+      'Pseudonymous by design \u2014 GA4 never exposes visitor identity. Times are in the property\u2019s timezone; '
+        + 'rows within 30 minutes from the same place, source and landing page are grouped as one visit.'));
+  }
+
   function renderGa4(data) {
     renderLineChart(chartSlot('card-ga4-traffic'), {
       labels: data.timeseries.map(function (r) { return r.date; }),
@@ -644,6 +694,7 @@
     renderBarList(listSlot('card-ga4-countries'), (data.countries || []).map(function (c) {
       return { label: c.label, value: c.users, sub: fmtNum(c.sessions) + ' sessions' };
     }));
+    renderRecentVisits(document.querySelector('#card-ga4-recent [data-table]'), data.recentVisits);
     updateLivePill(data.realtimeUsers);
   }
 
@@ -695,7 +746,7 @@
 
   /* ---------- loading ---------- */
 
-  var GA4_CARDS = ['card-ga4-traffic', 'card-ga4-pages', 'card-ga4-channels', 'card-ga4-sources', 'card-ga4-countries'];
+  var GA4_CARDS = ['card-ga4-traffic', 'card-ga4-pages', 'card-ga4-channels', 'card-ga4-sources', 'card-ga4-countries', 'card-ga4-recent'];
   var GSC_CARDS = ['card-gsc-clicks', 'card-gsc-impressions', 'card-gsc-queries', 'card-gsc-pages'];
   var CF_CARDS = ['card-cf-traffic', 'card-cf-referrers', 'card-cf-countries', 'card-cf-devices'];
 
@@ -834,6 +885,12 @@
         { label: 'Organic Search', sessions: 289, users: 259 },
         { label: 'Direct', sessions: 214, users: 190 },
         { label: 'Referral', sessions: 88, users: 76 },
+      ],
+      recentVisits: [
+        { startedAt: new Date(Date.now() - 12 * 60000).toISOString(), city: 'Dallas', country: 'United States', source: 'linkedin.com', landingPage: '/insights/physical-ai-eliminate-predict-prevent/', pageviews: 4, engagementSeconds: 316 },
+        { startedAt: new Date(Date.now() - 47 * 60000).toISOString(), city: 'Bengaluru', country: 'India', source: 'linkedin.com', landingPage: '/insights/physical-ai-eliminate-predict-prevent/', pageviews: 1, engagementSeconds: 22 },
+        { startedAt: new Date(Date.now() - 3 * 3600000).toISOString(), city: 'New York', country: 'United States', source: 'google', landingPage: '/insights/ticket-factories/', pageviews: 3, engagementSeconds: 244 },
+        { startedAt: new Date(Date.now() - 26 * 3600000).toISOString(), city: 'London', country: 'United Kingdom', source: '(direct)', landingPage: '/', pageviews: 2, engagementSeconds: 61 },
       ],
       countries: [
         { label: 'United States', users: 148, sessions: 173 },
