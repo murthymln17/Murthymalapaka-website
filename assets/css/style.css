@@ -686,6 +686,7 @@ section { padding: 5rem 0; }
   color: var(--accent-dark);
   white-space: nowrap;
 }
+.data-table--wrap tbody td:first-child { white-space: normal; }
 .data-table caption {
   caption-side: top;
   text-align: left;
