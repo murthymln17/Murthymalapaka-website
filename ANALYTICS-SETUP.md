@@ -173,6 +173,45 @@ extra setup needed. Two optional extras:
   Between exports, single posts can be appended by telling Claude the date,
   linked article, and impression count.
 
+## 5c. Campaign tagging (UTM links)
+
+GA4 credits a visit to LinkedIn only when the browser hands it a LinkedIn
+referrer. Much of LinkedIn's traffic does not: the mobile app's in-app browser
+often sends no referrer at all (those visits land in **Direct**), and links the
+platform rewrites through its `lnkd.in` shortener arrive as a generic
+**Referral**. The result is a real LinkedIn audience that GA4 reports as
+smaller than it is — nothing is broken, the attribution signal simply is not
+being sent.
+
+A tagged link carries its own attribution in the URL, so it is credited
+correctly whichever way the reader arrives. The dashboard's **Campaign links**
+section builds one: pick the destination and where you are posting it, and copy
+the URL it produces. Post that URL rather than the bare one.
+
+The convention it emits — keep it, GA4 treats differently-cased values as
+different sources:
+
+| Parameter | Value | Why |
+|---|---|---|
+| `utm_source` | `linkedin` | The platform, lowercase always |
+| `utm_medium` | `social` | Puts the visit in GA4's **Organic Social** channel |
+| `utm_campaign` | `<page-slug>-<yyyy-mm-dd>` | One name per post, so posts stay distinguishable |
+| `utm_content` | `post` / `comment` / `profile` / `dm` | Where in LinkedIn the link sat |
+
+Tagged traffic then shows up in three places: the **Tagged campaigns** card
+(GA4 section), **Organic Social** in *Where visitors came from*, and
+`linkedin` in *Top sources*. An empty Tagged campaigns card means the links
+that period went out untagged.
+
+Two things worth knowing:
+
+- Tagging is not retroactive. Only links posted with tags are attributed this
+  way, so give it a few posts before comparing periods.
+- The Objectives section counts a session as LinkedIn-sourced when the GA4
+  source contains `linkedin` or `lnkd.in`, which covers both tagged and
+  untagged arrivals. Direct visits with no referrer remain uncountable — that
+  gap is exactly what tagging closes.
+
 ## Environment variable summary
 
 | Variable | Used by | Required for |

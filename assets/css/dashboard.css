@@ -456,6 +456,56 @@
 .brand-mark--lg { width: 44px; height: 44px; font-size: 1rem; display: inline-flex; }
 .login-error { color: #d03b3b; font-size: 0.82rem; margin: 0.8rem 0 0; }
 
+/* ---------- Campaign link builder ---------- */
+.utm-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.8rem;
+  margin-top: 0.2rem;
+}
+.utm-field { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+.utm-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.utm-input {
+  width: 100%;
+  font: 400 0.88rem 'Inter', sans-serif;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+}
+.utm-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.utm-out-row { display: flex; align-items: stretch; gap: 0.5rem; margin-top: 0.9rem; }
+.utm-out {
+  flex: 1;
+  min-width: 0;
+  font: 400 0.82rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-alt);
+  color: var(--text);
+  word-break: break-all;
+  resize: vertical;
+}
+.utm-out:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.utm-copy {
+  flex: 0 0 auto;
+  font: 500 0.82rem 'Inter', sans-serif;
+  padding: 0 1rem;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+.utm-copy:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   .kpi-grid { grid-template-columns: repeat(2, 1fr); }
@@ -469,6 +519,9 @@
   .dash-controls { width: 100%; justify-content: space-between; }
   .kpi .kpi-value { font-size: 1.55rem; }
   .live-pill { font-size: 0.72rem; padding: 0.25rem 0.65rem; }
+  .utm-form { grid-template-columns: 1fr; }
+  /* The URL wraps to more lines in a narrow column — show it without scrolling. */
+  .utm-out { min-height: 6rem; }
 }
 @media (max-width: 380px) {
   .kpi-grid { grid-template-columns: 1fr; }
