@@ -711,8 +711,30 @@
     renderBarList(listSlot('card-ga4-countries'), (data.countries || []).map(function (c) {
       return { label: c.label, value: c.users, sub: fmtNum(c.sessions) + ' sessions' };
     }));
+    renderCampaigns(listSlot('card-ga4-campaigns'), data.campaigns);
     renderRecentVisits(document.querySelector('#card-ga4-recent [data-table]'), data.recentVisits, data.propertyTimeZone);
     updateLivePill(data.realtimeUsers);
+  }
+
+  function renderCampaigns(slot, campaigns) {
+    if (campaigns && campaigns.length) {
+      renderBarList(slot, campaigns.map(function (c) {
+        return {
+          label: c.label,
+          value: c.sessions,
+          sub: c.source + ' / ' + c.medium + ' \u00b7 ' + fmtNum(c.users) + ' visitors',
+        };
+      }));
+      return;
+    }
+    slot.textContent = '';
+    var notice = el('div', 'setup-notice');
+    notice.appendChild(el('strong', null, 'No tagged links in this period. '));
+    notice.appendChild(document.createTextNode(
+      'Every visit was attributed by referrer alone, which is exactly what loses LinkedIn: '
+        + 'the app hands Google Analytics no referrer on much of its traffic, so those visits '
+        + 'land in Direct. Build a link below, post that URL, and it will show up here.'));
+    slot.appendChild(notice);
   }
 
   function renderGsc(data) {
@@ -761,9 +783,208 @@
     livePill.hidden = false;
   }
 
+  /* ---------- campaign links (UTM builder) ---------- */
+
+  var SITE_ORIGIN = 'https://murthymalapaka.com';
+
+  // Where the link gets posted -> the tags that describe it. GA4 folds
+  // medium=social into the Organic Social channel, which is where LinkedIn
+  // traffic belongs and where untagged in-app visits never land.
+  var UTM_PRESETS = [
+    { label: 'LinkedIn post', source: 'linkedin', medium: 'social', content: 'post' },
+    { label: 'LinkedIn comment', source: 'linkedin', medium: 'social', content: 'comment' },
+    { label: 'LinkedIn profile / featured', source: 'linkedin', medium: 'social', content: 'profile' },
+    { label: 'LinkedIn message', source: 'linkedin', medium: 'social', content: 'dm' },
+    { label: 'Newsletter email', source: 'newsletter', medium: 'email', content: '' },
+    { label: 'Talk or slide deck', source: 'talk', medium: 'referral', content: '' },
+  ];
+
+  var UTM_PAGES = [
+    { path: '/', label: 'Home' },
+    { path: '/insights/', label: 'Insights index' },
+    { path: '/about/', label: 'About' },
+    { path: '/publications/', label: 'Publications' },
+    { path: '/frameworks/', label: 'Frameworks' },
+    { path: '/contact/', label: 'Contact' },
+  ];
+
+  // GA4 counts "Social" and "social" as two different mediums, so every value
+  // this builder emits is lowercased and reduced to [a-z0-9-].
+  function utmTag(value) {
+    return String(value == null ? '' : value)
+      .toLowerCase()
+      .replace(/[‘’']/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  function utmToday() {
+    var d = new Date();
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  }
+
+  // One campaign name per post: the page slug plus the date it went out.
+  function defaultCampaign(path) {
+    var parts = String(path || '/').split('/').filter(Boolean);
+    return (utmTag(parts[parts.length - 1]) || 'home') + '-' + utmToday();
+  }
+
+  function utmField(labelText, control) {
+    var wrap = el('label', 'utm-field');
+    wrap.appendChild(el('span', 'utm-label', labelText));
+    wrap.appendChild(control);
+    return wrap;
+  }
+
+  function buildUtmCard() {
+    var slot = document.querySelector('#card-utm [data-utm]');
+    if (!slot) return;
+
+    var dest = el('select', 'utm-input');
+    var preset = el('select', 'utm-input');
+    var campaign = el('input', 'utm-input');
+    var variant = el('input', 'utm-input');
+    campaign.type = 'text';
+    variant.type = 'text';
+    campaign.spellcheck = false;
+    variant.spellcheck = false;
+    variant.placeholder = 'optional';
+
+    UTM_PRESETS.forEach(function (p, i) {
+      var opt = el('option', null, p.label);
+      opt.value = String(i);
+      preset.appendChild(opt);
+    });
+
+    // A textarea rather than an input: the whole URL should be readable
+    // before it goes out in a post, not scrolled through.
+    var out = el('textarea', 'utm-out');
+    out.rows = 2;
+    out.readOnly = true;
+    out.spellcheck = false;
+    out.setAttribute('aria-label', 'Tagged link');
+
+    var copyBtn = el('button', 'utm-copy', 'Copy');
+    copyBtn.type = 'button';
+
+    // The campaign name follows the destination until it is typed over, and
+    // the destination defaults to the newest article until one is picked.
+    var campaignEdited = false;
+    var destPicked = false;
+
+    function taggedUrl() {
+      var p = UTM_PRESETS[Number(preset.value) || 0];
+      var pairs = [
+        ['utm_source', utmTag(p.source)],
+        ['utm_medium', utmTag(p.medium)],
+        ['utm_campaign', utmTag(campaign.value) || defaultCampaign(dest.value)],
+        ['utm_content', utmTag(variant.value) || utmTag(p.content)],
+      ].filter(function (kv) { return kv[1]; });
+      return SITE_ORIGIN + (dest.value || '/') + '?' + pairs.map(function (kv) {
+        return kv[0] + '=' + encodeURIComponent(kv[1]);
+      }).join('&');
+    }
+
+    function update() {
+      if (!campaignEdited) campaign.value = defaultCampaign(dest.value);
+      out.value = taggedUrl();
+    }
+
+    dest.addEventListener('change', function () {
+      destPicked = true;
+      update();
+    });
+    preset.addEventListener('change', update);
+    variant.addEventListener('input', update);
+    campaign.addEventListener('input', function () {
+      campaignEdited = campaign.value.trim() !== '';
+      update();
+    });
+    // Show the normalisation rather than only applying it behind the field.
+    campaign.addEventListener('change', function () {
+      if (campaignEdited) campaign.value = utmTag(campaign.value);
+      update();
+    });
+    variant.addEventListener('change', function () {
+      variant.value = utmTag(variant.value);
+      update();
+    });
+
+    copyBtn.addEventListener('click', function () {
+      var done = function () {
+        copyBtn.textContent = 'Copied';
+        setTimeout(function () { copyBtn.textContent = 'Copy'; }, 1600);
+      };
+      out.select();
+      var legacy = function () {
+        try { document.execCommand('copy'); done(); } catch (e) { /* leave it selected */ }
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(out.value).then(done, legacy);
+      } else {
+        legacy();
+      }
+    });
+
+    var form = el('div', 'utm-form');
+    form.appendChild(utmField('Destination', dest));
+    form.appendChild(utmField('Posting it on', preset));
+    form.appendChild(utmField('Campaign name', campaign));
+    form.appendChild(utmField('Variant', variant));
+
+    var outRow = el('div', 'utm-out-row');
+    outRow.appendChild(out);
+    outRow.appendChild(copyBtn);
+
+    var note = el('p', 'dash-note');
+    note.appendChild(document.createTextNode('Tags are lowercased for you — GA4 reads '));
+    note.appendChild(el('code', null, 'Social'));
+    note.appendChild(document.createTextNode(' and '));
+    note.appendChild(el('code', null, 'social'));
+    note.appendChild(document.createTextNode(' as two separate mediums. Keep one campaign name per post (the date suffix does that), and after posting tell a Claude Code session the impressions so the LinkedIn post log stays in step.'));
+
+    slot.appendChild(form);
+    slot.appendChild(outRow);
+    slot.appendChild(note);
+
+    function setDestinations(list) {
+      var keep = destPicked ? dest.value : '';
+      dest.textContent = '';
+      list.forEach(function (d) {
+        var opt = el('option', null, d.label);
+        opt.value = d.path;
+        dest.appendChild(opt);
+      });
+      if (keep) dest.value = keep;
+      update();
+    }
+
+    setDestinations(UTM_PAGES);
+
+    // The insights index is the canonical article list; read it instead of
+    // keeping a second copy here, so a newly published article appears in
+    // this dropdown with no dashboard change.
+    fetch('/insights/').then(function (res) {
+      return res.ok ? res.text() : null;
+    }).then(function (html) {
+      if (!html) return;
+      var doc = new DOMParser().parseFromString(html, 'text/html');
+      var seen = {};
+      var articles = [];
+      doc.querySelectorAll('h3 a[href^="/insights/"]').forEach(function (a) {
+        var path = a.getAttribute('href');
+        if (!path || path === '/insights/' || seen[path]) return;
+        seen[path] = true;
+        articles.push({ path: path, label: (a.textContent || path).replace(/\s+/g, ' ').trim() });
+      });
+      if (articles.length) setDestinations(articles.concat(UTM_PAGES));
+    }).catch(function () { /* keep the fallback list */ });
+  }
+
   /* ---------- loading ---------- */
 
-  var GA4_CARDS = ['card-ga4-traffic', 'card-ga4-pages', 'card-ga4-channels', 'card-ga4-sources', 'card-ga4-countries', 'card-ga4-recent'];
+  var GA4_CARDS = ['card-ga4-traffic', 'card-ga4-pages', 'card-ga4-channels', 'card-ga4-sources', 'card-ga4-countries', 'card-ga4-campaigns', 'card-ga4-recent'];
   var GSC_CARDS = ['card-gsc-clicks', 'card-gsc-impressions', 'card-gsc-queries', 'card-gsc-pages'];
   var CF_CARDS = ['card-cf-traffic', 'card-cf-referrers', 'card-cf-countries', 'card-cf-devices'];
 
@@ -925,6 +1146,11 @@
         { label: 'forbes.com', sessions: 52, users: 47 },
         { label: 'bing', sessions: 21, users: 20 },
       ],
+      campaigns: [
+        { label: 'ticket-factories-2026-08-25', source: 'linkedin', medium: 'social', sessions: 74, users: 68 },
+        { label: 'physical-ai-eliminate-predict-prevent-2026-08-18', source: 'linkedin', medium: 'social', sessions: 41, users: 39 },
+        { label: 'chief-intelligence-officer-2026-08-11', source: 'linkedin', medium: 'social', sessions: 23, users: 22 },
+      ],
     });
     renderGsc({
       totals: { clicks: totalClicks, impressions: totalImps, ctr: totalClicks / totalImps, position: 18.4 },
@@ -1041,5 +1267,6 @@
     document.getElementById('dash-updated').textContent = 'Demo data — remove ?demo=1 from the URL for live analytics.';
   }
 
+  buildUtmCard();
   loadAll();
 })();

@@ -105,10 +105,24 @@
           <h3>Where readers are</h3>
           <div class="list-slot" data-list></div>
         </div>
+        <div class="dash-card dash-card--wide" id="card-ga4-campaigns">
+          <h3>Tagged campaigns <span class="source-tag">UTM</span></h3>
+          <div class="list-slot" data-list></div>
+        </div>
         <div class="dash-card dash-card--wide" id="card-ga4-recent">
           <h3>Recent activity</h3>
           <div class="table-slot" data-table></div>
         </div>
+      </div>
+    </section>
+
+    <!-- Campaign link builder -->
+    <section class="dash-section" id="campaign-links">
+      <h2 class="dash-section-title">Campaign links <span class="source-tag">UTM builder</span></h2>
+      <p class="dash-note" style="margin: -0.4rem 0 0.9rem;">LinkedIn strips referrer information on much of its traffic — in-app taps and links rewritten through <code>lnkd.in</code> often reach Google Analytics as direct or generic referral visits, which is why LinkedIn looks smaller there than it is. A tagged link carries its own attribution, so the visit lands in Organic Social regardless. Build the link here, post that URL, and the campaign shows up in the card above.</p>
+      <div class="dash-card dash-card--wide" id="card-utm">
+        <h3>Build a tagged link</h3>
+        <div class="utm-slot" data-utm></div>
       </div>
     </section>
 

@@ -74,6 +74,18 @@ the Audience-quality card. Two refresh paths:
 `schedule` lists standing posting weekdays — those count as post days even
 without a logged post. Field shapes are documented in the file's `_readme`.
 
+**LinkedIn links should be UTM-tagged.** GA4 sees no referrer from LinkedIn's
+in-app browser and a bare `lnkd.in` referrer from its shortener, so untagged
+LinkedIn visits land in Direct/Referral and the platform looks smaller than it
+is. The dashboard's *Campaign links* card builds the tagged URL; the
+convention is `utm_source=linkedin`, `utm_medium=social` (this is what puts the
+visit in Organic Social), `utm_campaign=<page-slug>-<yyyy-mm-dd>`,
+`utm_content=post|comment|profile|dm` — **all lowercase**, since GA4 counts
+`Social` and `social` separately. Tagged sessions appear in the *Tagged
+campaigns* card. Attribution in `worker/insights.js` matches a session source
+containing `linkedin` or `lnkd.in`; keep both if that filter is ever touched.
+See `ANALYTICS-SETUP.md` §5c.
+
 ## Styling
 
 Reuse the classes already in `assets/css/style.css` rather than adding new

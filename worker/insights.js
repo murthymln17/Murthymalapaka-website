@@ -46,10 +46,21 @@ async function fetchGa4(env, token, days) {
   const base = `https://analyticsdata.googleapis.com/v1beta/properties/${env.GA4_PROPERTY_ID}`;
   const current = { startDate: `${days}daysAgo`, endDate: 'today' };
   const previous = { startDate: `${2 * days}daysAgo`, endDate: `${days + 1}daysAgo` };
+  // GA4 files LinkedIn traffic under more than one source name: the site
+  // itself (linkedin.com / www.linkedin.com), LinkedIn's link shortener
+  // (lnkd.in — the app rewrites outbound post links through it), and plain
+  // "linkedin" once a link carries utm_source=linkedin. Matching only
+  // "linkedin" dropped every shortener visit, which is the bulk of mobile
+  // app traffic.
+  const linkedinSources = ['linkedin', 'lnkd.in'];
   const linkedinFilter = {
-    filter: {
-      fieldName: 'sessionSource',
-      stringFilter: { matchType: 'CONTAINS', value: 'linkedin', caseSensitive: false },
+    orGroup: {
+      expressions: linkedinSources.map((value) => ({
+        filter: {
+          fieldName: 'sessionSource',
+          stringFilter: { matchType: 'CONTAINS', value, caseSensitive: false },
+        },
+      })),
     },
   };
 

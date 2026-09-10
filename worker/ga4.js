@@ -209,17 +209,49 @@ export async function handleGa4(request, env) {
     ],
   };
 
+  // UTM-tagged campaigns. GA4 files untagged traffic under the placeholder
+  // campaign names excluded below, so what is left is only links that
+  // actually carried tags — which makes this the check that a post's link
+  // was tagged at all, not just a report. Run on its own rather than in the
+  // batch above: it is the newest report here, and a rejection of it should
+  // cost this one card, not every GA4 card on the dashboard.
+  const campaignsRequest = {
+    dateRanges,
+    dimensions: [
+      { name: 'sessionCampaignName' },
+      { name: 'sessionSource' },
+      { name: 'sessionMedium' },
+    ],
+    metrics: [{ name: 'sessions' }, { name: 'activeUsers' }],
+    dimensionFilter: {
+      notExpression: {
+        filter: {
+          fieldName: 'sessionCampaignName',
+          inListFilter: {
+            values: ['(not set)', '(direct)', '(organic)', '(referral)'],
+            caseSensitive: false,
+          },
+        },
+      },
+    },
+    orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
+    limit: 15,
+  };
+
   let batch;
   let realtimeUsers = null;
+  let campaignRows = [];
   try {
-    const [reportList, realtimeRes] = await Promise.all([
+    const [reportList, realtimeRes, campaignsRes] = await Promise.all([
       runBatchedReports(base, token, reports.requests),
       post('runRealtimeReport', { metrics: [{ name: 'activeUsers' }] }).catch(() => null),
+      post('runReport', campaignsRequest).catch(() => null),
     ]);
     batch = { reports: reportList };
     if (realtimeRes) {
       realtimeUsers = Number(realtimeRes.rows?.[0]?.metricValues?.[0]?.value || 0);
     }
+    if (campaignsRes) campaignRows = campaignsRes.rows || [];
   } catch (err) {
     return json({ error: err.message }, 502);
   }
@@ -282,6 +314,13 @@ export async function handleGa4(request, env) {
       label: r.dimensionValues[0].value || '(not set)',
       users: metric(r, 0),
       sessions: metric(r, 1),
+    })),
+    campaigns: campaignRows.map((r) => ({
+      label: r.dimensionValues[0].value,
+      source: r.dimensionValues[1].value,
+      medium: r.dimensionValues[2].value,
+      sessions: metric(r, 0),
+      users: metric(r, 1),
     })),
     propertyTimeZone: recent?.metadata?.timeZone || null,
     recentVisits: stitchVisits(rows(recent), metric, recent?.metadata?.timeZone),
