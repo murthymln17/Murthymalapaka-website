@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building Intelligence in Physical AI: A Reference Architecture for Predict, Prevent, Eliminate | Murthy Malapaka</title>
+<meta name="description" content="A Forbes piece on industrial AI as a decision layer above control, and my own predict/prevent/eliminate framing, both stop one layer short. Here's the retrieval architecture underneath: ground truth by layer, from sensor-confirmed to twin-simulated to human-adjudicated.">
+<link rel="canonical" href="https://murthymalapaka.com/insights/physical-ai-reference-architecture/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://murthymalapaka.com/insights/physical-ai-reference-architecture/">
+<meta property="og:title" content="Building Intelligence in Physical AI: A Reference Architecture for Predict, Prevent, Eliminate | Murthy Malapaka">
+<meta property="og:description" content="A Forbes piece on industrial AI as a decision layer above control, and my own predict/prevent/eliminate framing, both stop one layer short. Here's the retrieval architecture underneath: ground truth by layer, from sensor-confirmed to twin-simulated to human-adjudicated.">
+<meta property="og:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<meta property="og:site_name" content="Murthy Malapaka">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Building Intelligence in Physical AI: A Reference Architecture for Predict, Prevent, Eliminate | Murthy Malapaka">
+<meta name="twitter:description" content="A Forbes piece on industrial AI as a decision layer above control, and my own predict/prevent/eliminate framing, both stop one layer short. Here's the retrieval architecture underneath: ground truth by layer, from sensor-confirmed to twin-simulated to human-adjudicated.">
+<meta name="twitter:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Article",
+   "headline": "Building Intelligence in Physical AI: A Reference Architecture for Predict, Prevent, Eliminate",
+   "description": "A Forbes piece on industrial AI as a decision layer above control, and my own predict/prevent/eliminate framing, both stop one layer short. Here's the retrieval architecture underneath: ground truth by layer, from sensor-confirmed to twin-simulated to human-adjudicated.",
+   "url": "https://murthymalapaka.com/insights/physical-ai-reference-architecture/",
+   "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://murthymalapaka.com/insights/physical-ai-reference-architecture/"
+   },
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "datePublished": "2026-09-14",
+   "dateModified": "2026-09-14",
+   "author": {
+    "@id": "https://murthymalapaka.com/#person"
+   },
+   "publisher": {
+    "@id": "https://murthymalapaka.com/#person"
+   }
+  },
+  {
+   "@type": "Person",
+   "@id": "https://murthymalapaka.com/#person",
+   "name": "Murthy Malapaka",
+   "jobTitle": "Executive Technology Strategist & AI Transformation Leader",
+   "url": "https://murthymalapaka.com",
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "description": "Murthy Malapaka helps enterprise leadership teams replace labor-centric operating models with AI-native ones — turning strategy into operational reality.",
+   "knowsAbout": [
+    "AI-native operating models",
+    "IT operations transformation",
+    "Enterprise AI strategy",
+    "Intelligent automation",
+    "Platform intelligence"
+   ],
+   "sameAs": [
+    "https://www.linkedin.com/in/murthymln/",
+    "https://councils.forbes.com/profile/Murthy-Malapaka-VIce-president-Technology-Innovation-SLK-software-SLK-Software-The-Automation-Compan/37d0644e-9088-43a1-a051-f20e2c584608"
+   ]
+  }
+ ]
+}
+</script>
+<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script src="/assets/js/analytics.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="/" class="brand"><span class="brand-mark">MM</span> Murthy Malapaka</a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/publications/">Publications</a></li>
+      <li><a href="/frameworks/">Frameworks</a></li>
+      <li><a href="/insights/" aria-current="page">Insights</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="article-hero">
+    <div class="container">
+      <a href="/insights/" class="back-link">← Insights</a>
+      <span class="tag">AI-Native Operating Models</span>
+      <h1>Building Intelligence in Physical AI: A Reference Architecture for Predict, Prevent, Eliminate</h1>
+      <p class="read-time">6 min read</p>
+    </div>
+  </div>
+
+  <article class="article-body">
+    <div class="container" style="max-width: 700px;">
+      <p class="lede">Two pieces published this month, from two different vantage points, are describing the same unfinished architecture without naming it.</p>
+
+      <p>A Forbes Technology Council piece from a 40-year process control veteran argues that industrial AI should sit above trusted control as a decision layer, not replace it — that regulatory control keeps a plant stable, advanced process control coordinates it, optimization decides where it should run, and AI's job is to ask whether that target is still the right one. My own piece last week argued that physical AI needs to answer three structurally different questions — predict, prevent, eliminate — and that almost no one is building for the third one, because it doesn't have a fast feedback loop.</p>
+
+      <p>Put those two arguments next to each other and a gap opens up that neither piece closes on its own: nobody has specified what the data and retrieval architecture underneath all three of these question types actually looks like. Everyone agrees AI needs to sit above control, not inside it. Almost no one has said what "above" is built out of.</p>
+
+      <h2>The control hierarchy and the intelligence hierarchy both stop one layer short</h2>
+
+      <p>The process control hierarchy — regulatory control, APC, optimization — answers "how" and "what." Industrial AI, in that framing, adds "why": why is this still the right operating target given today's conditions, not yesterday's. That's a real and useful addition. But it still assumes the optimization loop is worth running. It never asks whether the workflow generating the target in the first place should exist.</p>
+
+      <p>My own predict/prevent/eliminate framing has the same shape from the other direction. Predict and prevent both live comfortably inside existing industrial AI investment — forecasting a bearing failure, recommending a corrective action before it happens. Eliminate is the one that asks whether the underlying process — the manual calibration step, the QA checkpoint, the approval chain — needs to run at all. I checked the maintenance maturity models this week: reactive, preventive, condition-based, predictive, prescriptive. Every one of them stops at "recommend the optimal action." None of them has a stage that asks whether the action, or the process around it, should exist. Schneider Electric's own framing of its Cognite acquisition describes the intended trajectory as predictive analytics maturing into autonomous recommendations and eventually closed-loop optimization — which is the industry's most capital-backed roadmap, and it still doesn't reach the elimination question.</p>
+
+      <p>So the gap isn't a gap in ambition. It's a gap in architecture. Nobody has built the thing that would let an organization ask "should this exist" with the same rigor it currently applies to "what will happen" and "what should we do about it."</p>
+
+      <h2>The organizing principle: ground truth determines architecture, not the other way around</h2>
+
+      <p>The three question types don't just need different models. They need different data architectures, because each one has a fundamentally different source of ground truth.</p>
+
+      <p><strong>Predict</strong> is confirmed by the sensor stream itself. A forecasted bearing failure either happens or it doesn't, on a timeline short enough to train against. This is why time-series retrieval and streaming anomaly detection — layered metric streams evaluated in real time against learned baselines, the kind of architecture I built and validated at Severity-1 scale a decade ago — remain the right foundation for this layer. The retrieval problem here is temporal: what happened in this asset, in this window, relative to its own history.</p>
+
+      <p><strong>Prevent</strong> has no direct observation, because the ground truth is a counterfactual — the failure that didn't happen. That has to come from somewhere synthetic: a digital twin generating simulated outcomes under different control actions, or engineered root-cause logic that encodes what a domain expert already knows about a failure mode. Recent digital twin research bears this out directly — twins that assimilate new observational data at each step and recommend the next control action, refining their own transition model as they go, measurably outperform static ones. That's a working example of a twin standing in for the counterfactual a sensor can't record. The retrieval problem here is relational and physical: what does this asset's constraint envelope look like, and what does the twin's simulated state say happens next. This is also where hybrid modeling earns its place — a purely data-driven model can find a mathematically strong relationship that violates thermodynamics, so the twin has to be grounded in first-principles constraints, not just historical pattern-matching.</p>
+
+      <p><strong>Eliminate</strong> has the slowest and noisiest ground truth of all: a business outcome — cycle time, cost, error rate — that shows up weeks after an organizational change, not after a single inference. There's no sensor reading that confirms a removed step was the right call. This is where retrieval-augmented reasoning over the unified asset and process data — PLM, MES, SCADA, ERP, contextualized through a shared industrial data model — has to be paired with staged human-in-the-loop trial, not model confidence. An open-weight model reasoning over this layer is not answering "is this true" the way it is at the predict layer. It's answering "is this process still justified," and the only real evaluator is a human decision-maker watching the outcome play out.</p>
+
+      <h2>What the architecture actually looks like</h2>
+
+      <p>Laid out as a stack, this becomes a retrieval router sitting beneath a shared reasoning layer, not a single vector index doing everything:</p>
+
+      <ul class="body-list">
+        <li><strong>Unified data foundation</strong> — asset and process data contextualized through a shared industrial data model, the same pattern the recent Schneider Electric–Cognite and Emerson–AspenTech consolidation is built around. Without this layer, none of the three question types has anything reliable to query against.</li>
+        <li><strong>Time-series and streaming layer</strong> — feeds Predict. Sensor data, anomaly scoring against learned baselines, no semantic search required.</li>
+        <li><strong>Graph and physical-constraint layer</strong> — feeds Prevent. Asset hierarchy, operating envelopes, thermodynamic and mechanical limits, plus the digital twin's simulated state. This is where hybrid modeling lives.</li>
+        <li><strong>Document and semantic layer</strong> — feeds Eliminate. Manuals, process narratives, historical change records, retrieved and reasoned over, not just matched by similarity.</li>
+        <li><strong>Reasoning harness</strong> — the layer that decides which question type a given query actually is, and routes accordingly. This is a harness-design problem, not a model-size problem: what produces something resembling judgment is a trained pattern of attending to the right signals in the right sequence, taught deliberately rather than assumed to come free with a larger model.</li>
+        <li><strong>Trust-tightening layer</strong> — the same principle the Forbes piece makes for control applies here to the architecture as a whole. Recommendations sit above execution until they've survived real operating conditions; only then does integration tighten. This is true for a predicted bearing failure, and it's true, at a much slower pace, for an eliminated QA step.</li>
+      </ul>
+
+      <h2>Why this matters now</h2>
+
+      <p>The capital moving into this space — Schneider's acquisition of Cognite, Emerson's completed AspenTech consolidation, the broader pattern across Siemens, ABB, Honeywell and Rockwell — is being spent almost entirely on the data foundation and the predict/automate layers. That's necessary and it's not wrong. But it means the architecture being built at scale right now has no place in it for the question that produces the largest outcome: not "run this faster," but "does this need to run at all." An organization that treats predict, prevent and eliminate as the same retrieval problem, solved by the same vector index, will get a system that's fluent everywhere and reliable nowhere. One that architects ground truth by layer, from sensor-confirmed to twin-simulated to human-adjudicated, has a real shot at answering all three honestly.</p>
+
+      <p class="author-note" style="margin-top: 2rem; color: var(--text-muted);"><em>This is part of an ongoing series on AI-native operating models and the shift from automating work to eliminating it.</em></p>
+    </div>
+  </article>
+
+  <section class="section-alt">
+    <div class="container" style="max-width: 700px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">Related Publications</span>
+        <h2>Related reading</h2>
+      </div>
+      <ul class="pub-list reveal">
+        <li>
+          <a href="/insights/physical-ai-eliminate-predict-prevent/">Eliminate, Predict, Prevent: What Physical AI Should Actually Be Asked</a>
+          <p>Most physical AI and IT/OT convergence pitches are built to run an existing workflow faster. The harder question is whether the workflow should exist at all — and predict, prevent, and eliminate are three different problems with three different feedback loops.</p>
+        </li>
+        <li>
+          <a href="/insights/owning-how-the-enterprise-thinks/">The Best Reasoning Model Still Does Not Know How Your Enterprise Should Think</a>
+          <p>Reasoning models keep getting more capable. But capacity to reason is not a reasoning objective — without proprietary context and an elimination-led framework, even the best model just automates the existing process faster.</p>
+        </li>
+        <li>
+          <a href="/insights/ai-native-it-ops-reference-architecture/">AI-Native IT Operations: A Reference Architecture for Guaranteed Outcomes per Token Invested</a>
+          <p>Most transformations start with a vendor, a model, or an agent library — not an architecture. Why current-state intelligence has to define future-state objectives, elimination-led execution replaces labor, and SME assurance closes the loop back to intelligence.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <span class="copyright">&copy; <span data-year></span> Murthy Malapaka. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="mailto:murthymln17@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/murthymln/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
