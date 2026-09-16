@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Distributed Computing, Not Bigger Models: What Enterprise AI Actually Needs | Murthy Malapaka</title>
+<meta name="description" content="Enterprise AI is quietly re-learning the lessons of distributed computing, one expensive GPU bill at a time. Why size, structure, and time — not a bigger model — is the real architecture question most enterprise AI conversations still skip.">
+<link rel="canonical" href="https://murthymalapaka.com/insights/enterprise-ai-workload-routing/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://murthymalapaka.com/insights/enterprise-ai-workload-routing/">
+<meta property="og:title" content="Distributed Computing, Not Bigger Models: What Enterprise AI Actually Needs | Murthy Malapaka">
+<meta property="og:description" content="Enterprise AI is quietly re-learning the lessons of distributed computing, one expensive GPU bill at a time. Why size, structure, and time — not a bigger model — is the real architecture question most enterprise AI conversations still skip.">
+<meta property="og:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<meta property="og:site_name" content="Murthy Malapaka">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Distributed Computing, Not Bigger Models: What Enterprise AI Actually Needs | Murthy Malapaka">
+<meta name="twitter:description" content="Enterprise AI is quietly re-learning the lessons of distributed computing, one expensive GPU bill at a time. Why size, structure, and time — not a bigger model — is the real architecture question most enterprise AI conversations still skip.">
+<meta name="twitter:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Article",
+   "headline": "Distributed Computing, Not Bigger Models: What Enterprise AI Actually Needs",
+   "description": "Enterprise AI is quietly re-learning the lessons of distributed computing, one expensive GPU bill at a time. Why size, structure, and time — not a bigger model — is the real architecture question most enterprise AI conversations still skip.",
+   "url": "https://murthymalapaka.com/insights/enterprise-ai-workload-routing/",
+   "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://murthymalapaka.com/insights/enterprise-ai-workload-routing/"
+   },
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "datePublished": "2026-09-16",
+   "dateModified": "2026-09-16",
+   "author": {
+    "@id": "https://murthymalapaka.com/#person"
+   },
+   "publisher": {
+    "@id": "https://murthymalapaka.com/#person"
+   }
+  },
+  {
+   "@type": "Person",
+   "@id": "https://murthymalapaka.com/#person",
+   "name": "Murthy Malapaka",
+   "jobTitle": "Executive Technology Strategist & AI Transformation Leader",
+   "url": "https://murthymalapaka.com",
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "description": "Murthy Malapaka helps enterprise leadership teams replace labor-centric operating models with AI-native ones — turning strategy into operational reality.",
+   "knowsAbout": [
+    "AI-native operating models",
+    "IT operations transformation",
+    "Enterprise AI strategy",
+    "Intelligent automation",
+    "Platform intelligence"
+   ],
+   "sameAs": [
+    "https://www.linkedin.com/in/murthymln/",
+    "https://councils.forbes.com/profile/Murthy-Malapaka-VIce-president-Technology-Innovation-SLK-software-SLK-Software-The-Automation-Compan/37d0644e-9088-43a1-a051-f20e2c584608"
+   ]
+  }
+ ]
+}
+</script>
+<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script src="/assets/js/analytics.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="/" class="brand"><span class="brand-mark">MM</span> Murthy Malapaka</a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/publications/">Publications</a></li>
+      <li><a href="/frameworks/">Frameworks</a></li>
+      <li><a href="/insights/" aria-current="page">Insights</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="article-hero">
+    <div class="container">
+      <a href="/insights/" class="back-link">← Insights</a>
+      <span class="tag">AI-Native Operating Models</span>
+      <h1>Distributed Computing, Not Bigger Models: What Enterprise AI Actually Needs</h1>
+      <p class="read-time">3 min read</p>
+    </div>
+  </div>
+
+  <article class="article-body">
+    <div class="container" style="max-width: 700px;">
+      <p class="lede">There's a lot of energy right now around inference-time scaling and graph-based retrieval replacing flat vector search. Both are useful developments. But they're symptoms of a bigger shift the industry hasn't named directly: enterprise AI is quietly re-learning the lessons of distributed computing, one expensive GPU bill at a time.</p>
+
+      <p>The default instinct in most AI-native transformation work is still "which model." Pick the biggest capable model, point it at the problem, done. That instinct made sense when the alternative was doing the work by hand. It stops making sense the moment you're running production workloads at scale, because it treats every task — high-volume classification, novel judgment calls, batch analysis, real-time execution — as if it deserves the same resource profile. It doesn't.</p>
+
+      <p>Distributed computing solved this problem decades ago by routing work to the resource suited to it, not the resource available in excess. Applying that same discipline to enterprise AI comes down to three kinds of tiering.</p>
+
+      <h2>Size: match model scale to task complexity</h2>
+
+      <p>Most of the volume in an AI-native operations pipeline — extraction, classification, routing decisions — doesn't require frontier-level reasoning. It requires consistency and speed. Reserve larger, more capable models for the genuinely hard cases: novel situations the system hasn't seen enough of to have a confident, deterministic answer. Running everything through a single large model isn't rigor — it's the absence of a routing decision.</p>
+
+      <h2>Structure: match retrieval to the shape of the domain</h2>
+
+      <p>The standard chunk-and-vectorize approach to retrieval treats every document as an undifferentiated bag of text to be sliced and embedded. That works reasonably well for general knowledge retrieval. It works poorly for operational domains where the value is in the relationships — which incidents share a root cause, which changes precede which failures, which systems depend on which others. Forcing that kind of data through a flat vector index throws away the structure that makes it useful. Building retrieval around the actual relational shape of the domain, rather than a generic default, is what makes the intelligence layer trustworthy enough to act on.</p>
+
+      <h2>Time: match latency budget to function</h2>
+
+      <p>Not every part of an intelligent system needs to run in real time. Pattern discovery — figuring out what should be eliminated and how — can run as a batch, offline process, because there's no user waiting on it. What genuinely needs real-time compute is a much smaller slice: live execution, and the human-assist enrichment layer that supports it when a case falls outside what the system is confident handling autonomously. Treating the whole pipeline as if it all needs sub-second latency is how organizations end up paying real-time prices for work that was never time-sensitive.</p>
+
+      <h2>The pattern, not the hype cycle</h2>
+
+      <p>Put those three together — size, structure, and time — and what you get isn't a bigger model or a smarter prompt. It's a workload-routing architecture: the same principle that's underpinned every mature distributed system, applied to AI instead of infrastructure. The "prompt and hope" era treated the model as the whole system. The next phase treats the model as one component in a system that's designed, not improvised.</p>
+
+      <p>This is also, not incidentally, why open-weight models matter here in a way frontier APIs don't fully support. Tiering by size means running multiple models tuned to different jobs. Tiering by structure means owning the retrieval layer enough to shape it around your domain, not a vendor's default. Tiering by time means controlling where compute is spent across a pipeline you actually operate. None of that is available to you if the model is a black box behind an API meter.</p>
+
+      <p>Organizations that get this right aren't the ones with access to the biggest model. They're the ones who did the harder work first: understanding their own workload well enough to know which task needs which resource, at which time, in which shape. That's not a model selection question. It's an architecture question — and it's the one most enterprise AI conversations still skip.</p>
+    </div>
+  </article>
+
+  <section class="section-alt">
+    <div class="container" style="max-width: 700px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">Related Publications</span>
+        <h2>Related reading</h2>
+      </div>
+      <ul class="pub-list reveal">
+        <li>
+          <a href="/insights/own-the-model-own-the-ip/">Own the Model, Own the IP</a>
+          <p>CNBC's report on enterprises shifting to open-weight AI models isn't really a story about cost. It's about turning a rented capability into owned IP — and why elimination-first thinking has to come before self-hosting pays off.</p>
+        </li>
+        <li>
+          <a href="/insights/ai-native-it-ops-reference-architecture/">AI-Native IT Operations: A Reference Architecture for Guaranteed Outcomes per Token Invested</a>
+          <p>Most transformations start with a vendor, a model, or an agent library — not an architecture. Why current-state intelligence has to define future-state objectives, elimination-led execution replaces labor, and SME assurance closes the loop back to intelligence.</p>
+        </li>
+        <li>
+          <a href="/insights/physical-ai-reference-architecture/">Building Intelligence in Physical AI: A Reference Architecture for Predict, Prevent, Eliminate</a>
+          <p>A Forbes piece on industrial AI as a decision layer above control, and my own predict/prevent/eliminate framing, both stop one layer short. Here's the retrieval architecture underneath: ground truth by layer, from sensor-confirmed to twin-simulated to human-adjudicated.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <span class="copyright">&copy; <span data-year></span> Murthy Malapaka. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="mailto:murthymln17@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/murthymln/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
