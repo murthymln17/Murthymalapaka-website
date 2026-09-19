@@ -644,7 +644,7 @@
     var table = document.createElement('table');
     table.className = 'insight-table visits-table';
     var head = document.createElement('tr');
-    ['When', 'Where from', 'Source', 'Landed on', 'Pages', 'Stayed', 'Engaged'].forEach(function (h) {
+    ['When', 'Approx. location', 'Source', 'Landed on', 'Pages', 'Stayed', 'Engaged'].forEach(function (h) {
       head.appendChild(el('th', null, h));
     });
     table.appendChild(head);
@@ -683,7 +683,9 @@
         + (propertyTimeZone ? ', converted from the GA4 property\u2019s ' + propertyTimeZone : '')
         + '. Stayed is the span from first to last activity; Engaged is the time GA4 recorded as active. '
         + 'Rows within 30 minutes from the same place, source and landing page are grouped as one visit, '
-        + 'so a longer visit can appear as consecutive rows.'));
+        + 'so a longer visit can appear as consecutive rows. Location is GA4\u2019s guess from the IP address '
+        + 'and is frequently wrong at city level \u2014 a phone resolves to its carrier\u2019s gateway and an '
+        + 'office to its VPN exit. Treat the country as reliable and the city as a hint.'));
   }
 
   function renderGa4(data) {
@@ -757,6 +759,39 @@
     }));
   }
 
+  function renderNetworks(slot, networks) {
+    slot.textContent = '';
+    if (!networks) {
+      var pending = el('div', 'setup-notice');
+      pending.appendChild(el('strong', null, 'Not collecting yet. '));
+      pending.appendChild(document.createTextNode(
+        'The edge log starts at the first page view after deploy, and the dataset does not exist until then. '
+          + 'If this persists past a day of traffic, the CF_API_TOKEN needs Account Analytics: Read.'));
+      slot.appendChild(pending);
+      return;
+    }
+
+    if (networks.organisations.length) {
+      renderBarList(slot, networks.organisations.map(function (o) {
+        return { label: o.label, value: o.visits, sub: o.country || '' };
+      }));
+    } else {
+      slot.appendChild(el('p', 'chart-empty',
+        'No identifiable organisations yet \u2014 every visit this period came from a consumer or cloud network.'));
+    }
+
+    var counted = networks.orgVisits + networks.consumerVisits + networks.infraVisits;
+    var note = el('p', 'dash-note');
+    note.appendChild(document.createTextNode(
+      'The network a visit arrived on, from Cloudflare\u2019s own edge data \u2014 no IP is stored. Of '
+        + fmtNum(counted) + ' page reads, ' + fmtNum(networks.orgVisits) + ' came from a named organisation, '
+        + fmtNum(networks.consumerVisits) + ' from home or mobile ISPs and '
+        + fmtNum(networks.infraVisits) + ' from clouds, VPNs and crawlers. '
+        + 'Partial by nature: an executive reading on their phone or from home shows a carrier, not an employer, '
+        + 'so read this as organisations that appeared \u2014 never as a count of who visited.'));
+    slot.appendChild(note);
+  }
+
   function renderCf(data) {
     renderLineChart(chartSlot('card-cf-traffic'), {
       labels: data.timeseries.map(function (r) { return r.date; }),
@@ -774,6 +809,7 @@
     renderBarList(listSlot('card-cf-devices'), data.devices.map(function (d) {
       return { label: d.label, value: d.pageviews };
     }));
+    renderNetworks(listSlot('card-cf-networks'), data.networks);
   }
 
   var livePill = document.getElementById('live-pill');
@@ -986,7 +1022,7 @@
 
   var GA4_CARDS = ['card-ga4-traffic', 'card-ga4-pages', 'card-ga4-channels', 'card-ga4-sources', 'card-ga4-countries', 'card-ga4-campaigns', 'card-ga4-recent'];
   var GSC_CARDS = ['card-gsc-clicks', 'card-gsc-impressions', 'card-gsc-queries', 'card-gsc-pages'];
-  var CF_CARDS = ['card-cf-traffic', 'card-cf-referrers', 'card-cf-countries', 'card-cf-devices'];
+  var CF_CARDS = ['card-cf-traffic', 'card-cf-networks', 'card-cf-referrers', 'card-cf-countries', 'card-cf-devices'];
 
   function setLoading(on) {
     state.loading = on;
@@ -1171,6 +1207,18 @@
     });
     renderCf({
       timeseries: ts.map(function (r) { return { date: r.date, visits: r.users, pageviews: r.pageviews }; }),
+      networks: {
+        organisations: [
+          { label: 'Tata Consultancy Services Limited', visits: 34, country: 'IN' },
+          { label: 'Accenture LLP', visits: 21, country: 'US' },
+          { label: 'ServiceNow, Inc.', visits: 12, country: 'US' },
+          { label: 'Infosys Limited', visits: 9, country: 'IN' },
+          { label: 'Deloitte Touche Tohmatsu', visits: 6, country: 'GB' },
+        ],
+        orgVisits: 82,
+        consumerVisits: 611,
+        infraVisits: 143,
+      },
       topReferrers: [
         { label: 'linkedin.com', pageviews: 512 },
         { label: 'Direct / none', pageviews: 402 },

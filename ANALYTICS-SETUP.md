@@ -212,6 +212,44 @@ Two things worth knowing:
   untagged arrivals. Direct visits with no referrer remain uncountable — that
   gap is exactly what tagging closes.
 
+## 5d. Visiting networks (Worker edge log)
+
+Cloudflare hands every Worker request a `request.cf` object containing its own
+IP lookup — including `asOrganization`, the name of the network that owns the
+visitor's address. For a home connection that is the ISP; for someone reading
+from an office it is often the employer. Neither GA4 nor Cloudflare Web
+Analytics reports it: the RUM dataset carries no network dimension and no
+geography finer than country.
+
+`worker/edge-log.js` writes one datapoint per page read to Workers Analytics
+Engine (dataset `mm_site_visits`, bound as `VISITS` in `wrangler.jsonc`), and
+`/api/cloudflare` reads it back through the Analytics Engine SQL API using the
+existing `CF_API_TOKEN`. **No IP address is stored** — `asOrganization` is
+already an aggregated network name and the address never leaves the request.
+
+Not logged: static assets, the `/dashboard/` pages, non-GET requests, and any
+client whose user-agent declares itself a bot or fetcher.
+
+Networks are classified at write time into three buckets, by substring lists
+in `edge-log.js`:
+
+| Bucket | Meaning | Shown |
+|---|---|---|
+| `org` | Anything not matched below — the interesting case | Yes, as the card's list |
+| `consumer` | Home ISPs and mobile carriers | Counted in the note only |
+| `infra` | Clouds, VPN exits, crawlers (Google/Microsoft/Amazon included) | Counted in the note only |
+
+Extend those lists rather than filtering in the UI. Classification is stored
+with each datapoint, so edits apply to new visits only.
+
+**Read the card honestly.** It is partial by construction: an executive reading
+on a phone shows a carrier, and one on a corporate VPN shows the egress
+network. A named organisation appearing is a real signal; its absence is not
+evidence of anything. Counts are page reads, not people.
+
+Data starts at the first page view after deploy — the dataset does not exist
+before that, and there is no backfill. Until then the card says so.
+
 ## Environment variable summary
 
 | Variable | Used by | Required for |
