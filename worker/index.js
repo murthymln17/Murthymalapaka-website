@@ -8,6 +8,7 @@
  * dashboard page at /dashboard/ collects the token once per browser.
  */
 import { json } from './utils.js';
+import { logVisit } from './edge-log.js';
 import { handleGa4 } from './ga4.js';
 import { handleSearchConsole } from './search-console.js';
 import { handleCloudflareAnalytics } from './cf-analytics.js';
@@ -64,6 +65,9 @@ export default {
     if (url.pathname.startsWith('/api/')) {
       return handleApi(request, env, url.pathname);
     }
+    // Record the visiting network before serving. Non-blocking, and it
+    // skips assets, the dashboard and self-declared bots — see edge-log.js.
+    logVisit(request, env, url.pathname);
     return env.ASSETS.fetch(request);
   },
 };

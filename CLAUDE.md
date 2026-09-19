@@ -86,6 +86,21 @@ campaigns* card. Attribution in `worker/insights.js` matches a session source
 containing `linkedin` or `lnkd.in`; keep both if that filter is ever touched.
 See `ANALYTICS-SETUP.md` §5c.
 
+**Visiting networks** come from the Worker's own edge log, not from either
+analytics product: `worker/edge-log.js` writes `request.cf.asOrganization`
+(plus city/region/country/path/colo and a consumer/infra/org classification)
+to Workers Analytics Engine on each page read, and `worker/cf-analytics.js`
+reads it back via the Analytics Engine SQL API. No IP is stored. Assets, the
+dashboard and self-declared bots are skipped. To change what counts as a
+consumer or infrastructure network, edit the substring lists in
+`edge-log.js` — the classification is written with the datapoint, so edits
+affect new visits only. See `ANALYTICS-SETUP.md` §5d.
+
+Note that GA4's city is an IP guess and is often wrong (a phone resolves to
+its carrier's gateway); the Recent activity column is labelled *Approx.
+location* for that reason. Cloudflare Web Analytics has no city dimension at
+all, so it is not an alternative source for it.
+
 ## Styling
 
 Reuse the classes already in `assets/css/style.css` rather than adding new

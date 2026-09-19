@@ -10,5 +10,13 @@
   "assets": {
     "directory": ".",
     "binding": "ASSETS"
-  }
+  },
+  // Visiting-network log written by worker/edge-log.js and read back by
+  // /api/cloudflare. Created on first deploy; holds no IP addresses.
+  "analytics_engine_datasets": [
+    {
+      "binding": "VISITS",
+      "dataset": "mm_site_visits"
+    }
+  ]
 }
