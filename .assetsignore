@@ -12,5 +12,8 @@ CNAME
 package.json
 package-lock.json
 node_modules
+# Belt and braces: the pinned toolchain means node_modules now exists in the
+# build workspace, so this must exclude reliably rather than nearly.
+node_modules/**
 .wrangler
 .dev.vars*

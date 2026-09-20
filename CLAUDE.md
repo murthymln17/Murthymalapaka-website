@@ -17,8 +17,10 @@ deploy`, publishing the static files as Worker assets alongside the API code in
 Consequences worth knowing:
 
 - **A merge to `main` is the deploy.** Nothing else needs running.
-- **It is not instant.** No `package.json`/`node_modules` is committed, so each
-  build downloads wrangler before uploading. Allow a few minutes.
+- **It is not instant.** Allow a few minutes. `package.json` pins wrangler to
+  an exact version, so the build installs that rather than resolving whatever
+  `npx wrangler` would fetch on the day — deploy behaviour cannot change
+  without a commit. Bump the version deliberately; don't unpin it.
 - **Cloudflare sends an email when the publish completes.** That email is the
   reliable "it is live" signal — wait for it before concluding anything is
   broken.

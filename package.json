@@ -1,0 +1,8 @@
+{
+  "name": "murthymalapaka-website",
+  "private": true,
+  "description": "Pins the deploy toolchain. The site itself has no build step — the HTML/CSS/JS in this repo is what ships. This file exists only so Cloudflare Workers Builds deploys with a known wrangler version instead of whatever `npx wrangler` resolves to on the day.",
+  "devDependencies": {
+    "wrangler": "4.135.0"
+  }
+}
