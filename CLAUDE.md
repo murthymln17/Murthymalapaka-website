@@ -17,8 +17,10 @@ deploy`, publishing the static files as Worker assets alongside the API code in
 Consequences worth knowing:
 
 - **A merge to `main` is the deploy.** Nothing else needs running.
-- **It is not instant.** No `package.json`/`node_modules` is committed, so each
-  build downloads wrangler before uploading. Allow a few minutes.
+- **It is not instant.** Allow a few minutes. `package.json` pins wrangler to
+  an exact version, so the build installs that rather than resolving whatever
+  `npx wrangler` would fetch on the day — deploy behaviour cannot change
+  without a commit. Bump the version deliberately; don't unpin it.
 - **Cloudflare sends an email when the publish completes.** That email is the
   reliable "it is live" signal — wait for it before concluding anything is
   broken.
@@ -27,6 +29,48 @@ Consequences worth knowing:
 - Agent sessions generally **cannot fetch `murthymalapaka.com`** — the sandbox
   egress proxy denies it (`403` on CONNECT / `EGRESS_BLOCKED`). Do not treat a
   failed fetch as evidence the site is down; ask the human to check.
+
+### The site serves but every `/api/*` call fails
+
+Pages load normally, the dashboard renders, and every card reads
+*"Temporarily unavailable. Request failed."* That combination means the Worker
+is not receiving traffic at all — **not** that a deploy or the API code broke.
+
+Static assets are served by the asset layer *without invoking the Worker*, so
+when the domain stops routing to the Worker the site looks perfectly healthy
+while everything under `/api/` dies. Cloudflare's error rate stays at 0%,
+because nothing is reaching the Worker to fail.
+
+**One-tap check.** Open `https://murthymalapaka.com/api/ga4?days=7`:
+
+- `{"error":"Unauthorized"}` → the Worker is serving; look elsewhere.
+- A GitHub Pages 404, or any HTML → the domain is not routed to the Worker.
+
+`https://murthymalapaka-website.murthymln17.workers.dev/api/ga4?days=7` bypasses
+the custom domains entirely and confirms the Worker itself is fine.
+
+**What happened on 2026-09-20.** Workers & Pages → `murthymalapaka-website` →
+Domains had *no* custom domains and no routes. The apex carried four GitHub
+Pages A records (`185.199.108–111.153`) and `www` a CNAME to
+`murthymln17.github.io`, so traffic fell through to GitHub Pages, which served
+the repo's static files happily and 404'd on `/api/`. The cause of the
+custom domains disappearing was never established; the Cloudflare Audit Log is
+the only place that would know.
+
+**The fix.** Delete the apex A records and the `www` CNAME (keep the
+`google-site-verification` TXT — it verifies Search Console, which the
+dashboard reads). Then Domains → Add Domain twice: Subdomain field **blank**
+for the apex, then `www`. The field takes the label only; typing the full
+hostname produces `www.murthymalapaka.com.murthymalapaka.com`. Certificates
+take a few minutes, and until they issue the browser shows a cert error and
+the dashboard stays empty — that is expected, not a second fault.
+
+**While GitHub Pages serves the domain, `.assetsignore` does not apply.** It is
+a Workers Assets feature. Every repo-only file — `CLAUDE.md`, `worker/`,
+`ANALYTICS-SETUP.md` — is publicly fetchable for as long as that lasts.
+
+Routing currently lives only in the Cloudflare dashboard; `wrangler.jsonc`
+declares no `routes`, so nothing in the repo asserts it on deploy.
 
 ## Publishing a new insight article
 
