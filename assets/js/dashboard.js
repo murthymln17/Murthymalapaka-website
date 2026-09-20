@@ -763,10 +763,12 @@
     slot.textContent = '';
     if (!networks) {
       var pending = el('div', 'setup-notice');
-      pending.appendChild(el('strong', null, 'Not collecting yet. '));
+      pending.appendChild(el('strong', null, 'Built, but switched off. '));
       pending.appendChild(document.createTextNode(
-        'The edge log starts at the first page view after deploy, and the dataset does not exist until then. '
-          + 'If this persists past a day of traffic, the CF_API_TOKEN needs Account Analytics: Read.'));
+        'The edge log needs an Analytics Engine binding, which is commented out in wrangler.jsonc \u2014 a '
+          + 'binding the account cannot provision fails the whole site\u2019s deploy, not just this card. '
+          + 'Restore it once Analytics Engine is confirmed available on the account and this fills from the '
+          + 'next page view. If it stays empty after that, CF_API_TOKEN needs Account Analytics: Read.'));
       slot.appendChild(pending);
       return;
     }
