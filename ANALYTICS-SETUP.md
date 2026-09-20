@@ -221,13 +221,14 @@ from an office it is often the employer. Neither GA4 nor Cloudflare Web
 Analytics reports it: the RUM dataset carries no network dimension and no
 geography finer than country.
 
-> **Status: built, switched off.** The `analytics_engine_datasets` binding is
-> commented out in `wrangler.jsonc`. The deploy that first introduced it never
-> published, and an unprovisionable binding fails `wrangler deploy` outright —
-> which takes the entire site's deploy down, not just this feature. Confirm
-> Analytics Engine is available on the account (Workers & Pages → the Worker →
-> Settings → Bindings), then uncomment those lines. The logging code checks for
-> the binding and no-ops without it, so nothing else is affected meanwhile.
+> **Analytics Engine must be enabled on the account before this can deploy.**
+> The first attempt (2026-09-19) failed the entire site's deploy with
+> `You need to enable Analytics Engine` — wrangler validates bindings before it
+> publishes anything, so one unavailable binding takes everything with it and
+> no Cloudflare email arrives. Being offered in the *Add a binding* picker is
+> not the same as being enabled; the API is the authority. It was enabled, and
+> the `mm_site_visits` dataset created, at
+> `dash.cloudflare.com/<account>/workers/analytics-engine` on 2026-09-20.
 
 `worker/edge-log.js` writes one datapoint per page read to Workers Analytics
 Engine (dataset `mm_site_visits`, bound as `VISITS` in `wrangler.jsonc`), and
