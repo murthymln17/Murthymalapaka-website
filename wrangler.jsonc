@@ -11,15 +11,13 @@
     "directory": ".",
     "binding": "ASSETS"
   }
-  // The visiting-network log (worker/edge-log.js) needs the binding below.
-  // It is commented out because the deploy that introduced it did not
-  // publish — a binding the account cannot provision fails `wrangler
-  // deploy` outright, taking the whole site's deploy with it. The logging
-  // code stays in place and no-ops without the binding; restore these
-  // lines once Analytics Engine is confirmed available on the account,
-  // and the card fills from the next page view.
-  //
-  // ,"analytics_engine_datasets": [
-  //   { "binding": "VISITS", "dataset": "mm_site_visits" }
-  // ]
+  ,
+  // Visiting-network log: written by worker/edge-log.js, read back by
+  // /api/cloudflare. Analytics Engine must be ENABLED on the account and the
+  // dataset must exist, or wrangler fails the whole deploy — that is what
+  // blocked #49 ("You need to enable Analytics Engine"). See
+  // ANALYTICS-SETUP.md §5d before touching this.
+  "analytics_engine_datasets": [
+    { "binding": "VISITS", "dataset": "mm_site_visits" }
+  ]
 }

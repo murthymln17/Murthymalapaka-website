@@ -133,9 +133,9 @@ See `ANALYTICS-SETUP.md` §5c.
 **A binding the account cannot provision fails the whole deploy.** `wrangler
 deploy` rejects the config before publishing anything, so the site silently
 stays on its previous version and no Cloudflare email arrives. If a deploy
-goes missing after a `wrangler.jsonc` change, suspect the binding first.
-This is why the `analytics_engine_datasets` entry is currently commented
-out there.
+goes missing after a `wrangler.jsonc` change, suspect the binding first, and
+read the build log (Deployments → Recent builds → View build) rather than
+guessing — it names the reason outright.
 
 **Visiting networks** come from the Worker's own edge log, not from either
 analytics product: `worker/edge-log.js` writes `request.cf.asOrganization`
@@ -145,10 +145,10 @@ reads it back via the Analytics Engine SQL API. No IP is stored. Assets, the
 dashboard and self-declared bots are skipped. To change what counts as a
 consumer or infrastructure network, edit the substring lists in
 `edge-log.js` — the classification is written with the datapoint, so edits
-affect new visits only. **Currently dormant**: the binding is commented out
-in `wrangler.jsonc` pending confirmation that Analytics Engine is available
-on the account; `logVisit` no-ops without it and the card says so. See
-`ANALYTICS-SETUP.md` §5d.
+affect new visits only. Analytics Engine has to be **enabled on the account**
+and the dataset created before the binding can deploy at all — otherwise
+`wrangler deploy` fails outright and takes the whole site's deploy with it,
+silently. See `ANALYTICS-SETUP.md` §5d.
 
 Note that GA4's city is an IP guess and is often wrong (a phone resolves to
 its carrier's gateway); the Recent activity column is labelled *Approx.
