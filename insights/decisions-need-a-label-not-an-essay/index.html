@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Most Enterprise AI Decisions Need a Label, Not an Essay — and Not Just From Text | Murthy Malapaka</title>
+<meta name="description" content="Cheaper decision models are progress. Decisions that graduate out of models entirely, and work that should never exist, are where the real returns are.">
+<link rel="canonical" href="https://murthymalapaka.com/insights/decisions-need-a-label-not-an-essay/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://murthymalapaka.com/insights/decisions-need-a-label-not-an-essay/">
+<meta property="og:title" content="Most Enterprise AI Decisions Need a Label, Not an Essay — and Not Just From Text | Murthy Malapaka">
+<meta property="og:description" content="Cheaper decision models are progress. Decisions that graduate out of models entirely, and work that should never exist, are where the real returns are.">
+<meta property="og:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<meta property="og:site_name" content="Murthy Malapaka">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Most Enterprise AI Decisions Need a Label, Not an Essay — and Not Just From Text | Murthy Malapaka">
+<meta name="twitter:description" content="Cheaper decision models are progress. Decisions that graduate out of models entirely, and work that should never exist, are where the real returns are.">
+<meta name="twitter:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Article",
+   "headline": "Most Enterprise AI Decisions Need a Label, Not an Essay — and Not Just From Text",
+   "description": "Cheaper decision models are progress. Decisions that graduate out of models entirely, and work that should never exist, are where the real returns are.",
+   "url": "https://murthymalapaka.com/insights/decisions-need-a-label-not-an-essay/",
+   "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://murthymalapaka.com/insights/decisions-need-a-label-not-an-essay/"
+   },
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "datePublished": "2026-09-30",
+   "dateModified": "2026-09-30",
+   "author": {
+    "@id": "https://murthymalapaka.com/#person"
+   },
+   "publisher": {
+    "@id": "https://murthymalapaka.com/#person"
+   }
+  },
+  {
+   "@type": "Person",
+   "@id": "https://murthymalapaka.com/#person",
+   "name": "Murthy Malapaka",
+   "jobTitle": "Executive Technology Strategist & AI Transformation Leader",
+   "url": "https://murthymalapaka.com",
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "description": "Murthy Malapaka helps enterprise leadership teams replace labor-centric operating models with AI-native ones — turning strategy into operational reality.",
+   "knowsAbout": [
+    "AI-native operating models",
+    "IT operations transformation",
+    "Enterprise AI strategy",
+    "Intelligent automation",
+    "Platform intelligence"
+   ],
+   "sameAs": [
+    "https://www.linkedin.com/in/murthymln/",
+    "https://councils.forbes.com/profile/Murthy-Malapaka-VIce-president-Technology-Innovation-SLK-software-SLK-Software-The-Automation-Compan/37d0644e-9088-43a1-a051-f20e2c584608"
+   ]
+  }
+ ]
+}
+</script>
+<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script src="/assets/js/analytics.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="/" class="brand"><span class="brand-mark">MM</span> Murthy Malapaka</a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/publications/">Publications</a></li>
+      <li><a href="/frameworks/">Frameworks</a></li>
+      <li><a href="/insights/" aria-current="page">Insights</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="article-hero">
+    <div class="container">
+      <a href="/insights/" class="back-link">← Insights</a>
+      <span class="tag">AI-Native Operations</span>
+      <h1>Most Enterprise AI Decisions Need a Label, Not an Essay — and Not Just From Text</h1>
+      <p class="read-time">5 min read</p>
+    </div>
+  </div>
+
+  <article class="article-body">
+    <div class="container" style="max-width: 700px;">
+      <p class="lede">VentureBeat ran <a href="https://venturebeat.com/orchestration/companies-are-paying-llms-to-generate-text-for-decisions-that-only-need-a-label-jev-offers-a-cheaper-way" target="_blank" rel="noopener">a piece this week on TypeSafe's Jev</a> that deserves attention from every CIO managing an AI budget. The core argument is that most AI inside enterprise software isn't writing anything. It's deciding: which queue a ticket belongs in, whether a document is relevant, whether a transaction looks wrong. And those decisions are often made by having a language model generate text that then gets parsed back into a label.</p>
+
+      <p>I agree completely. I'd take it further, because we learned this the hard way while building an AI-native IT operations platform.</p>
+
+      <h2>Operations was always a decision problem</h2>
+
+      <p>When a ticket arrives, the questions are simple. What class is it? Which configuration item? What's the cause? Should this work be eliminated, automated or assisted? None of these needs an essay.</p>
+
+      <p>Our journey started six years ago with clustering and classification. We grouped tickets into recurring patterns and trained classifiers to assign dispositions, working through models like BERT and XGBoost along the way. There was no LLM anywhere in the stack.</p>
+
+      <p>So when the article argues that engineers who built classifiers, cascades and evaluation pipelines before 2022 are relevant again, that describes our path exactly.</p>
+
+      <h2>The decision signal isn't only text</h2>
+
+      <p>One caveat in the piece matters more than it seems: Jev is in early access and accepts text only.</p>
+
+      <p>In operations, the signal for a decision is split. Telemetry tells you what the system is doing. The ticket tells you what a human noticed. <strong>A label drawn from text alone is a guess.</strong> The same label, informed by the metric stream behind it, is a diagnosis.</p>
+
+      <p>That's why our platform fuses numeric and textual data. Numeric features from telemetry feed the classifiers alongside what's extracted from the ticket text, and both anchor to a common ontology of machine, method and model.</p>
+
+      <h2>Where we did use LLMs, and why that isn't a contradiction</h2>
+
+      <p>We did use language models to reach dispositions, through prompt engineering and retrieval. What made it work was how tightly the model was constrained.</p>
+
+      <p>We moved from ticket-level clustering to record-by-record extraction constrained by a taxonomy, using a small open-weight model. The vocabularies were closed: a three-class top-level taxonomy, about 19 service-request categories, and roughly 22 action verbs. The model wasn't writing anything. It was choosing from a fixed set, and the harness around it enforced determinism. <strong>In practice it was a classifier wearing generative clothing.</strong></p>
+
+      <p>Just as important, this ran in batch, in an offline intelligence-generation layer. We paid for tokens once, at pattern-discovery time, not on every runtime decision.</p>
+
+      <h2>The real goal: take the model out of the runtime path</h2>
+
+      <p>This is where I'd push the Jev conversation forward. A cheaper decision model is progress. A decision that no longer needs a model at all is better.</p>
+
+      <p>Our design lets patterns graduate:</p>
+
+      <ul class="body-list">
+        <li><strong>Discover.</strong> Probabilistic extraction surfaces candidate patterns.</li>
+        <li><strong>Confirm.</strong> A human validates resolution time and hop count across enough instances.</li>
+        <li><strong>Graduate.</strong> The pattern becomes a deterministic, vetted playbook, executed through a secure execution gateway with no language model in the runtime path.</li>
+        <li><strong>Demote.</strong> A demotion path catches drift when patches, re-architected services or reorganized assignment groups break the rule.</li>
+      </ul>
+
+      <p>Language models never generate commands. The cheapest decision is one that no longer needs a model. The cheapest ticket is one that never gets created.</p>
+
+      <h2>Calibration is where humans belong</h2>
+
+      <p>The article rightly stresses calibrated confidence. If a system can't tell when it's likely to be wrong, it can't reliably decide when to hand a case to a human.</p>
+
+      <p>We treated <a href="/insights/human-assurance-it-operations/">human assistance</a> as a first-class tool the agent can call, not an out-of-band interrupt. Every human-assurance event also feeds back into the system. It reveals the gaps in what the system can see: missing log files for a failed batch job, change-request data behind an end-user issue, or absent monitoring for a performance problem. <strong>The escalation itself becomes training signal.</strong></p>
+
+      <h2>Route by size, structure and time</h2>
+
+      <p>The article describes cascades in which a cheap classifier decides whether a request goes to a small local model, a specialist, or a frontier API. That matches what we built.</p>
+
+      <p>Playbook lookup runs in three tiers: deterministic first, then structured, then retrieval. A small model handles extraction, and a larger one is reserved for judging novel incidents. Heavy discovery runs in batch, while only a thin real-time slice supports execution. Work is routed by model size, data structure and timing, <a href="/insights/enterprise-ai-workload-routing/">much like a distributed computing system</a>, instead of sending everything down one expensive path.</p>
+
+      <h2>Before you automate a decision, ask whether it should exist</h2>
+
+      <p>This week <a href="https://www.hcltech.com/press-releases/hclsoftware-acquire-robotiqai-strengthening-enterprise-agentic-automation" target="_blank" rel="noopener">HCLSoftware announced it will acquire Robotiq.ai</a>, an RPA platform, to give its agentic orchestration layer the ability to act inside applications that lack APIs. Technically, that's a sensible gap to fill. Agents need hands, and plenty of enterprise systems still offer only a screen.</p>
+
+      <p>But the combination should give leaders pause. RPA automates a process exactly as it exists today. Putting an agent on top makes the automation smarter without asking whether the work is legitimate in the first place. <strong>An intelligent decision layer driving scripted execution against a task that shouldn't exist only produces waste faster.</strong></p>
+
+      <p>In our platform, every pattern was first tested against three dispositions: eliminate, automate, or assist. Elimination came first because it's the only option that permanently removes cost. A cheaper label, a smarter bot and a faster agent all still assume the work should happen. Intelligence should start by questioning that assumption.</p>
+
+      <h2>What I'd tell a CIO this quarter</h2>
+
+      <ul class="body-list">
+        <li><strong>Question legitimacy first.</strong> Before automating any process or decision, ask whether it should exist. Only the business holds that decision right.</li>
+        <li><strong>Audit your LLM traffic.</strong> Separate decisions from generation.</li>
+        <li><strong>Fuse the data where the signal lives.</strong> For operations, that means telemetry plus text, not text alone.</li>
+        <li><strong>Design a graduation path.</strong> Move proven decisions out of models and into deterministic execution.</li>
+        <li><strong>Own the models.</strong> Open-weight models tuned to your operating model keep the intelligence you generate as your IP.</li>
+      </ul>
+
+      <p>The result for us was that we onboarded more customers year over year while keeping people and technology costs flat. Jev confirms the direction the industry is taking. The next step is a decision layer that learns its way out of the loop, and starts by asking whether the work should exist at all.</p>
+
+      <p><em>Part of an ongoing series on AI-native operations and building intelligence that drives peak business performance.</em></p>
+    </div>
+  </article>
+
+  <section class="section-alt">
+    <div class="container" style="max-width: 700px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">Related Publications</span>
+        <h2>Related reading</h2>
+      </div>
+      <ul class="pub-list reveal">
+        <li>
+          <a href="/insights/enterprise-ai-workload-routing/">Distributed Computing, Not Bigger Models: What Enterprise AI Actually Needs</a>
+          <p>Enterprise AI is quietly re-learning the lessons of distributed computing, one expensive GPU bill at a time. Why size, structure, and time — not a bigger model — is the real architecture question.</p>
+        </li>
+        <li>
+          <a href="/insights/peak-performance-starts-with-elimination/">Peak Business Performance Starts With What You Eliminate</a>
+          <p>The clusters that block peak business outcomes have sat on the transformation backlog for years, while budget moves to agents that babysit the work instead.</p>
+        </li>
+        <li>
+          <a href="/insights/own-the-model-own-the-ip/">Own the Model, Own the IP: Why &ldquo;Renting&rdquo; AI Is Becoming the Riskier Bet</a>
+          <p>The shift to open-weight AI models isn't really a story about cost. It's about turning a rented capability into owned IP.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <span class="copyright">&copy; <span data-year></span> Murthy Malapaka. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="mailto:murthymln17@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/murthymln/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+</body>
+</html>

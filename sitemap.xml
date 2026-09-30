@@ -20,9 +20,15 @@
   </url>
   <url>
     <loc>https://murthymalapaka.com/insights/</loc>
-    <lastmod>2026-09-27</lastmod>
+    <lastmod>2026-09-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://murthymalapaka.com/insights/decisions-need-a-label-not-an-essay/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://murthymalapaka.com/insights/stop-pricing-effort/</loc>
