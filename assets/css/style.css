@@ -541,6 +541,14 @@ section { padding: 5rem 0; }
   font-size: 1.2rem;
   color: var(--text-muted);
 }
+.article-body p a,
+.article-body li a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.article-body p a:hover,
+.article-body li a:hover { color: var(--accent-dark); }
 .article-body h2 {
   font-size: 1.35rem;
   margin-top: 2.4rem;
