@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>We Built Our Data Lake Backwards | Murthy Malapaka</title>
+<meta name="description" content="Enterprises don't need a smarter LLM operating system or a bigger data lake. They need purposeful intelligence — a knowledge graph and vector store scoped to business outcome questions, with a lake where data earns its seat.">
+<link rel="canonical" href="https://murthymalapaka.com/insights/we-built-our-data-lake-backwards/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://murthymalapaka.com/insights/we-built-our-data-lake-backwards/">
+<meta property="og:title" content="We Built Our Data Lake Backwards | Murthy Malapaka">
+<meta property="og:description" content="Enterprises don't need a smarter LLM operating system or a bigger data lake. They need purposeful intelligence — a knowledge graph and vector store scoped to business outcome questions, with a lake where data earns its seat.">
+<meta property="og:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<meta property="og:site_name" content="Murthy Malapaka">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="We Built Our Data Lake Backwards | Murthy Malapaka">
+<meta name="twitter:description" content="Enterprises don't need a smarter LLM operating system or a bigger data lake. They need purposeful intelligence — a knowledge graph and vector store scoped to business outcome questions, with a lake where data earns its seat.">
+<meta name="twitter:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Article",
+   "headline": "We Built Our Data Lake Backwards",
+   "alternativeHeadline": "Purposeful intelligence, built one answer at a time",
+   "description": "Enterprises don't need a smarter LLM operating system or a bigger data lake. They need purposeful intelligence — a knowledge graph and vector store scoped to business outcome questions, with a lake where data earns its seat.",
+   "url": "https://murthymalapaka.com/insights/we-built-our-data-lake-backwards/",
+   "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://murthymalapaka.com/insights/we-built-our-data-lake-backwards/"
+   },
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "datePublished": "2026-10-12",
+   "dateModified": "2026-10-12",
+   "author": {
+    "@id": "https://murthymalapaka.com/#person"
+   },
+   "publisher": {
+    "@id": "https://murthymalapaka.com/#person"
+   }
+  },
+  {
+   "@type": "Person",
+   "@id": "https://murthymalapaka.com/#person",
+   "name": "Murthy Malapaka",
+   "jobTitle": "Executive Technology Strategist & AI Transformation Leader",
+   "url": "https://murthymalapaka.com",
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "description": "Murthy Malapaka helps enterprise leadership teams replace labor-centric operating models with AI-native ones — turning strategy into operational reality.",
+   "knowsAbout": [
+    "AI-native operating models",
+    "IT operations transformation",
+    "Enterprise AI strategy",
+    "Intelligent automation",
+    "Platform intelligence"
+   ],
+   "sameAs": [
+    "https://www.linkedin.com/in/murthymln/",
+    "https://councils.forbes.com/profile/Murthy-Malapaka-VIce-president-Technology-Innovation-SLK-software-SLK-Software-The-Automation-Compan/37d0644e-9088-43a1-a051-f20e2c584608"
+   ]
+  }
+ ]
+}
+</script>
+<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script src="/assets/js/analytics.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="/" class="brand"><span class="brand-mark">MM</span> Murthy Malapaka</a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/publications/">Publications</a></li>
+      <li><a href="/frameworks/">Frameworks</a></li>
+      <li><a href="/insights/" aria-current="page">Insights</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="article-hero">
+    <div class="container">
+      <a href="/insights/" class="back-link">← Insights</a>
+      <span class="tag">Enterprise Intelligence</span>
+      <h1>We Built Our Data Lake Backwards</h1>
+      <p class="read-time">8 min read</p>
+    </div>
+  </div>
+
+  <article class="article-body">
+    <div class="container" style="max-width: 700px;">
+      <p class="lede">A recent <a href="https://hackernoon.com/the-llm-operating-system-transformers-limitations-and-the-need-for-adaptation" target="_blank" rel="noopener">HackerNoon piece</a> describes large language models as an operating system. In the old world, every task needed its own model: one for sentiment, one for entity recognition, one for classification. In the new world, one foundation model is the runtime, adapted to a domain through fine-tuning and retrieval.</p>
+
+      <p>I agree with the arc, because I lived it. But an enterprise doesn't run on an operating system. It runs on answers to a handful of questions that decide performance. Why is this claim taking so long? Why is yield low on this line? What is causing the waste?</p>
+
+      <p>Last week, in <a href="/insights/enterprise-intelligence-hasnt-started/">Generative AI Isn't Over. Enterprise Intelligence Hasn't Started.</a>, I argued that enterprise intelligence deserves its own track, and that it's the one barely moving. This piece is about how we built it, and why our data lake came last, not first.</p>
+
+      <h2>The same path, pulled by a different force</h2>
+
+      <p><strong>Classifiers first.</strong> Six years ago, the platform I built had no LLM in it. Encoder and classification models handled sentiment, entity recognition and clustering. They read ticket text alongside telemetry features and told us what broke, where, and how often.</p>
+
+      <p><strong>Then language models, kept small.</strong> We moved from clustering to record-by-record extraction. A small open-weight model reads each record and extracts the entity and its problem pattern against a fixed taxonomy. Its reliability comes from the harness around it: prompts, decoding and constraints, not model size.</p>
+
+      <p><strong>Then training and reinforcement.</strong> The models learned from what happened when their intelligence was acted on. That loop, more than any single model, made the system smarter every month.</p>
+
+      <p><strong>The difference from the textbook arc:</strong> every step was pulled forward by a business question. The model roadmap never set the agenda.</p>
+
+      <h2>Start with the question, not the data</h2>
+
+      <p>The platform-first path looks responsible. You mandate one pipeline, route every API through it, build the lake, and build intelligence on top. It is also a multi-year bet that has produced no answer by the end of year one.</p>
+
+      <p>The outcome-first path starts with one question that has a large business impact. That question tells you which sources to integrate, which technique you need, and how to test. Testing becomes simple: did it answer the question, and did it handle the action?</p>
+
+      <p>A question about claim cycle time needs the systems on that claim's path, which is perhaps a dozen. It doesn't need every system in the enterprise. A question about yield needs the line's incidents, changes and telemetry, not the full ERP history.</p>
+
+      <h2>The data lake objection</h2>
+
+      <p>A peer recently made the opposite case to me. His organization mandated that all data from its spaghetti of APIs pass through a central lake, and built intelligence on top of it afterward.</p>
+
+      <p><strong>What it costs:</strong> years of integration before the first answer, and by then the business question has usually moved.</p>
+
+      <p><strong>What it gets right:</strong> one controlled point for governance, lineage, access and audit. That matters, and outcome-first teams need a real answer for it.</p>
+
+      <p><strong>The real risk on our side:</strong> outcome-specific stores can multiply into the next spaghetti. The fix is a shared ontology. Each new question reuses the entities already defined (assets, services, processes, patterns) instead of rebuilding them.</p>
+
+      <h2>The lake is earned, not mandated</h2>
+
+      <p>We didn't avoid a lake. We built one brick by brick, and every brick had to earn its place.</p>
+
+      <p><strong>Extracted intelligence becomes the raw material.</strong> As the system extracts entities across a domain, along with their attributes and behaviors, that structured output becomes enriched raw data. It flows into the lake only once it's connected to a business outcome.</p>
+
+      <p><strong>A new question exposes white space.</strong> When a question has no answer, the system identifies what's missing. That might be the log files behind a batch failure, the change records behind a spike in user issues, or monitoring data that was never collected.</p>
+
+      <p><strong>New data is verified before it's stored.</strong> We acquire the missing data and test it first. Does the graph, with the vectors, now answer the question? Does the business agree to eliminate the work or act on it? Only then does that data get a permanent seat in the lake for future questions.</p>
+
+      <p><strong>Proven value is the admission criterion.</strong> In a mandated lake, data gets in because it exists. In ours, data gets in because it answered a question and drove an action. Over time, the lake fills only with what is connected to outcomes, so it is smaller, cleaner, and already understood.</p>
+
+      <h2>The moat is built one answer at a time</h2>
+
+      <p>Last week I wrote that the moat is not data sitting in systems &mdash; it's the intelligence you build from it. Here is how that intelligence actually gets built: not by collecting everything first, but one answered question at a time. Every competitor has data, and any of them can buy a lake to hold it. A lake doesn't learn anything.</p>
+
+      <p><strong>Every answered question leaves something behind.</strong> Answering &ldquo;why is yield low?&rdquo; produces more than the answer. It adds entities and relationships to the ontology, patterns classified into dispositions, feedback on what the model got wrong, and playbooks proven in execution. And the data that earned its seat stays, ready for the next question.</p>
+
+      <p><strong>The next question starts further ahead.</strong> &ldquo;What is causing the waste?&rdquo; reuses the assets, processes and patterns the yield question already mapped. Each question is faster to answer than the last, and the moat compounds.</p>
+
+      <p><strong>A mandated lake defers the moat.</strong> Build first, ask later means years of accumulating raw material that any competitor could also accumulate. You've spent the budget, and nothing about you is yet hard to copy.</p>
+
+      <p><strong>The feedback loop is the part no one can buy.</strong> When the model reaches a pattern it doesn't know, the correction that comes back reflects your operating model and your business. That's proprietary by construction.</p>
+
+      <h2>Structure beats storage</h2>
+
+      <p>A lake is where data is kept. A knowledge graph and a vector store are where it becomes intelligence, and they don't need the lake to exist first. A lake answers &ldquo;what do we have?&rdquo; Outcome questions ask &ldquo;what caused this?&rdquo; That is a relationship problem, not a storage problem.</p>
+
+      <p><strong>The knowledge graph explains.</strong> It holds the relationships you define: which steps a claim passed through, which line depends on which system, which change touched which asset. We moved away from standard chunk-and-vectorize retrieval and built a domain-specific graph around three things: the machine that is affected, the method used to handle it, and the pattern it follows. Following those links answers <em>why</em>.</p>
+
+      <p><strong>The vector store remembers.</strong> It finds past incidents, failures and playbooks that resemble the current one, even when they're worded differently. On its own it tells you what is similar, not why it happened. Together, the vectors find the entry point and the graph traces the cause.</p>
+
+      <p><strong>Time is a design dimension.</strong> Pattern discovery runs offline, in batch, over years of history. Only a small real-time slice serves execution and human assist.</p>
+
+      <h2>Purposeful by design</h2>
+
+      <p>This is purposeful architecture: built to answer one business outcome question. Why is yield low? What is causing the waste? Everything downstream serves that question.</p>
+
+      <p><strong>Extract, classify, act, learn.</strong> The system extracts each entity and the patterns relevant to it. A master model, trained on the organization's history, classifies each pattern into a disposition: eliminate, automate or assist. Whatever it doesn't recognize goes to feedback rather than being guessed at. The model learns from that feedback, and the loop runs again until those patterns also have a disposition and an action.</p>
+
+      <p><strong>The data is purposeful.</strong> You pull what the question needs, not everything you have.</p>
+
+      <p><strong>The models are purposeful.</strong> One reasons about cause, one handles action, and each is trained for its job. There's no model zoo and no router choosing among a dozen options.</p>
+
+      <p><strong>Memory and context are purposeful.</strong> The action layer keeps only the state and history that execution needs. It isn't a general-purpose agent memory waiting to be filled.</p>
+
+      <p><strong>That is why the architecture stays simple.</strong> Complexity usually comes from building for every possible question. Building for a specific one removes most of it.</p>
+
+      <h2>Intelligence that acts</h2>
+
+      <p>Intelligence that only answers questions is a better dashboard. The point is what it does next.</p>
+
+      <p><strong>Eliminate first.</strong> Current-state intelligence shows which work shouldn't exist at all. That decision belongs to the business, and it's usually made with a configuration change rather than an agent.</p>
+
+      <p><strong>Automate what can't be eliminated.</strong> Agents execute only vetted playbooks, and the LLM never generates raw commands. A pattern earns its way into a deterministic rule after humans confirm it across enough instances. It gets demoted when patches, re-architected services or reorganized teams make the rule drift.</p>
+
+      <p><strong>Assist where judgment is needed.</strong> Human assurance is a first-class tool the agent calls, not an escalation that means the system failed.</p>
+
+      <p>The result was 60&ndash;80% work elimination and more than 35% cost takeout. We also onboarded more customers year over year while people and technology costs stayed flat.</p>
+
+      <h2>What this means for CXOs</h2>
+
+      <ul class="body-list">
+        <li><strong>Ask whether your data strategy has delivered an answer yet</strong>, or is still delivering plumbing.</li>
+        <li><strong>Ask what earns data a place in your lake.</strong> If the answer is &ldquo;it exists,&rdquo; you are storing cost, not intelligence.</li>
+        <li><strong>Ask which outcome question your AI program answers</strong>, not which model it runs on.</li>
+        <li><strong>Ask whether your architecture was designed for a question, or for every question.</strong> If it's the second, the routers, model catalog and generic memory are the cost of not choosing.</li>
+        <li><strong>Ask what your AI program has learned that a competitor couldn't buy.</strong> If the honest answer is &ldquo;nothing yet, but the lake is almost ready,&rdquo; the moat hasn't started.</li>
+      </ul>
+
+      <p>The LLM-as-operating-system framing is right about the technology. But enterprises don't win on a better operating system, or on a bigger lake. They win on purposeful intelligence, built one answer at a time, with a lake that holds only what earned its seat.</p>
+
+      <p>So which question would you start with?</p>
+
+      <p><em>Part of the enterprise intelligence series: building intelligence into every application, process, data layer and infrastructure discipline so it drives peak business performance.</em></p>
+    </div>
+  </article>
+
+  <section class="section-alt">
+    <div class="container" style="max-width: 700px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">Related Publications</span>
+        <h2>Related reading</h2>
+      </div>
+      <ul class="pub-list reveal">
+        <li>
+          <a href="/insights/enterprise-intelligence-hasnt-started/">Generative AI Isn't Over. Enterprise Intelligence Hasn't Started.</a>
+          <p>The hype cycle may be ending, but the real work hasn't begun: building organization-specific intelligence from an enterprise's own history, with the right model for the right job.</p>
+        </li>
+        <li>
+          <a href="/insights/vendors-sitting-on-decades-of-intelligence/">Vendors and Service Providers Are Sitting on Decades of Intelligence. Why Are They Still Selling Licenses and Headcount?</a>
+          <p>Product vendors and MSPs hold decades of operational history. Used as intelligence, it could replace due-diligence-led onboarding and technology-driven transformation, and finally make outcome-based pricing real.</p>
+        </li>
+        <li>
+          <a href="/insights/peak-performance-starts-with-elimination/">Peak Business Performance Starts With What You Eliminate</a>
+          <p>The clusters that block business outcomes have sat on the transformation backlog for years, while budget moves to agents that babysit the work instead.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <span class="copyright">&copy; <span data-year></span> Murthy Malapaka. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="mailto:murthymln17@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/murthymln/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
