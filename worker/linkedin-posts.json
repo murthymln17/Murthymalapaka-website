@@ -1015,6 +1015,13 @@
   },
   "posts": [
     {
+      "date": "2026-10-19",
+      "topic": "The science fiction moment always arrives early",
+      "articlePath": "/insights/science-fiction-moment-arrives-early/",
+      "impressions": 30,
+      "engagements": 1
+    },
+    {
       "date": "2026-09-03",
       "topic": "AIOps / autonomous operations",
       "articlePath": null,
