@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 392" role="img" aria-label="Business signals lead and history decides the action" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#9a988f"/>
+    </marker>
+  </defs>
+  <rect width="760" height="392" fill="#ffffff"/>
+  <text x="24" y="34" font-size="15" font-weight="600" fill="#1a1a1a">Business signals lead and history decides the action</text>
+
+  <g fill="none" stroke="#9a988f" stroke-width="1.25">
+    <path d="M130.5 136V176" marker-end="url(#arrow)"/>
+    <path d="M367.5 136V176" marker-end="url(#arrow)"/>
+    <path d="M604.5 136V176" marker-end="url(#arrow)"/>
+    <path d="M130.5 248V288" marker-end="url(#arrow)"/>
+    <path d="M367.5 248V288" marker-end="url(#arrow)"/>
+    <path d="M604.5 248V288" marker-end="url(#arrow)"/>
+    <path d="M711 316H736V212H712" marker-end="url(#arrow)"/>
+  </g>
+
+  <g text-anchor="middle">
+    <rect x="24" y="64" width="213" height="72" rx="8" fill="none" stroke="#9a988f" stroke-width="1.25"/>
+    <text x="130.5" y="88" font-weight="600" fill="#1a1a1a">Business KPIs</text>
+    <text x="130.5" y="106" font-size="11.5" fill="#5f5e58">Claims, orders, yield</text>
+    <text x="130.5" y="122" font-size="11.5" fill="#5f5e58">TSFM forecasts the curve</text>
+
+    <rect x="261" y="64" width="213" height="72" rx="8" fill="none" stroke="#9a988f" stroke-width="1.25"/>
+    <text x="367.5" y="88" font-weight="600" fill="#1a1a1a">Business text</text>
+    <text x="367.5" y="106" font-size="11.5" fill="#5f5e58">Notes, tickets, work orders</text>
+    <text x="367.5" y="122" font-size="11.5" fill="#5f5e58">LLM reads the why</text>
+
+    <rect x="498" y="64" width="213" height="72" rx="8" fill="none" stroke="#9a988f" stroke-width="1.25"/>
+    <text x="604.5" y="88" font-weight="600" fill="#1a1a1a">Underlying layers</text>
+    <text x="604.5" y="106" font-size="11.5" fill="#5f5e58">App, network, batch, OT</text>
+    <text x="604.5" y="122" font-size="11.5" fill="#5f5e58">Logs and telemetry</text>
+
+    <rect x="24" y="176" width="688" height="72" rx="8" fill="#2b6cd4" fill-opacity="0.12" stroke="#2b6cd4" stroke-width="2"/>
+    <text x="368" y="200" font-weight="600" fill="#1a1a1a">Historical intelligence</text>
+    <text x="368" y="218" font-size="11.5" fill="#1a1a1a">Matches today's combination against what happened before</text>
+    <text x="368" y="234" font-size="11.5" fill="#1a1a1a">Open-weight models trained on the enterprise's own history</text>
+
+    <rect x="24" y="288" width="213" height="56" rx="8" fill="none" stroke="#9a988f" stroke-width="1.25"/>
+    <text x="130.5" y="312" font-weight="600" fill="#1a1a1a">Prevent</text>
+    <text x="130.5" y="330" font-size="11.5" fill="#5f5e58">Act before impact</text>
+
+    <rect x="261" y="288" width="213" height="56" rx="8" fill="none" stroke="#9a988f" stroke-width="1.25"/>
+    <text x="367.5" y="312" font-weight="600" fill="#1a1a1a">Eliminate</text>
+    <text x="367.5" y="330" font-size="11.5" fill="#5f5e58">Remove the root cause</text>
+
+    <rect x="498" y="288" width="213" height="56" rx="8" fill="none" stroke="#9a988f" stroke-width="1.25"/>
+    <text x="604.5" y="312" font-weight="600" fill="#1a1a1a">Human assist</text>
+    <text x="604.5" y="330" font-size="11.5" fill="#5f5e58">Flag to an SME</text>
+
+    <text x="604.5" y="364" font-size="11.5" fill="#5f5e58">SME feedback reinforces the models</text>
+  </g>
+</svg>
