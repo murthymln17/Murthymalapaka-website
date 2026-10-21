@@ -694,7 +694,8 @@ section { padding: 5rem 0; }
   color: var(--accent-dark);
   white-space: nowrap;
 }
-.data-table--wrap tbody td:first-child { white-space: normal; }
+.data-table--wrap tbody td:first-child,
+.data-table--wrap thead th { white-space: normal; }
 .data-table caption {
   caption-side: top;
   text-align: left;
