@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The PR That Ships Without Comments | Murthy Malapaka</title>
+<meta name="description" content="The LLM's power is reasoning to a decision, not faster code. The metric that matters is a PR that ships with no review comments, and it starts with setting the objective.">
+<link rel="canonical" href="https://murthymalapaka.com/insights/the-pr-that-ships-without-comments/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://murthymalapaka.com/insights/the-pr-that-ships-without-comments/">
+<meta property="og:title" content="The PR That Ships Without Comments | Murthy Malapaka">
+<meta property="og:description" content="The LLM's power is reasoning to a decision, not faster code. The metric that matters is a PR that ships with no review comments, and it starts with setting the objective.">
+<meta property="og:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<meta property="og:site_name" content="Murthy Malapaka">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The PR That Ships Without Comments | Murthy Malapaka">
+<meta name="twitter:description" content="The LLM's power is reasoning to a decision, not faster code. The metric that matters is a PR that ships with no review comments, and it starts with setting the objective.">
+<meta name="twitter:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Article",
+   "headline": "The PR That Ships Without Comments",
+   "alternativeHeadline": "Set the objective, not the throughput",
+   "description": "The LLM's power is reasoning to a decision, not faster code. The metric that matters is a PR that ships with no review comments, and it starts with setting the objective.",
+   "url": "https://murthymalapaka.com/insights/the-pr-that-ships-without-comments/",
+   "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://murthymalapaka.com/insights/the-pr-that-ships-without-comments/"
+   },
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "datePublished": "2026-11-05",
+   "dateModified": "2026-11-05",
+   "author": {
+    "@id": "https://murthymalapaka.com/#person"
+   },
+   "publisher": {
+    "@id": "https://murthymalapaka.com/#person"
+   }
+  },
+  {
+   "@type": "Person",
+   "@id": "https://murthymalapaka.com/#person",
+   "name": "Murthy Malapaka",
+   "jobTitle": "Executive Technology Strategist & AI Transformation Leader",
+   "url": "https://murthymalapaka.com",
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "description": "Murthy Malapaka helps enterprise leadership teams replace labor-centric operating models with AI-native ones — turning strategy into operational reality.",
+   "knowsAbout": [
+    "AI-native operating models",
+    "IT operations transformation",
+    "Enterprise AI strategy",
+    "Intelligent automation",
+    "Platform intelligence"
+   ],
+   "sameAs": [
+    "https://www.linkedin.com/in/murthymln/",
+    "https://councils.forbes.com/profile/Murthy-Malapaka-VIce-president-Technology-Innovation-SLK-software-SLK-Software-The-Automation-Compan/37d0644e-9088-43a1-a051-f20e2c584608"
+   ]
+  }
+ ]
+}
+</script>
+<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script src="/assets/js/analytics.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="/" class="brand"><span class="brand-mark">MM</span> Murthy Malapaka</a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/publications/">Publications</a></li>
+      <li><a href="/frameworks/">Frameworks</a></li>
+      <li><a href="/insights/" aria-current="page">Insights</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="article-hero">
+    <div class="container">
+      <a href="/insights/" class="back-link">← Insights</a>
+      <span class="tag">Enterprise Intelligence</span>
+      <h1>The PR That Ships Without Comments</h1>
+      <p class="read-time">5 min read</p>
+    </div>
+  </div>
+
+  <article class="article-body">
+    <div class="container" style="max-width: 700px;">
+      <p class="lede">Proton&rsquo;s CTO, Bart Butler, recently told his engineers their job has fundamentally changed. Writing code is no longer the job. In his words, the job is now to help the LLM &ldquo;write better code faster.&rdquo; (<a href="https://www.businessinsider.com/protons-cto-ai-manifesto-software-engineers-coding-2026-10" target="_blank" rel="noopener">Business Insider</a>)</p>
+
+      <p>He is right about the first half. The engineer is now a lead of models and agents, not a typist.</p>
+
+      <p>But look at the measure. Better code, faster. That is still a throughput metric. If the goal is more code in less time, we have taken the LLM&rsquo;s biggest weakness, the wall of text, and pointed it at our codebase.</p>
+
+      <p>The business never asked for faster code. It asked for a claim settled sooner, a higher yield, an order delivered on time. Code is only the path to that.</p>
+
+      <h2>Two prompts, two outcomes</h2>
+
+      <p>Compare two requests to the same model.</p>
+
+      <p><strong>The first:</strong> generate this service so it runs in Java.</p>
+
+      <p><strong>The second:</strong> generate this service following our design principles and architecture, against our data model, consuming the services we already expose, and passing the tests written for this requirement.</p>
+
+      <p>Both produce code that compiles. Only the second has a real chance of passing review without a single comment.</p>
+
+      <p><strong>That is the metric that matters.</strong> A pull request that goes through with no feedback goes to production sooner. It is what sets time to release, and time to release is what meets the business objective. Lines of code per hour do not.</p>
+
+      <p>I&rsquo;m not alone in seeing this. Sergey Marchuk, CTO at Oxagile, <a href="https://www.forbes.com/councils/forbestechcouncil/2026/11/02/the-engineering-behind-an-ai-native-software-development-life-cycle/" target="_blank" rel="noopener">wrote in Forbes</a> this week that agents have made code cheaper to produce while making ambiguity more expensive. He cites Harvard researchers who found that coding agents increased lines of code by 30%, while the time from pull request to merge rose 49%. More code went in, and it took longer to get out.</p>
+
+      <p>His answer is more structure around the agent: a specification checked for gaps before implementation, a context harness kept in the repository, and named human sign-off at each stage. That is the right instinct. But the gap check rests on the spec and on whoever reviews it. In my experience, the gaps that hurt most are the ones nobody thought to write down. When the requirements pipeline carries the organization&rsquo;s own history (which requirements went missing, which tests were never written, which defects kept coming back), the LLM can flag that white space while the objective is still being defined.</p>
+
+      <h2>The model is ready. The context isn&rsquo;t.</h2>
+
+      <p>Today&rsquo;s LLMs, and the harness around them, can already do the second prompt well. Capability is not the constraint.</p>
+
+      <p><strong>The constraint is knowledge.</strong> To write that second prompt, the developer or lead has to know the design principles, the architecture, the data model, every exposed service, and the test intent behind the requirement. Few people hold all of that in their head. Fewer can feed it to a model on every request.</p>
+
+      <p>So the model reasons over whatever thin context it is given, and fills the gaps with plausible code. Reviewers catch the gaps. The PR goes back. Release slips. The business objective waits.</p>
+
+      <h2>What we learned: start with the objective, not the data</h2>
+
+      <p>We faced this directly when we built SDLC intelligence for a manufacturer and an insurer.</p>
+
+      <p><strong>We did not start by collecting data.</strong> We started by defining the objective: produce a service whose PR gets no review feedback, goes through to production, and moves a business outcome such as claim processing time, yield, or order processing, in its own context.</p>
+
+      <p>Only then did we gather data sources, and we did it structurally:</p>
+
+      <ul class="body-list">
+        <li><strong>1.</strong> Requirements, user stories and epics</li>
+        <li><strong>2.</strong> Test cases</li>
+        <li><strong>3.</strong> Code and data repositories</li>
+        <li><strong>4.</strong> Published APIs and services</li>
+        <li><strong>5.</strong> Historical defects</li>
+      </ul>
+
+      <p><strong>The step that made it work came next.</strong> We gave the model the objective and the sources, and asked it a different question: is this enough to meet the objective, and where is the white space?</p>
+
+      <p>The model came back with gaps. A requirement with no test. A data assumption no one had written down. A localization and currency rule that had never been captured in requirements, and had shown up only as defects.</p>
+
+      <p>We closed each gap and ran the loop again. Objective, sources, white space, close, repeat. That loop engineering is what turned &ldquo;build this service&rdquo; into an outcome-based, measurable request. The results were fewer requirement gaps, better code quality, bugs eliminated rather than fixed, and shorter time to release.</p>
+
+      <h2>Objectives build better engineers, and better leaders</h2>
+
+      <p>This way of working builds better engineers. You cannot set an objective like &ldquo;no review comments and a faster claim&rdquo; without understanding the business context and the value at stake. The coder becomes a developer who knows why the service exists.</p>
+
+      <p><strong>The same holds well beyond code.</strong> A business leader who understands the outcome and its impact can set clear objectives for an agent and run the loop until the output aligns. Leadership stops spending time correcting work that was aimed at the wrong target.</p>
+
+      <p>A simple example I heard recently: an order-to-shipment report versus an order-to-delivery report. Shipment tells you the warehouse did its part. Delivery tells you whether the customer got what they ordered, when promised. The second is the status that means something to the business. But if the objective is not set that way, the agent will not know. It will build the first report, accurately and quickly, and it will still be the wrong answer.</p>
+
+      <h2>The engineer&rsquo;s real job</h2>
+
+      <p>So yes, the engineer&rsquo;s job has changed. But it is not to help the LLM write code faster.</p>
+
+      <p><strong>It is to define the outcome, assemble the context, and close the white space the model surfaces.</strong> The model&rsquo;s power is in reasoning over that context to a decision: is this enough, what is missing, what should be built. Generating the code is the easy part.</p>
+
+      <p>This is the same point I made in <a href="/insights/the-missing-objective/">The Missing Objective</a>: a model is only as useful as the objective we train and point it at. Point it at faster code and you get more code. Point it at a PR that ships without comments and a business outcome that moves, and you get release velocity that actually matters.</p>
+
+      <h2>Sources</h2>
+      <ul class="body-list">
+        <li>Business Insider, <a href="https://www.businessinsider.com/protons-cto-ai-manifesto-software-engineers-coding-2026-10" target="_blank" rel="noopener">Proton CTO&rsquo;s AI manifesto for software engineers</a> (October 2026)</li>
+        <li>Sergey Marchuk, Forbes Technology Council, <a href="https://www.forbes.com/councils/forbestechcouncil/2026/11/02/the-engineering-behind-an-ai-native-software-development-life-cycle/" target="_blank" rel="noopener">&ldquo;The Engineering Behind an AI-Native Software Development Life Cycle&rdquo;</a> (November 2, 2026)</li>
+      </ul>
+
+      <p><em>Part of the Enterprise Intelligence series.</em></p>
+    </div>
+  </article>
+
+  <section class="section-alt">
+    <div class="container" style="max-width: 700px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">Related Publications</span>
+        <h2>Related reading</h2>
+      </div>
+      <ul class="pub-list reveal">
+        <li>
+          <a href="/insights/the-missing-objective/">The Missing Objective: Why AI Keeps Automating Work That Shouldn't Exist</a>
+          <p>Every LLM leap came from changing what we train models to do. One objective is still missing: elimination. Why enterprises need an elimination office.</p>
+        </li>
+        <li>
+          <a href="/insights/automate-or-augment-skips-the-first-question/">Automate or Augment? Both Skip the First Question</a>
+          <p>Every major AI-and-jobs study asks whether AI will automate or augment work. None asks whether the work should exist at all. Digital banks show what elimination looks like, and how incumbents can get there with historical and market intelligence.</p>
+        </li>
+        <li>
+          <a href="/insights/ai-doesnt-replace-engineers/">AI Doesn't Replace Engineers</a>
+          <p>The debate over whether AI replaces engineers misses the more important shift already underway: AI should eliminate repetitive operational work, not engineering judgment.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <span class="copyright">&copy; <span data-year></span> Murthy Malapaka. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="mailto:murthymln17@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/murthymln/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
