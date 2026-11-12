@@ -173,7 +173,12 @@ crawl still shows up there, and a real reader who bounced would be in that
 group too, so the card calls it an engagement filter rather than bot
 detection. Nothing else on the dashboard filters: the KPI tiles, the funnel
 and the article views stay as GA4 and Cloudflare report them, so the numbers
-still reconcile against those products' own UIs.
+still reconcile against those products' own UIs. The Visitors tile reports
+engaged sessions *beside* its session count rather than in place of it
+(`sessionsSub`) — and only there, because engagement is session-scoped in
+GA4: there is no engaged pageview to report, and pairing an engaged count
+with visitors or pageviews would divide unlike things. Both figures come from
+`/api/insights` so the rate's numerator and denominator are one query's.
 
 **Article effectiveness joins GA4 with the Cloudflare edge.** GA4 only sees
 readers who don't block its tag, so an article read entirely by blocked
