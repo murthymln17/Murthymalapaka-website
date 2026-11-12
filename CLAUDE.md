@@ -164,6 +164,17 @@ reason, and the card prints it). A zero standing in for a missing figure reads
 as "nobody read it" when it means "we could not ask" — which is the opposite
 conclusion.
 
+**Recent activity hides low-engagement visits.** Most rows at this traffic
+level are automated: direct, one page, `<1m`, `0s`. `isEngagedVisit` in
+`assets/js/dashboard.js` applies GA4's own engaged-session rule — over 10s of
+engagement, or more than one page — and folds the rest into a disclosure under
+the table, with the count in its summary. They are hidden, never dropped: a
+crawl still shows up there, and a real reader who bounced would be in that
+group too, so the card calls it an engagement filter rather than bot
+detection. Nothing else on the dashboard filters: the KPI tiles, the funnel
+and the article views stay as GA4 and Cloudflare report them, so the numbers
+still reconcile against those products' own UIs.
+
 **Article effectiveness joins GA4 with the Cloudflare edge.** GA4 only sees
 readers who don't block its tag, so an article read entirely by blocked
 visitors is absent from its per-page report — and so was absent from the
