@@ -155,6 +155,27 @@ its carrier's gateway); the Recent activity column is labelled *Approx.
 location* for that reason. Cloudflare Web Analytics has no city dimension at
 all, so it is not an alternative source for it.
 
+**`—` means unmeasured; `0` means measured zero.** Keep the two apart.
+`fmtNum(null)` and `fmtDur(null)` both render an em dash, and
+`worker/insights.js` sends `null` rather than `0` wherever a figure was never
+measured: engagement with no users to average over, and every search column
+when Search Console could not be reached (`searchUnavailable` carries the
+reason, and the card prints it). A zero standing in for a missing figure reads
+as "nobody read it" when it means "we could not ask" — which is the opposite
+conclusion.
+
+**Article effectiveness joins GA4 with the Cloudflare edge.** GA4 only sees
+readers who don't block its tag, so an article read entirely by blocked
+visitors is absent from its per-page report — and so was absent from the
+table, which reads as no readership rather than no measurement.
+`renderArticleTable` in `assets/js/dashboard.js` merges `/api/cloudflare`'s
+`topPaths` in client-side: matching rows gain an **Edge views** count, and
+edge-only articles appear with dashes for everything GA4 would have supplied
+(`articleSearch` from `/api/insights` still fills their search figures). The
+join is deliberately client-side — a Cloudflare failure costs one column, not
+the whole Objectives section. Expect edge counts to run above GA4's; the gap
+is the ad-blocked audience.
+
 ## Styling
 
 Reuse the classes already in `assets/css/style.css` rather than adding new

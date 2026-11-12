@@ -603,6 +603,12 @@ export async function handleInsights(request, env) {
   const linkedinSessions = linkedinDaily.reduce((a, d) => a + d.sessions, 0);
 
   const gscByPath = new Map((gsc?.pages || []).map((p) => [p.path.replace(/\/+$/, '') || '/', p]));
+
+  // null means "not measured", 0 means "measured, and it was zero". The two
+  // read identically on the dashboard unless they are kept apart here: a
+  // Search Console outage would otherwise report every article as having
+  // been shown to nobody, which is a different claim entirely.
+  const searchKnown = !!gsc;
   const articles = articlePages.map((p) => {
     const key = p.path.replace(/\/+$/, '') || '/';
     const search = gscByPath.get(key);
@@ -610,12 +616,20 @@ export async function handleInsights(request, env) {
       path: p.path,
       title: p.title,
       pageviews: p.pageviews,
-      avgEngagementSeconds: p.users ? p.engagementSeconds / p.users : 0,
+      // With no users there is nothing to average over — not an instant bounce.
+      avgEngagementSeconds: p.users ? p.engagementSeconds / p.users : null,
       linkedinSessions: linkedinByPage.get(p.path) || 0,
-      searchImpressions: search?.impressions ?? 0,
-      searchClicks: search?.clicks ?? 0,
+      searchImpressions: searchKnown ? (search?.impressions ?? 0) : null,
+      searchClicks: searchKnown ? (search?.clicks ?? 0) : null,
     };
   });
+
+  // Search figures for every article Google reported, including ones GA4
+  // never saw. The dashboard joins these onto articles that only turn up in
+  // Cloudflare's edge counts, which GA4 misses when readers block its tag.
+  const articleSearch = (gsc?.pages || [])
+    .filter((p) => isArticle(p.path))
+    .map((p) => ({ path: p.path, impressions: p.impressions, clicks: p.clicks }));
 
   const searchImpressions = gsc?.totals.impressions ?? 0;
 
@@ -690,6 +704,7 @@ export async function handleInsights(request, env) {
     audienceQuality: audienceQuality(exportData?.demographics, exportData?.range?.end),
     loggedPosts: (linkedinLog.posts || []).length,
     articles: articles.sort((a, b) => b.pageviews - a.pageviews).slice(0, 15),
+    articleSearch,
   };
 
   for (const stage of Object.values(insights.funnel)) {
