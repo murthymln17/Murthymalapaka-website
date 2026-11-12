@@ -21,6 +21,10 @@
   }
 
   function fmtDur(seconds) {
+    // null/undefined is "not measured"; 0 is measured, and means they left
+    // instantly. Rendering both as "0s" makes an unread article and an
+    // unmeasured one look identical. fmtNum already draws this line.
+    if (seconds == null) return '\u2014';
     if (!seconds) return '0s';
     // Visit spans can run past an hour; "1h 5m" reads better than "65m 2s".
     if (seconds >= 3600) {
@@ -467,6 +471,124 @@
     }
   }
 
+  /* ---------- article effectiveness (GA4 + Search Console + edge) ---------- */
+
+  function articlePathKey(path) {
+    var s = String(path || '').split('?')[0].split('#')[0];
+    if (s.length > 1) s = s.replace(/\/+$/, '');
+    return s || '/';
+  }
+
+  function isArticlePath(path) {
+    var key = articlePathKey(path);
+    return key.indexOf('/insights/') === 0 && key !== '/insights';
+  }
+
+  /**
+   * GA4 only sees readers who don't block its tag; Cloudflare counts every
+   * request at the edge. Joined, an article read entirely by ad-blocking
+   * visitors shows up at all — on GA4 alone it is absent from this table,
+   * which reads as "no readers" when it means "no measurement".
+   */
+  function renderArticleTable(insights, cf) {
+    var slot = document.querySelector('#card-articles [data-table]');
+    if (!slot || !insights) return;
+    slot.textContent = '';
+
+    var rows = [];
+    var byKey = {};
+    (insights.articles || []).forEach(function (a) {
+      var row = {
+        path: a.path,
+        title: a.title,
+        pageviews: a.pageviews,
+        edgeViews: null,
+        linkedinSessions: a.linkedinSessions,
+        searchImpressions: a.searchImpressions,
+        searchClicks: a.searchClicks,
+        avgEngagementSeconds: a.avgEngagementSeconds,
+      };
+      byKey[articlePathKey(a.path)] = row;
+      rows.push(row);
+    });
+
+    // Search figures for every article Google reported, so an edge-only row
+    // can still show its real search numbers rather than an empty dash.
+    var searchByKey = {};
+    (insights.articleSearch || []).forEach(function (r) {
+      searchByKey[articlePathKey(r.path)] = r;
+    });
+
+    var edgeKnown = !!(cf && cf.topPaths);
+    if (edgeKnown) {
+      cf.topPaths.forEach(function (p) {
+        if (!isArticlePath(p.label)) return;
+        var key = articlePathKey(p.label);
+        if (byKey[key]) {
+          byKey[key].edgeViews = p.pageviews;
+          return;
+        }
+        var search = searchByKey[key];
+        rows.push({
+          path: key + '/',
+          title: null,
+          pageviews: null,
+          edgeViews: p.pageviews,
+          linkedinSessions: null,
+          searchImpressions: search ? search.impressions : null,
+          searchClicks: search ? search.clicks : null,
+          avgEngagementSeconds: null,
+        });
+      });
+    }
+
+    if (!rows.length) {
+      slot.appendChild(el('p', 'chart-empty', 'No article traffic in this period yet.'));
+      return;
+    }
+
+    var best = function (r) { return Math.max(r.pageviews || 0, r.edgeViews || 0); };
+    rows.sort(function (a, b) { return best(b) - best(a); });
+
+    var wrap = el('div', 'table-wrap');
+    var table = document.createElement('table');
+    table.className = 'insight-table';
+    var head = document.createElement('tr');
+    ['Article', 'Views', 'Edge views', 'From LinkedIn', 'Search impr.', 'Search clicks', 'Avg. read']
+      .forEach(function (h) { head.appendChild(el('th', null, h)); });
+    table.appendChild(head);
+
+    rows.slice(0, 15).forEach(function (a) {
+      var tr = document.createElement('tr');
+      var titleCell = document.createElement('td');
+      var link = document.createElement('a');
+      link.href = a.path;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.textContent = a.title || a.path;
+      titleCell.appendChild(link);
+      tr.appendChild(titleCell);
+      [fmtNum(a.pageviews), fmtNum(a.edgeViews), fmtNum(a.linkedinSessions),
+       fmtNum(a.searchImpressions), fmtNum(a.searchClicks),
+       fmtDur(a.avgEngagementSeconds)].forEach(function (v) {
+        tr.appendChild(el('td', null, v));
+      });
+      table.appendChild(tr);
+    });
+    wrap.appendChild(table);
+    slot.appendChild(wrap);
+
+    var text = '\u2014 means not measured, which is not the same as zero. Views come from Google '
+      + 'Analytics, which misses readers who block its tag; Edge views are counted at the Cloudflare '
+      + 'edge, so a row with edge views but no views was read entirely by blocked visitors. ';
+    if (!edgeKnown) text += 'Edge counts are unavailable right now. ';
+    if (insights.searchUnavailable) {
+      text += 'Search Console is unavailable (' + insights.searchUnavailable
+        + '), so the search columns read \u2014 rather than zero.';
+    }
+    slot.appendChild(el('p', 'dash-note', text.trim()));
+  }
+
   function renderInsights(data) {
     var briefSlot = document.querySelector('#card-brief [data-brief]');
     briefSlot.textContent = '';
@@ -508,38 +630,8 @@
 
     renderAudienceQuality(listSlot('card-audience'), data.audienceQuality);
 
-    var tableSlot = document.querySelector('#card-articles [data-table]');
-    tableSlot.textContent = '';
-    if (!data.articles.length) {
-      tableSlot.appendChild(el('p', 'chart-empty', 'No article traffic in this period yet.'));
-    } else {
-      var wrap = el('div', 'table-wrap');
-      var table = document.createElement('table');
-      table.className = 'insight-table';
-      var head = document.createElement('tr');
-      ['Article', 'Views', 'From LinkedIn', 'Search impr.', 'Search clicks', 'Avg. read'].forEach(function (h) {
-        head.appendChild(el('th', null, h));
-      });
-      table.appendChild(head);
-      data.articles.forEach(function (a) {
-        var tr = document.createElement('tr');
-        var titleCell = document.createElement('td');
-        var link = document.createElement('a');
-        link.href = a.path;
-        link.target = '_blank';
-        link.rel = 'noopener';
-        link.textContent = a.title || a.path;
-        titleCell.appendChild(link);
-        tr.appendChild(titleCell);
-        [fmtNum(a.pageviews), fmtNum(a.linkedinSessions), fmtNum(a.searchImpressions),
-         fmtNum(a.searchClicks), fmtDur(a.avgEngagementSeconds)].forEach(function (v) {
-          tr.appendChild(el('td', null, v));
-        });
-        table.appendChild(tr);
-      });
-      wrap.appendChild(table);
-      tableSlot.appendChild(wrap);
-    }
+    // Cloudflare may not have landed yet; loadAll re-renders once it has.
+    renderArticleTable(data, state.data.cf);
 
     var postSlot = listSlot('card-posts');
     postSlot.textContent = '';
@@ -1075,6 +1167,9 @@
 
     Promise.allSettled([pGa4, pGsc, pCf, pIns]).then(function () {
       renderKpis(results.ga4, results.gsc);
+      // Both sources are in now, so the article table can show edge counts
+      // alongside GA4's — it rendered without them if insights arrived first.
+      if (state.data.insights) renderArticleTable(state.data.insights, state.data.cf);
       setLoading(false);
       document.getElementById('dash-updated').textContent =
         'Last ' + state.days + ' days · updated ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
@@ -1206,7 +1301,7 @@
         { label: '/frameworks/', clicks: 12, impressions: 380, ctr: 0.031, position: 14.2 },
       ],
     });
-    renderCf({
+    state.data.cf = {
       timeseries: ts.map(function (r) { return { date: r.date, visits: r.users, pageviews: r.pageviews }; }),
       networks: {
         organisations: [
@@ -1238,7 +1333,17 @@
         { label: 'mobile', pageviews: 490 },
         { label: 'tablet', pageviews: 29 },
       ],
-    });
+      topPaths: [
+        { label: '/', pageviews: 265 },
+        { label: '/insights/it-operations-forward-deployed-engineers/', pageviews: 268 },
+        { label: '/insights/ticket-factories/', pageviews: 189 },
+        // Read only by visitors GA4 cannot see — absent from its report, and
+        // so absent from this table entirely before the two were joined.
+        { label: '/insights/the-restart-that-shouldnt-have-happened/', pageviews: 142 },
+        { label: '/insights/ai-native-it-operations/', pageviews: 137 },
+      ],
+    };
+    renderCf(state.data.cf);
     renderKpis(
       { totals: { users: totalUsers, pageviews: totalViews, sessions: Math.round(totalUsers * 1.2), avgSessionDuration: 148 } },
       { totals: { clicks: totalClicks, impressions: totalImps, ctr: totalClicks / totalImps } }
@@ -1311,6 +1416,12 @@
         { path: '/insights/it-operations-forward-deployed-engineers/', title: 'IT Operations Doesn\u2019t Need Forward-Deployed Engineers', pageviews: 214, linkedinSessions: 64, searchImpressions: 380, searchClicks: 21, avgEngagementSeconds: 208 },
         { path: '/insights/ticket-factories/', title: 'Why Are We Still Building Ticket Factories?', pageviews: 156, linkedinSessions: 12, searchImpressions: 720, searchClicks: 38, avgEngagementSeconds: 187 },
         { path: '/insights/ai-native-it-operations/', title: 'How AI-Native IT Operations Enable Peak Business Performance', pageviews: 121, linkedinSessions: 22, searchImpressions: 260, searchClicks: 12, avgEngagementSeconds: 173 },
+      ],
+      articleSearch: [
+        { path: '/insights/it-operations-forward-deployed-engineers/', impressions: 380, clicks: 21 },
+        { path: '/insights/ticket-factories/', impressions: 720, clicks: 38 },
+        { path: '/insights/ai-native-it-operations/', impressions: 260, clicks: 12 },
+        { path: '/insights/the-restart-that-shouldnt-have-happened/', impressions: 95, clicks: 4 },
       ],
     });
     document.getElementById('dash-updated').textContent = 'Demo data — remove ?demo=1 from the URL for live analytics.';

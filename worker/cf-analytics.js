@@ -19,7 +19,7 @@ query Dashboard($accountTag: string, $filter: AccountRumPageloadEventsAdaptiveGr
         sum { visits }
         dimensions { date }
       }
-      topPaths: rumPageloadEventsAdaptiveGroups(filter: $filter, limit: 12, orderBy: [count_DESC]) {
+      topPaths: rumPageloadEventsAdaptiveGroups(filter: $filter, limit: 100, orderBy: [count_DESC]) {
         count
         sum { visits }
         dimensions { requestPath }
