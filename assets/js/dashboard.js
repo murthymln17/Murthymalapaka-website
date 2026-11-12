@@ -724,14 +724,18 @@
     return document.querySelector('#' + cardId + ' [data-list]');
   }
 
-  function renderRecentVisits(slot, visits, propertyTimeZone) {
-    slot.textContent = '';
-    if (!visits || !visits.length) {
-      slot.appendChild(el('p', 'chart-empty',
-        'No visit-level rows for this period. GA4 withholds granular rows at low traffic volumes \u2014 '
-          + 'Explore \u2192 User explorer in GA4 always shows them.'));
-      return;
-    }
+  // GA4's own engaged-session rule: over ten seconds of engagement, or more
+  // than one page. Below that is someone who opened the page and left.
+  // Deliberately NOT called bot detection — automated traffic dominates this
+  // group, but a real reader who bounced lands in it too, which is why these
+  // visits are folded away rather than dropped.
+  var ENGAGED_SECONDS = 10;
+
+  function isEngagedVisit(v) {
+    return (v.engagementSeconds || 0) >= ENGAGED_SECONDS || (v.pageviews || 0) > 1;
+  }
+
+  function visitsTable(visits) {
     var wrap = el('div', 'table-wrap');
     var table = document.createElement('table');
     table.className = 'insight-table visits-table';
@@ -764,13 +768,50 @@
       table.appendChild(tr);
     });
     wrap.appendChild(table);
-    slot.appendChild(wrap);
+    return wrap;
+  }
+
+  function renderRecentVisits(slot, visits, propertyTimeZone) {
+    slot.textContent = '';
+    if (!visits || !visits.length) {
+      slot.appendChild(el('p', 'chart-empty',
+        'No visit-level rows for this period. GA4 withholds granular rows at low traffic volumes \u2014 '
+          + 'Explore \u2192 User explorer in GA4 always shows them.'));
+      return;
+    }
+
+    var engaged = visits.filter(isEngagedVisit);
+    var skimmed = visits.filter(function (v) { return !isEngagedVisit(v); });
+
+    if (engaged.length) {
+      slot.appendChild(visitsTable(engaged));
+    } else {
+      slot.appendChild(el('p', 'chart-empty',
+        'No engaged visits in this period \u2014 every row below opened a page and left.'));
+    }
+
+    // Folded away, not discarded: the hidden rows are still the place a
+    // crawl shows up, and the count alone says how much of the traffic is
+    // nobody reading anything.
+    if (skimmed.length) {
+      var details = el('details', 'chart-table');
+      details.appendChild(el('summary', null,
+        skimmed.length + ' low-engagement visit' + (skimmed.length === 1 ? '' : 's')
+          + ' hidden (one page, under ' + ENGAGED_SECONDS + 's) \u2014 show'));
+      details.appendChild(visitsTable(skimmed));
+      slot.appendChild(details);
+    }
+
     var localZone = '';
     try {
       localZone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
     } catch (e) { /* older browsers */ }
     slot.appendChild(el('p', 'dash-note',
-      'Pseudonymous by design \u2014 GA4 never exposes visitor identity. Times are shown in your local timezone'
+      'Showing ' + engaged.length + ' of ' + visits.length + ' visits. A visit counts as engaged on GA4\u2019s '
+        + 'own rule \u2014 over ' + ENGAGED_SECONDS + 's of engagement, or more than one page; the rest are '
+        + 'folded away above. That is an engagement filter, not bot detection: automated traffic dominates the '
+        + 'hidden group, but a real reader who bounced sits in it too. '
+        + 'Pseudonymous by design \u2014 GA4 never exposes visitor identity. Times are shown in your local timezone'
         + (localZone ? ' (' + localZone + ')' : '')
         + (propertyTimeZone ? ', converted from the GA4 property\u2019s ' + propertyTimeZone : '')
         + '. Stayed is the span from first to last activity; Engaged is the time GA4 recorded as active. '
@@ -1262,6 +1303,10 @@
         { startedAt: new Date(Date.now() - 47 * 60000).toISOString(), city: 'Bengaluru', country: 'India', source: 'linkedin.com', landingPage: '/insights/physical-ai-eliminate-predict-prevent/', pageviews: 1, durationSeconds: 0, engagementSeconds: 22 },
         { startedAt: new Date(Date.now() - 3 * 3600000).toISOString(), city: 'New York', country: 'United States', source: 'google', landingPage: '/insights/ticket-factories/', pageviews: 3, durationSeconds: 605, engagementSeconds: 244 },
         { startedAt: new Date(Date.now() - 26 * 3600000).toISOString(), city: 'London', country: 'United Kingdom', source: '(direct)', landingPage: '/', pageviews: 2, durationSeconds: 180, engagementSeconds: 61 },
+        // The shape automated traffic takes: direct, one page, no engagement.
+        { startedAt: new Date(Date.now() - 31 * 3600000).toISOString(), city: 'Frankfurt am Main', country: 'Germany', source: '(direct)', landingPage: '/insights/human-assurance-it-operations/', pageviews: 1, durationSeconds: 0, engagementSeconds: 0 },
+        { startedAt: new Date(Date.now() - 38 * 3600000).toISOString(), city: 'Dhaka', country: 'Bangladesh', source: '(direct)', landingPage: '/insights/', pageviews: 1, durationSeconds: 0, engagementSeconds: 0 },
+        { startedAt: new Date(Date.now() - 44 * 3600000).toISOString(), city: 'Vinhedo', country: 'Brazil', source: '(direct)', landingPage: '/insights/the-ai-usage-bill-has-arrived/', pageviews: 1, durationSeconds: 0, engagementSeconds: 0 },
       ],
       countries: [
         { label: 'United States', users: 148, sessions: 173 },
