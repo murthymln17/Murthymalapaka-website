@@ -682,13 +682,28 @@
 
   var kpiGrid = document.getElementById('kpi-grid');
 
-  function renderKpis(ga4, gsc) {
+  /**
+   * Engagement is a session-level property in GA4 — there is no such thing as
+   * an engaged pageview — so the engaged figure sits beside sessions, under
+   * Visitors, and nowhere else. Both numbers come from the insights query so
+   * the rate divides like with like.
+   */
+  function sessionsSub(ga4, insights) {
+    var text = fmtNum(ga4.totals.sessions) + ' sessions';
+    var read = insights && insights.funnel && insights.funnel.read;
+    if (!read || read.engagedSessions == null) return text;
+    var total = read.sessions || ga4.totals.sessions;
+    return text + ' · ' + fmtNum(read.engagedSessions) + ' engaged'
+      + (total ? ' (' + Math.round((read.engagedSessions / total) * 100) + '%)' : '');
+  }
+
+  function renderKpis(ga4, gsc, insights) {
     kpiGrid.textContent = '';
     var tiles = [
       {
         label: 'Visitors',
         value: ga4 ? fmtNum(ga4.totals.users) : '—',
-        sub: ga4 ? fmtNum(ga4.totals.sessions) + ' sessions' : 'Connect GA4',
+        sub: ga4 ? sessionsSub(ga4, insights) : 'Connect GA4',
       },
       {
         label: 'Pageviews',
@@ -1207,7 +1222,7 @@
     });
 
     Promise.allSettled([pGa4, pGsc, pCf, pIns]).then(function () {
-      renderKpis(results.ga4, results.gsc);
+      renderKpis(results.ga4, results.gsc, state.data.insights);
       // Both sources are in now, so the article table can show edge counts
       // alongside GA4's — it rendered without them if insights arrived first.
       if (state.data.insights) renderArticleTable(state.data.insights, state.data.cf);
@@ -1389,9 +1404,11 @@
       ],
     };
     renderCf(state.data.cf);
+    var demoSessions = Math.round(totalUsers * 1.2);
     renderKpis(
-      { totals: { users: totalUsers, pageviews: totalViews, sessions: Math.round(totalUsers * 1.2), avgSessionDuration: 148 } },
-      { totals: { clicks: totalClicks, impressions: totalImps, ctr: totalClicks / totalImps } }
+      { totals: { users: totalUsers, pageviews: totalViews, sessions: demoSessions, avgSessionDuration: 148 } },
+      { totals: { clicks: totalClicks, impressions: totalImps, ctr: totalClicks / totalImps } },
+      { funnel: { read: { engagedSessions: Math.round(demoSessions * 0.34), sessions: demoSessions } } }
     );
     renderInsights({
       briefSource: 'computed',

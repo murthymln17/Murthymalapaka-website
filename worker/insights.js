@@ -675,6 +675,9 @@ export async function handleInsights(request, env) {
         value: articleViews,
         articleViews,
         engagedSessions: curTotals.engagedSessions,
+        // Sent alongside so the engagement rate is computed from one query's
+        // numerator and denominator rather than straddling two endpoints.
+        sessions: curTotals.sessions,
         avgEngagementSeconds: curTotals.users ? curTotals.engagementSeconds / curTotals.users : 0,
         delta: pctChange(curTotals.pageviews, prevTotals.pageviews),
       },
