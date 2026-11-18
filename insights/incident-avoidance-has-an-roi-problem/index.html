@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Incident Avoidance Has an ROI Problem, Not a Technology Problem | Murthy Malapaka</title>
+<meta name="description" content="Microsoft&rsquo;s November 12 outage wasn&rsquo;t caused by legacy technology. It was caused by an operating model that detects and recovers instead of avoiding, and by an ROI model that can&rsquo;t see an incident that never happened.">
+<link rel="canonical" href="https://murthymalapaka.com/insights/incident-avoidance-has-an-roi-problem/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://murthymalapaka.com/insights/incident-avoidance-has-an-roi-problem/">
+<meta property="og:title" content="Incident Avoidance Has an ROI Problem, Not a Technology Problem | Murthy Malapaka">
+<meta property="og:description" content="Microsoft&rsquo;s November 12 outage wasn&rsquo;t caused by legacy technology. It was caused by an operating model that detects and recovers instead of avoiding, and by an ROI model that can&rsquo;t see an incident that never happened.">
+<meta property="og:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<meta property="og:site_name" content="Murthy Malapaka">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Incident Avoidance Has an ROI Problem, Not a Technology Problem | Murthy Malapaka">
+<meta name="twitter:description" content="Microsoft&rsquo;s November 12 outage wasn&rsquo;t caused by legacy technology. It was caused by an operating model that detects and recovers instead of avoiding, and by an ROI model that can&rsquo;t see an incident that never happened.">
+<meta name="twitter:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Article",
+   "headline": "Incident Avoidance Has an ROI Problem, Not a Technology Problem",
+   "alternativeHeadline": "Outages aren't a legacy problem. They are an architecture, design and intent problem",
+   "description": "Microsoft's November 12 outage wasn't caused by legacy technology. It was caused by an operating model that detects and recovers instead of avoiding, and by an ROI model that can't see an incident that never happened.",
+   "url": "https://murthymalapaka.com/insights/incident-avoidance-has-an-roi-problem/",
+   "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://murthymalapaka.com/insights/incident-avoidance-has-an-roi-problem/"
+   },
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "datePublished": "2026-11-18",
+   "dateModified": "2026-11-18",
+   "author": {
+    "@id": "https://murthymalapaka.com/#person"
+   },
+   "publisher": {
+    "@id": "https://murthymalapaka.com/#person"
+   }
+  },
+  {
+   "@type": "Person",
+   "@id": "https://murthymalapaka.com/#person",
+   "name": "Murthy Malapaka",
+   "jobTitle": "Executive Technology Strategist & AI Transformation Leader",
+   "url": "https://murthymalapaka.com",
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "description": "Murthy Malapaka helps enterprise leadership teams replace labor-centric operating models with AI-native ones — turning strategy into operational reality.",
+   "knowsAbout": [
+    "AI-native operating models",
+    "IT operations transformation",
+    "Enterprise AI strategy",
+    "Intelligent automation",
+    "Platform intelligence"
+   ],
+   "sameAs": [
+    "https://www.linkedin.com/in/murthymln/",
+    "https://councils.forbes.com/profile/Murthy-Malapaka-VIce-president-Technology-Innovation-SLK-software-SLK-Software-The-Automation-Compan/37d0644e-9088-43a1-a051-f20e2c584608"
+   ]
+  }
+ ]
+}
+</script>
+<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script src="/assets/js/analytics.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="/" class="brand"><span class="brand-mark">MM</span> Murthy Malapaka</a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/publications/">Publications</a></li>
+      <li><a href="/frameworks/">Frameworks</a></li>
+      <li><a href="/insights/" aria-current="page">Insights</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="article-hero">
+    <div class="container">
+      <a href="/insights/" class="back-link">← Insights</a>
+      <span class="tag">Enterprise Intelligence</span>
+      <h1>Incident Avoidance Has an ROI Problem, Not a Technology Problem</h1>
+      <p class="read-time">9 min read</p>
+    </div>
+  </div>
+
+  <article class="article-body">
+    <div class="container" style="max-width: 700px;">
+      <p class="lede">Microsoft&rsquo;s November 12 outage wasn&rsquo;t caused by legacy technology. It was caused by an operating model that detects and recovers instead of avoiding, and by an ROI model that can&rsquo;t see an incident that never happened.</p>
+
+      <p>A recent headline grouped Chase, Microsoft and United together as companies facing crippling outages, and pointed at the usual suspect: legacy, outdated technology. It&rsquo;s a convenient story. It&rsquo;s also wrong.</p>
+
+      <p>Look at each of them.</p>
+
+      <p><strong>Microsoft.</strong> On November 12, Microsoft 365, among the most modern, most instrumented services on the planet, was out for close to a day. Outlook, Exchange Online, Teams and Copilot were disrupted worldwide. Banks, government offices and trading desks fell back to phones. Some fell back to fax. And this isn&rsquo;t the first time this year. In July, a network maintenance change in Azure&rsquo;s West US region rippled into Microsoft 365 as well. None of it was legacy.</p>
+
+      <p><strong>United.</strong> United&rsquo;s biggest disruption this year was a planned four-and-a-half-hour full system shutdown to move decades-old mainframe systems onto a new cloud architecture. The outage came from the modernization itself, not from the mainframes.</p>
+
+      <p><strong>Chase.</strong> JPMorgan Chase has been detecting fraud in real time across millions of transactions for well over a decade. It owns patents in the space and has invested heavily in the platforms behind it. That is streaming data, anomaly detection and pattern intelligence at scale. The capability exists inside the same company. It just isn&rsquo;t pointed at its own infrastructure and applications the same way.</p>
+
+      <p>And plenty of enterprises still run mainframes with little or no issues. The difference was never the age of the technology. It&rsquo;s architecture, design, and intent.</p>
+
+      <h2>What the preliminary report actually says</h2>
+
+      <p>Microsoft&rsquo;s preliminary post-incident report is out, with the final review due November 20. It describes three factors that lined up.</p>
+
+      <ul class="body-list">
+        <li><strong>A latent defect.</strong> A fix made specifically for the Microsoft 365 networking gateway servers began deploying in July. It introduced lock contention in an internal Windows process that, under certain loads, exhausted CPU and memory. It ran worldwide for more than three months without impact.</li>
+        <li><strong>A load surge.</strong> About 15 hours before the outage, Teams traffic failed over from an alternative gateway onto the primary gateway, the same one that fronts Exchange Online.</li>
+        <li><strong>Reduced capacity.</strong> Nearly 14% of gateway capacity was already offline from an unrelated issue the day before. On its own, the report says, that had no impact because of spare headroom.</li>
+      </ul>
+
+      <p>Together, they cascaded. At the lowest point, more than 80% of gateway servers were unresponsive. The report also notes that testing had leaned toward lower-core machines, while the contention gets worse on newer, higher-core hardware. And the normal bulkheads between partitions didn&rsquo;t stop the failure from spreading.</p>
+
+      <p>Read that list again. Not one of those three conditions was unknown. A recent change on a critical path. A failover onto that path. Capacity already reduced. Each was visible. <strong>What was missing was something that evaluated them together.</strong></p>
+
+      <h2>Machines don&rsquo;t fail suddenly</h2>
+
+      <p>There is a belief in IT operations that outages are sudden, that change-induced failures are unpredictable, that some incidents simply can&rsquo;t be seen coming.</p>
+
+      <p>I don&rsquo;t accept that. A machine, whether it&rsquo;s a router, a server or an application, doesn&rsquo;t suddenly produce a fault. It shows a pattern first. Old routers show rising error counts and retransmits long before they fail.</p>
+
+      <p>And a change-induced incident should simply not happen today. Every enterprise has change advisory boards, approval workflows, test environments, staged rollouts. Yet a change that passed all of that sat in production for three months and then took down a global service. When that happens, the approvals and the testing weren&rsquo;t informed by anything. Nobody asked what similar changes did before, which services they touched, under what load and capacity they failed, and how far the damage spread. That&rsquo;s not an unpredictable change. <strong>That&rsquo;s a change approval process without intelligence behind it.</strong></p>
+
+      <p>Wherever there is a machine, there is a known problem behavior pattern, exactly or close, waiting to be captured. The work is to break the problem into smaller ones: each device class, each change type, each service path, each with its own history. Treated as one giant problem, infrastructure monitoring looks unbounded. Broken down, every piece becomes as tractable as fraud detection.</p>
+
+      <h2>The car doesn&rsquo;t diagnose the rock</h2>
+
+      <p>Think about how autonomous driving handles this. A car is closing in fast. The system doesn&rsquo;t stop to work out why there&rsquo;s traffic, or what the root cause of the other driver&rsquo;s speed might be. It has already modeled the scenario. It acts on safety first, and analysis comes later.</p>
+
+      <p>It also doesn&rsquo;t need to have seen every possible obstacle. A rock in the road may be new. A collision is not. <strong>The system avoids the outcome, not the specific cause.</strong></p>
+
+      <p>The results are measurable. In an independent IIHS study, Waymo&rsquo;s driverless vehicles were involved in 68% fewer crashes per mile than human drivers.</p>
+
+      <p>IT operations still works the other way around. It starts from cause: detect, diagnose, then fix. The November 12 timeline shows exactly that. The first explanation was elevated load. Then it was corrected: servers were dropping out. The overwhelmed process was named hours later. Recovery took close to a day.</p>
+
+      <p>That&rsquo;s the equivalent of braking only after investigating why there&rsquo;s traffic.</p>
+
+      <h2>When you can&rsquo;t stop, move over safely</h2>
+
+      <p>There&rsquo;s a second lesson in how the car behaves. When it can&rsquo;t stop in its lane, it doesn&rsquo;t just brake harder. It moves over, but only into a lane it knows is clear.</p>
+
+      <p>Every large organization should have that, at a minimum: a safe diversion path for its critical business services. Not just redundancy on paper, but an alternate path that is known to be able to take the load.</p>
+
+      <p>November 12 shows why the word <em>safe</em> matters. Microsoft had an alternate path. Teams failed over from an alternative gateway onto the primary one. But the path it moved onto was already carrying Exchange Online, running a months-old defect, with 14% of its capacity gone. <strong>The diversion didn&rsquo;t avoid the collision. It moved into an occupied lane.</strong></p>
+
+      <p>This is one of the things I learned building historical intelligence. Safe diversion became one of its core actions, because the objectives were near-zero MTTR and no business disruption. History tells you which paths exist, how much load each one can actually absorb, and how each behaved the last time traffic shifted onto it. That&rsquo;s what makes a diversion safe instead of just another move.</p>
+
+      <h2>Root cause should be a lookup, not an investigation</h2>
+
+      <p>About ten years ago, I worked on what we called incident avoidance. The approach was simple in principle. We started from the business: KPIs extracted from historical data, and past Severity-1 incidents, to identify which business impact areas mattered and which infrastructure contributed to them. We built the service dependency map first. Then we layered infrastructure metric streams on top, and watched every node on that map for anomalies using time series observation.</p>
+
+      <p>When something deviated, we didn&rsquo;t diagnose live. We pulled the root cause from possibilities that were already observed, because every node on the dependency map was already being watched. <strong>Root cause became a lookup: which upstream nodes are anomalous right now?</strong></p>
+
+      <p>We did this with classic machine learning. No LLMs, no foundation models, none of today&rsquo;s tooling. Time series anomaly detection and dependency mapping were enough to protect the user experience.</p>
+
+      <p>Apply that to November 12. With the dependency map in place, a load shift onto the gateway, a recent change on its connection path, and reduced headroom would have surfaced together as a known risk pattern. The safety-first actions could have been pre-decided: shed or reroute load, roll back the most recent change on that path, protect capacity. All of it before 80% of the gateway went dark.</p>
+
+      <h2>So why doesn&rsquo;t this happen?</h2>
+
+      <p>This is the part that bewilders me. The company hit by this outage builds observability and application performance monitoring tools for its customers. It doesn&rsquo;t lack data or tooling. Nobody does at that scale.</p>
+
+      <p>It lacks intent. And intent follows ROI.</p>
+
+      <p>Avoidance produces a non-event. Non-events don&rsquo;t show up anywhere:</p>
+
+      <ul class="body-list">
+        <li><strong>Nobody gets credit for the outage that didn&rsquo;t happen.</strong></li>
+        <li><strong>Shipping speed is measured every sprint. Avoided risk never is.</strong></li>
+        <li><strong>Service credits are small next to what customers lose</strong>, so even the cost of failure looks manageable from the inside.</li>
+      </ul>
+
+      <p>So detect-and-recover wins by default. It&rsquo;s visible. It&rsquo;s measurable. A thousand engineers on a bridge call looks like commitment. Avoidance looks like nothing at all.</p>
+
+      <p>Meanwhile, managed services is projected at roughly $460 billion this year, growing past $700 billion by 2031. Most of that spend still buys people working tickets after something breaks, not intelligence that keeps it from breaking.</p>
+
+      <p>Microsoft&rsquo;s remediation list reflects the same pattern. Revert the code. Add capacity. Add monitoring for traffic redirection. Add guardrails on traffic distribution. All sensible, and all aimed at this specific failure. None of it changes how the next change gets evaluated against everything else happening at the same time.</p>
+
+      <h2>The missing investment: historical intelligence</h2>
+
+      <p>This is the point I keep coming back to, and the one I keep seeing missing.</p>
+
+      <p>Enterprises invest in monitoring. They invest in observability dashboards, alerting and AIOps tools. What they don&rsquo;t invest in is the foundation underneath: historical intelligence.</p>
+
+      <p>Historical intelligence starts with discovery and dependency mapping: what exists, what talks to what, and which business services ride on which infrastructure. Then it attaches past behavior to that map, good and bad. How each component behaved under normal load and under peak. What every change on a path did before. Which combinations of change, load and capacity preceded past incidents, and which ones passed safely.</p>
+
+      <p>With that foundation in place, three things change:</p>
+
+      <ul class="body-list">
+        <li><strong>Change approval gets informed.</strong> A change on the gateway&rsquo;s connection path is evaluated against how similar changes behaved, at that capacity, under that load, before it&rsquo;s approved.</li>
+        <li><strong>Anomalies get context.</strong> A load shift isn&rsquo;t just a spike on a dashboard. It&rsquo;s a known pattern on a known path with known consequences.</li>
+        <li><strong>Root cause is already there.</strong> The possibilities were observed before the incident, so nobody reconstructs the dependency map on a bridge call at midnight.</li>
+      </ul>
+
+      <p>Without it, every incident is investigated as if it were the first of its kind. With it, most of them are recognized before they start.</p>
+
+      <h2>Make the non-event visible</h2>
+
+      <p>The way out is the same one that made incident avoidance fundable in the first place: start from business outcomes, not infrastructure metrics.</p>
+
+      <p>When avoidance is tied to revenue at risk and to the history of past Severity-1 incidents, the ROI becomes visible. &ldquo;This pattern cost us this much last year, and here is how often it hasn&rsquo;t recurred since.&rdquo; That turns a non-event into a number a CFO can approve.</p>
+
+      <p>The questions every CIO should be asking aren&rsquo;t about tools:</p>
+
+      <ul class="body-list">
+        <li>Have we invested in historical intelligence, with discovery and dependency mapping as its foundation, or only in monitoring?</li>
+        <li>Which of our recent changes touch a critical path, and how do they behave under peak load at reduced capacity?</li>
+        <li>Is our service dependency map built before the incident, or reconstructed during it?</li>
+        <li>When a known risk pattern appears, is the safety-first action already decided?</li>
+        <li>Does every critical business service have a safe diversion path, one we know can take the load?</li>
+        <li>Do we measure the incidents we avoided, or only the ones we recovered from?</li>
+      </ul>
+
+      <p>Autonomous vehicles are proving every day that streaming signals, history and pre-decided action can avoid outcomes in a far messier world than a data center. The technology for IT operations has existed for a decade. What&rsquo;s missing is the investment in historical intelligence that makes it work.</p>
+
+      <p>It&rsquo;s not legacy. It&rsquo;s architecture. And it&rsquo;s intent.</p>
+
+      <p><em>This article is part of the Enterprise Intelligence series on building intelligence that drives peak business performance.</em></p>
+    </div>
+  </article>
+
+  <section class="section-alt">
+    <div class="container" style="max-width: 700px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">Related Publications</span>
+        <h2>Related reading</h2>
+      </div>
+      <ul class="pub-list reveal">
+        <li>
+          <a href="/insights/autonomous-vehicles-autonomous-it-operations/">What Autonomous Vehicles Can Teach Us About Autonomous IT Operations</a>
+          <p>Operational design domains, sensor fusion, calibration, and engineered safety — the principles that make self-driving cars trustworthy are the same ones enterprises need for autonomous IT operations.</p>
+        </li>
+        <li>
+          <a href="/insights/the-forecast-is-free-now/">The Forecast Is Free Now. Your History Isn&rsquo;t.</a>
+          <p>Time series foundation models have made forecasting a commodity across IT and OT. The differentiator is historical intelligence: business curves, the text behind them, and the infrastructure beneath them, read together.</p>
+        </li>
+        <li>
+          <a href="/insights/the-restart-that-shouldnt-have-happened/">The Restart That Shouldn&rsquo;t Have Happened</a>
+          <p>Decision models don't explain their answers. In enterprise operations, the fix isn't better prompts. It's training the why, verifying state before deciding, and a harness that lets humans see what a decision rested on.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <span class="copyright">&copy; <span data-year></span> Murthy Malapaka. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="mailto:murthymln17@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/murthymln/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
