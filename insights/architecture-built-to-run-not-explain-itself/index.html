@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Architecture Was Built to Run, Not to Explain Itself | Murthy Malapaka</title>
+<meta name="description" content="Enterprise architectures were designed to process transactions, not to supply the context intelligence needs. Classic AI finds the anomaly, GenAI explains it, and only a reworked architecture can act on it.">
+<link rel="canonical" href="https://murthymalapaka.com/insights/architecture-built-to-run-not-explain-itself/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://murthymalapaka.com/insights/architecture-built-to-run-not-explain-itself/">
+<meta property="og:title" content="Your Architecture Was Built to Run, Not to Explain Itself | Murthy Malapaka">
+<meta property="og:description" content="Enterprise architectures were designed to process transactions, not to supply the context intelligence needs. Classic AI finds the anomaly, GenAI explains it, and only a reworked architecture can act on it.">
+<meta property="og:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<meta property="og:site_name" content="Murthy Malapaka">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Your Architecture Was Built to Run, Not to Explain Itself | Murthy Malapaka">
+<meta name="twitter:description" content="Enterprise architectures were designed to process transactions, not to supply the context intelligence needs. Classic AI finds the anomaly, GenAI explains it, and only a reworked architecture can act on it.">
+<meta name="twitter:image" content="https://murthymalapaka.com/assets/images/murthy-profile.jpg">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Article",
+   "headline": "Your Architecture Was Built to Run, Not to Explain Itself",
+   "description": "Enterprise architectures were designed to process transactions, not to supply the context intelligence needs. Classic AI finds the anomaly, GenAI explains it, and only a reworked architecture can act on it.",
+   "url": "https://murthymalapaka.com/insights/architecture-built-to-run-not-explain-itself/",
+   "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://murthymalapaka.com/insights/architecture-built-to-run-not-explain-itself/"
+   },
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "datePublished": "2026-11-25",
+   "dateModified": "2026-11-25",
+   "author": {
+    "@id": "https://murthymalapaka.com/#person"
+   },
+   "publisher": {
+    "@id": "https://murthymalapaka.com/#person"
+   }
+  },
+  {
+   "@type": "Person",
+   "@id": "https://murthymalapaka.com/#person",
+   "name": "Murthy Malapaka",
+   "jobTitle": "Executive Technology Strategist & AI Transformation Leader",
+   "url": "https://murthymalapaka.com",
+   "image": "https://murthymalapaka.com/assets/images/murthy-profile.jpg",
+   "description": "Murthy Malapaka helps enterprise leadership teams replace labor-centric operating models with AI-native ones — turning strategy into operational reality.",
+   "knowsAbout": [
+    "AI-native operating models",
+    "IT operations transformation",
+    "Enterprise AI strategy",
+    "Intelligent automation",
+    "Platform intelligence"
+   ],
+   "sameAs": [
+    "https://www.linkedin.com/in/murthymln/",
+    "https://councils.forbes.com/profile/Murthy-Malapaka-Executive-Technology-AI-leader-Murthymalapaka-com/37d0644e-9088-43a1-a051-f20e2c584608"
+   ]
+  }
+ ]
+}
+</script>
+<link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script src="/assets/js/analytics.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="/" class="brand"><span class="brand-mark">MM</span> Murthy Malapaka</a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/publications/">Publications</a></li>
+      <li><a href="/frameworks/">Frameworks</a></li>
+      <li><a href="/insights/" aria-current="page">Insights</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <div class="article-hero">
+    <div class="container">
+      <a href="/insights/" class="back-link">← Insights</a>
+      <span class="tag">Enterprise Intelligence</span>
+      <h1>Your Architecture Was Built to Run, Not to Explain Itself</h1>
+      <p class="read-time">6 min read</p>
+    </div>
+  </div>
+
+  <article class="article-body">
+    <div class="container" style="max-width: 700px;">
+      <p class="lede">Intelligence can find the anomaly and explain it. Only a reworked architecture can act on it.</p>
+
+      <p>I was reading a HackerNoon piece on monitoring event-driven architectures this week, and one line stayed with me: successfully publishing an event does not mean the business process completed successfully.</p>
+
+      <p>That sentence describes far more than event-driven systems. It describes how most enterprise architecture has been designed for decades. We built systems to run. We never built them to explain themselves.</p>
+
+      <h2>The broker is healthy. The business is not.</h2>
+
+      <p>The article lays out a familiar problem. In a point-to-point design, failures surface on their own through connection errors and missing acknowledgments. In an event-driven design, the broker queues messages when a consumer disconnects. Nothing is lost, so the broker looks healthy, even when processing has quietly stopped.</p>
+
+      <p>The author gives two failure modes worth thinking about. A stop-sell event fans out to regional channel servers, and not all of them receive or process it. A consumer instance crashes but keeps receiving messages without acknowledging them, so messages pile up and compute is wasted.</p>
+
+      <p>The recommended answer is a sensible combination: APM tools evaluating multiple conditions together, application-level publish and consume rates, and heartbeat events that validate the path end to end.</p>
+
+      <p>All of it is good engineering. And all of it is static. Alert when a critical queue has more than five spooled messages and no bound client, three times in ten minutes. Investigate when throughput drops, and accept the false positives. These are human guesses encoded as thresholds.</p>
+
+      <p><strong>The real gap is not detection. It is that none of these signals can tell you whether a business outcome is at risk, why, or what to do about it.</strong></p>
+
+      <h2>Numbers tell you what. Text tells you why.</h2>
+
+      <p>Most of my work before generative AI was on metric streams and time series. Incident avoidance, which I started building about ten years ago, began by extracting business KPIs from historical data, setting up time-series observation on them, and then layering infrastructure metric streams underneath. Anomaly detection on numbers is powerful. It tells you something changed and when.</p>
+
+      <p>What it cannot tell you is what that change means.</p>
+
+      <p>That is where our journey moved from classic AI to generative AI. We used GenAI to read through textual data, including logs, tickets and user complaints, and build dispositions for decisions and causation.</p>
+
+      <ul class="body-list">
+        <li><strong>A user complaint confirms the anomaly.</strong> When a user says order processing is slow, and a synthetic transaction monitor shows order processing time climbing at the same moment, you have two independent signals pointing at the same business impact. The text reinforces the numbers.</li>
+        <li><strong>Text points toward causation.</strong> Logs and ticket history carry the context that metrics strip away: which step, which dependency, which change, which pattern has been seen before.</li>
+        <li><strong>Together, they earn the right to act.</strong> Correlation alone should never trigger an automated action on infrastructure or applications. Correlation reinforced by text, and validated against historical patterns, can.</li>
+      </ul>
+
+      <p>The simplest way I can put it: classic AI finds the anomaly, GenAI explains it, and the architecture has to be able to act on it.</p>
+
+      <p>That last part is where most enterprises are stuck.</p>
+
+      <h2>Bolting intelligence onto mute systems</h2>
+
+      <p>Whether the architecture is event-driven, request-response, batch or a mainframe at the core, the pattern is the same. Every one of these can be reinforced with intelligence today. But most were never designed to take part in it.</p>
+
+      <p>Logs were written for a developer debugging at 2 a.m., not for correlation with business entities. Telemetry describes components, not outcomes. And there is rarely a safe, governed way for an intelligent system to do anything other than raise an alert.</p>
+
+      <p>So enterprises bolt AI on top. They add an AIOps layer, an observability platform, an agent. The intelligence can see more, but it is still working with systems that cannot explain themselves and cannot accept corrective action. That caps the value, no matter how good the model is.</p>
+
+      <p><strong>This is the same mistake we make with process.</strong> Automating a broken process just gives you a faster broken process. That is why I argue for eliminating first, then automating, then seeking human assist. Architecture deserves the same treatment. Before you layer intelligence on top, rework the architecture so it can take part in its own intelligence.</p>
+
+      <h2>What the rework looks like</h2>
+
+      <p>This is not a rip-and-replace argument. It is a design argument. Three changes matter most.</p>
+
+      <p><strong>Emit meaning, not just telemetry.</strong> Systems should carry business context in what they emit: the order, the claim, the customer, the process step. Events should carry their expected outcome and the time within which it should happen. Consumers should confirm that the business outcome happened, not just that a message arrived. That alone closes the gap the HackerNoon piece describes: the stop-sell event was published, but did every region actually stop selling?</p>
+
+      <p><strong>Expose safe ways to act.</strong> Intelligence that cannot act stops at a notification to email or Teams. Applications and infrastructure need governed action points: scale, divert, restart, replay, roll back. In my own work, safe diversion became a core action, meaning an alternate path known to take the load, the way full self-driving moves over instead of braking hard. The objective is near-zero MTTR with no business disruption, not a faster page to an on-call engineer. That requires the diversion paths, idempotent replay and limits on how much a single action can affect to be designed in, not discovered during an incident.</p>
+
+      <p><strong>Close the feedback loop.</strong> Every action and its outcome should flow back into historical intelligence. What was detected, what the text said, what action was taken, and whether the business outcome recovered. This is how the system learns what fixed what, and how humans stay in the loop to correct it, until the track record earns more autonomy.</p>
+
+      <h2>APM doesn&rsquo;t go away. Its job changes.</h2>
+
+      <p>None of this makes APM tools, broker statistics or heartbeats obsolete. They cover real gaps, and they should stay.</p>
+
+      <p>What changes is their role. Today they mostly end in dashboards and alerts for a human to interpret. In an intelligence-ready architecture, they become inputs: numeric signals fused with textual signals, evaluated against historical patterns of good and bad behavior, feeding decisions that the architecture is built to carry out.</p>
+
+      <p>The foundation under all of it is the one I keep coming back to: discovery and dependency mapping attached to past behaviors. Loose coupling is good design, but it hides who depends on whom. The more loosely coupled the architecture, the more that map matters, because the dependencies are no longer visible in the code.</p>
+
+      <h2>The question for architects</h2>
+
+      <p>Every architecture review I have seen asks whether the system will scale, whether it is secure, and whether it can be monitored.</p>
+
+      <p>I would add one more question: <strong>can this system explain itself, and can it accept corrective action?</strong></p>
+
+      <p>If the answer is no, the intelligence you buy will see the problem, describe it beautifully, and then wait for a human, just like the threshold alert it replaced.</p>
+
+      <p>Architectures that have run enterprises for decades are due for this kind of renewal. Not because the technology is legacy, but because they were built to run, and the next decade will ask them to explain themselves and act.</p>
+
+      <p><em>This article is part of the Enterprise Intelligence series on building intelligence that drives peak business performance.</em></p>
+    </div>
+  </article>
+
+  <section class="section-alt">
+    <div class="container" style="max-width: 700px;">
+      <div class="section-head reveal">
+        <span class="eyebrow">Related Publications</span>
+        <h2>Related reading</h2>
+      </div>
+      <ul class="pub-list reveal">
+        <li>
+          <a href="/insights/incident-avoidance-has-an-roi-problem/">Incident Avoidance Has an ROI Problem, Not a Technology Problem</a>
+          <p>Microsoft&rsquo;s November 12 outage wasn&rsquo;t caused by legacy technology. It was caused by an operating model that detects and recovers instead of avoiding, and by an ROI model that can&rsquo;t see an incident that never happened.</p>
+        </li>
+        <li>
+          <a href="/insights/bolting-on-instead-of-rebuilding/">We&rsquo;ve Seen This Movie Before: Thirty Years of Bolting On Instead of Rebuilding</a>
+          <p>Every major computing wave of the last three decades has been met with the same response &mdash; bolt it onto what already exists. AI won&rsquo;t be the exception unless we choose to make it one.</p>
+        </li>
+        <li>
+          <a href="/insights/intelligence-has-to-earn-the-name/">Intelligence Has to Earn the Name</a>
+          <p>Intelligence implies purpose &mdash; solving a problem humans can&rsquo;t solve in time, at consistent quality, or at scale. From business intelligence to AI coding, we keep attaching the word to tools that never stated the problem.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <span class="copyright">&copy; <span data-year></span> Murthy Malapaka. All rights reserved.</span>
+    <div class="footer-links">
+      <a href="mailto:murthymln17@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/murthymln/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
