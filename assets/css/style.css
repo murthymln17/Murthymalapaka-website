@@ -387,6 +387,8 @@ section { padding: 5rem 0; }
   letter-spacing: 0.06em;
   padding-top: 0.3rem;
 }
+/* Publish date over read time; side by side once the column stacks */
+.insight-date time { display: block; color: var(--text); margin-bottom: 0.2rem; }
 .insight-item h3 { font-size: 1.35rem; margin-bottom: 0.5rem; }
 .insight-item h3 a:hover { color: var(--accent); }
 .insight-item p { color: var(--text-muted); margin-bottom: 0; }
@@ -404,6 +406,8 @@ section { padding: 5rem 0; }
 }
 @media (max-width: 700px) {
   .insight-item { grid-template-columns: 1fr; gap: 0.4rem; }
+  .insight-date time { display: inline; margin: 0; }
+  .insight-date time::after { content: " \00B7 "; color: var(--text-muted); }
 }
 
 /* ---------- Framework steps ---------- */

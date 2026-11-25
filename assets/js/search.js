@@ -22,6 +22,13 @@
   const escapeHtml = (s) =>
     s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  // Same "25 Nov 2026" format scripts/update-homepage-insights.js writes.
+  const formatDate = (iso) => {
+    const [y, m, d] = iso.split('-').map(Number);
+    return `${d} ${MONTHS[m - 1]} ${y}`;
+  };
+
   const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
   const terms = (query) =>
@@ -133,7 +140,7 @@
       .slice(0, MAX_RESULTS)
       .map(({ e }) => `
         <div class="insight-item">
-          <div class="insight-date">${escapeHtml(e.readTime || 'Page')}</div>
+          <div class="insight-date">${e.date ? `<time datetime="${escapeHtml(e.date)}">${formatDate(e.date)}</time> ` : ''}${escapeHtml(e.readTime || 'Page')}</div>
           <div>
             <span class="tag">${escapeHtml(e.tag || '')}</span>
             <h3><a href="${escapeHtml(e.url)}">${highlight(e.title, words)}</a></h3>
