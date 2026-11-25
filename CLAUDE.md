@@ -86,7 +86,9 @@ declares no `routes`, so nothing in the repo asserts it on deploy.
 4. Run `node scripts/update-homepage-insights.js` to regenerate the homepage's
    "Latest Insight" card and "Recently published" list. Never hand-edit the
    regions between the `AUTO-GENERATED:` markers in `index.html`.
-   `--check` verifies without writing.
+   The same run rebuilds `search-index.json`, which powers the site search at
+   `/search/` (`assets/js/search.js`); commit it alongside the article and
+   never hand-edit it. `--check` verifies both without writing.
 5. Add the new URL to `sitemap.xml` and bump the `<lastmod>` on `/insights/`.
 6. Commit, push, open a PR against `main`, and squash-merge — repo history uses
    the `… (#NN)` squash convention.
