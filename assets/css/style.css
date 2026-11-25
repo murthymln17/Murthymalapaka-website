@@ -69,7 +69,9 @@ section { padding: 5rem 0; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.1rem 0;
+  /* Vertical only: .nav sits on a .container, whose side padding must survive */
+  padding-top: 1.1rem;
+  padding-bottom: 1.1rem;
 }
 .brand {
   display: flex;
@@ -123,7 +125,8 @@ section { padding: 5rem 0; }
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-@media (max-width: 780px) {
+/* Hamburger below 860px: with the header search box the full nav needs that much room */
+@media (max-width: 860px) {
   .nav-toggle { display: block; }
   .nav-links {
     position: absolute;
@@ -384,6 +387,8 @@ section { padding: 5rem 0; }
   letter-spacing: 0.06em;
   padding-top: 0.3rem;
 }
+/* Publish date over read time; side by side once the column stacks */
+.insight-date time { display: block; color: var(--text); margin-bottom: 0.2rem; }
 .insight-item h3 { font-size: 1.35rem; margin-bottom: 0.5rem; }
 .insight-item h3 a:hover { color: var(--accent); }
 .insight-item p { color: var(--text-muted); margin-bottom: 0; }
@@ -401,6 +406,8 @@ section { padding: 5rem 0; }
 }
 @media (max-width: 700px) {
   .insight-item { grid-template-columns: 1fr; gap: 0.4rem; }
+  .insight-date time { display: inline; margin: 0; }
+  .insight-date time::after { content: " \00B7 "; color: var(--text-muted); }
 }
 
 /* ---------- Framework steps ---------- */
@@ -841,17 +848,17 @@ section { padding: 5rem 0; }
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(31, 95, 91, 0.15);
 }
-@media (max-width: 1080px) and (min-width: 781px) {
+@media (max-width: 1080px) and (min-width: 861px) {
   .brand { white-space: nowrap; }
   .nav-links { gap: 1.4rem; }
   .nav-search-input, .nav-search-input:focus { width: 8rem; }
 }
-@media (max-width: 900px) and (min-width: 781px) {
-  .nav-links { gap: 1rem; }
+@media (max-width: 940px) and (min-width: 861px) {
+  .nav-links { gap: 0.8rem; }
   .nav-links a { font-size: 0.9rem; }
   .nav-search-input, .nav-search-input:focus { width: 7.5rem; }
 }
-@media (max-width: 780px) {
+@media (max-width: 860px) {
   .nav-links { align-items: stretch; }
   .nav-search-input, .nav-search-input:focus { width: 100%; }
 }

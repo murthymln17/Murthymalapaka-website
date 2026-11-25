@@ -88,7 +88,11 @@ declares no `routes`, so nothing in the repo asserts it on deploy.
    regions between the `AUTO-GENERATED:` markers in `index.html`.
    The same run rebuilds `search-index.json`, which powers the site search at
    `/search/` (`assets/js/search.js`); commit it alongside the article and
-   never hand-edit it. `--check` verifies both without writing.
+   never hand-edit it. It also writes every visible publish date — the
+   article hero (`<p class="read-time">`), the date column of each entry in
+   `insights/index.html` and the homepage list — from `datePublished`, so to
+   change a date, change `datePublished` and rerun. `--check` verifies all of
+   this without writing.
 5. Add the new URL to `sitemap.xml` and bump the `<lastmod>` on `/insights/`.
 6. Commit, push, open a PR against `main`, and squash-merge — repo history uses
    the `… (#NN)` squash convention.
