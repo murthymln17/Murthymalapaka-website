@@ -8,6 +8,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { buildSearchIndex } = require('./build-search-index');
 
 const ROOT = path.join(__dirname, '..');
 const INSIGHTS_DIR = path.join(ROOT, 'insights');
@@ -93,14 +94,23 @@ function main() {
   let updated = replaceBetween(original, 'LATEST-INSIGHT', latestInsightHtml(latest));
   updated = replaceBetween(updated, 'RECENT-INSIGHTS', recentInsightsHtml(recent));
 
-  if (updated === original) {
-    console.log('Homepage insights are already up to date.');
+  const indexChanged = buildSearchIndex(articles, { checkOnly });
+  const homepageChanged = updated !== original;
+
+  if (checkOnly) {
+    if (homepageChanged || indexChanged) {
+      console.error(`${[homepageChanged && 'Homepage insights', indexChanged && 'search-index.json'].filter(Boolean).join(' and ')} out of date. Run: node scripts/update-homepage-insights.js`);
+      process.exit(1);
+    }
+    console.log('Homepage insights and search index are up to date.');
     return;
   }
 
-  if (checkOnly) {
-    console.error('Homepage insights are out of date. Run: node scripts/update-homepage-insights.js');
-    process.exit(1);
+  console.log(indexChanged ? `Rebuilt search-index.json (${articles.length} insights).` : 'Search index is already up to date.');
+
+  if (!homepageChanged) {
+    console.log('Homepage insights are already up to date.');
+    return;
   }
 
   fs.writeFileSync(HOMEPAGE, updated);
